@@ -1,0 +1,385 @@
+:root {
+  --bg: #000;
+  --p: #141414;
+  --p2: #1f1f1f;
+  --or: #ff6a00;
+  --or2: #ff8c33;
+  --tx: #f5f5f5;
+  --mu: #9b9b9b;
+  --ln: #2b2b2b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background: black;
+  color: white;
+  font:
+    15px/1.5 Barlow,
+    "Segoe UI",
+    system-ui,
+    sans-serif;
+}
+
+h1,
+h2,
+h3,
+.logo {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  color: white;
+  background: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.navbar {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 12px 20px;
+  background: #000d;
+  border-bottom: 1px solid;
+}
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.logo span {
+  color: #ff6a00;
+  font-weight: 600;
+}
+.navbar nav {
+  display: flex;
+  gap: 20px;
+  color: var(--mu);
+  font-weight: 500;
+}
+.navbar nav a:hover {
+  color: var(--or);
+}
+.navbar input {
+  flex: 1;
+  max-width: 360px;
+  margin-left: auto;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid rgb(54, 54, 54);
+  background: rgb(23, 23, 23);
+  font: inherit;
+  color: white;
+}
+.carrinho {
+  padding: 9px 16px;
+  border-radius: 8px;
+  background: black;
+  border: 1px solid;
+  font-weight: 600;
+}
+.carrinho:hover {
+  border-color: #ff6a00;
+}
+.carrinho b {
+  background: #ff6a00;
+  color: #000;
+  border-radius: 6px;
+  padding: 1px 8px;
+  margin-left: 6px;
+}
+
+main {
+  padding: 0 28px 40px;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+h2 small {
+  font:
+    500 16px Barlow,
+    sans-serif;
+  color: #ff6a00;
+  margin-left: 10px;
+}
+
+/* destaque */
+.hero {
+  position: relative;
+  height: 440px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #141414;
+}
+
+/* cards */
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+/* em alta */
+.ranking {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  counter-reset: r;
+}
+.ranking li {
+  counter-increment: r;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background:;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px 20px 10px 14px;
+  cursor: pointer;
+}
+.ranking li:hover {
+  border-color:;
+}
+
+.ranking li::before {
+  content: counter(r);
+  font:
+    800 38px "Barlow Condensed",
+    sans-serif;
+  color:;
+  width: 30px;
+  text-align: center;
+}
+
+.ranking img {
+  width: 150px;
+  border-radius: 6px;
+}
+
+.ranking .m {
+  flex: 1;
+}
+
+.ranking h3 {
+  font-size: 22px;
+}
+
+/* catálogo */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-bottom: 6px;
+}
+
+.bar h2 {
+  margin: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1px solid #23232a;
+  background: #141414;
+  color: #767676;
+}
+
+.chip:hover {
+  border-color: #ff6a00;
+  color: white;
+}
+
+select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #232323;
+  background: #141414;
+  color: white;
+  font: inherit;
+}
+
+/* carrinho */
+
+/* footer */
+footer {
+  text-align: center;
+  color: #696868;
+  font-size: 13px;
+  padding: 30px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.menu {
+  display: flex;
+  align-items: flex-start;
+}
+.content {
+  flex: 1;
+  min-width: 0;
+}
+.side {
+  width: 272px;
+  flex: none;
+  position: sticky;
+  overflow: auto;
+  background: #141414;
+  border-right: 1px solid #313131;
+  border-radius: 5px;
+  padding: 4px 16px;
+}
+
+.side nav {
+  display: grid;
+  gap: 2px;
+  margin: 16px 0 4px;
+}
+
+.side nav a {
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: #8d8d8d;
+  font-weight: 500;
+}
+
+.side nav a:hover {
+  background: #3b3b3b;
+  color: #ff6a00;
+}
+
+.side h3 {
+  font-size: 21px;
+}
+
+.menu-lateral {
+  display: none;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #141414;
+  font-weight: 600;
+}
+
+.bar {
+  justify-content: space-between;
+}
+.sel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.sr .hero,
+.sr #promos,
+.sr #trending {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .menu-lateral {
+    display: block;
+  }
+  .navbar {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+  .navbar input {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+    margin: 0;
+    color: white;
+  }
+  .carrinho {
+    margin-left: auto;
+  }
+
+  .side {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: auto;
+    z-index: 50;
+    width: min(310px, 86vw);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+
+  .side.on {
+    transform: none;
+  }
+
+  main {
+    padding: 0 14px 30px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .hero {
+    height: 360px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .ranking li {
+    padding: 8px 12px 8px 8px;
+    gap: 12px;
+  }
+
+  .ranking img {
+    width: 100px;
+  }
+
+  .ranking .price {
+    display: none;
+  }
+
+  .sel {
+    width: 100%;
+  }
+
+  .sel select {
+    flex: 1;
+  }
+
+  @media (max-width: 380px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

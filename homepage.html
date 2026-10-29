@@ -1,11 +1,85 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
-</head>
-<body>
-   
-</body>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Catálogo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="homepage.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <button class="menu-lateral" data-menu aria-label="Abrir menu">
+        Menu
+      </button>
+      <a class="logo" href="#">Nome<span>DO site</span></a>
+      <input
+        id="search"
+        type="search"
+        placeholder="Buscar jogos"
+        aria-label="Buscar jogos"
+      />
+      <button id="carrinho" class="carrinho">
+        Carrinho <b id="carrinho">0</b>
+      </button>
+    </header>
+
+    <div class="menu">
+      <aside id="side" class="side" aria-label="Menu lateral">
+        <div id="div-side"></div>
+        <nav>
+          <a href="#promos">Promoções</a>
+          <a href="#trending">Em alta</a>
+          <a href="#catalog">Catálogo</a>
+        </nav>
+      </aside>
+
+      <div class="content">
+        <main>
+          <section class="hero" id="hero" aria-label="Destaques"></section>
+
+          <section id="promos">
+            <h2>Promoções <small>por tempo limitado</small></h2>
+            <div class="grid"></div>
+          </section>
+
+          <section id="trending">
+            <h2>Jogos em alta</h2>
+            <ol class="ranking"></ol>
+          </section>
+
+          <section id="catalog">
+            <div class="bar">
+              <h2 id="ctitle">Catálogo</h2>
+              <div class="sel">
+                <select id="price" aria-label="Faixa de preço">
+                  <option value="0">Qualquer preço</option>
+                  <option value="60">Até R$ 60</option>
+                  <option value="120">Até R$ 120</option>
+                  <option value="200">Até R$ 200</option>
+                </select>
+                <label class="chip tg"
+                  ><input type="checkbox" id="promoOnly" /> Só promoções</label
+                >
+                <select id="sort" aria-label="Ordenar">
+                  <option value="popular">Mais populares</option>
+                  <option value="rate">Melhor avaliados</option>
+                  <option value="low">Menor preço</option>
+                  <option value="high">Maior preço</option>
+                </select>
+              </div>
+            </div>
+          </section>
+        </main>
+        <footer>Projeto biblioteca de jogos</footer>
+      </div>
+    </div>
+  </body>
 </html>
