@@ -3,6 +3,10 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: black;
   color: white;
@@ -31,11 +35,6 @@ button {
   border: 0;
   color: white;
   background: none;
-}
-
-img {
-  display: block;
-  width: 100%;
 }
 
 .navbar {
@@ -102,6 +101,55 @@ h2 small {
   color: #ff6a00;
   margin-left: 10px;
 }
+/* navbar */
+.menu {
+  display: flex;
+  align-items: flex-start;
+}
+.content {
+  flex: 1;
+  min-width: 0;
+}
+.side {
+  width: 272px;
+  flex: none;
+  position: sticky;
+  overflow: auto;
+  background: #141414;
+  border-right: 1px solid #313131;
+  border-radius: 5px;
+  padding: 4px 16px;
+}
+
+.side nav {
+  display: grid;
+  gap: 2px;
+  margin: 16px 0 4px;
+}
+
+.side nav a {
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: #8d8d8d;
+  font-weight: 500;
+}
+
+.side nav a:hover {
+  background: #3b3b3b;
+  color: #ff6a00;
+}
+
+.side h3 {
+  font-size: 21px;
+}
+
+.menu-lateral {
+  display: none;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #141414;
+  font-weight: 600;
+}
 
 /* destaque */
 .hero {
@@ -117,6 +165,11 @@ h2 small {
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+img {
+  display: block;
+  width: 100%;
 }
 
 /* em alta */
@@ -195,6 +248,8 @@ h2 small {
 .chip:hover {
   border-color: #ff6a00;
   color: white;
+  cursor: pointer;
+  transform: scale(1.01);
 }
 
 select {
@@ -206,67 +261,10 @@ select {
   font: inherit;
 }
 
-/* carrinho */
 
-/* footer */
-footer {
-  text-align: center;
-  color: #696868;
-  font-size: 13px;
-  padding: 30px;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-.menu {
-  display: flex;
-  align-items: flex-start;
-}
-.content {
-  flex: 1;
-  min-width: 0;
-}
-.side {
-  width: 272px;
-  flex: none;
-  position: sticky;
-  overflow: auto;
-  background: #141414;
-  border-right: 1px solid #313131;
-  border-radius: 5px;
-  padding: 4px 16px;
-}
-
-.side nav {
-  display: grid;
-  gap: 2px;
-  margin: 16px 0 4px;
-}
-
-.side nav a {
-  padding: 9px 12px;
-  border-radius: 8px;
-  color: #8d8d8d;
-  font-weight: 500;
-}
-
-.side nav a:hover {
-  background: #3b3b3b;
-  color: #ff6a00;
-}
-
-.side h3 {
-  font-size: 21px;
-}
-
-.menu-lateral {
-  display: none;
-  padding: 9px 14px;
-  border-radius: 8px;
-  background: #141414;
-  font-weight: 600;
+select:hover {
+  cursor: pointer;
+  transform: scale(1.01);
 }
 
 .bar {
@@ -284,6 +282,22 @@ html {
 .sr #trending {
   display: none;
 }
+
+
+/* carrinho */
+
+/* footer */
+
+footer {
+  text-align: center;
+  color: #696868;
+  font-size: 13px;
+  padding: 30px;
+}
+
+
+
+/* responsividade */
 
 @media (max-width: 900px) {
   .menu-lateral {
