@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Detalhes do jogo | Nomedosite</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../static/css/detalhes_jogo.css">
+</head>
+
+<body>
+
+ <header class="navbar">
+
+    <a class="logo" href="homepage.html">
+        Nome<span>DO site</span>
+    </a>
+
+    <input
+        id="search"
+        type="search"
+        placeholder="Buscar jogos"
+        aria-label="Buscar jogos"
+    />
+
+    <a href="homepage.html" class="botao-voltar">
+        Catálogo
+    </a>
+
+    <button id="carrinho" class="carrinho">
+        Carrinho <b id="quantidade-carrinho">0</b>
+    </button>
+
+</header>
+
+    <main class="pagina">
+
+        <nav class="caminho-navegacao" aria-label="Navegação">
+            <a href="homepage.html">Catálogo</a>
+            <span>/</span>
+            <span>Detalhes do jogo</span>
+        </nav>
+
+        <article class="detalhes-jogo">
+
+            <section class="galeria-jogo" aria-label="Imagens do jogo">
+
+                <div class="area-capa">
+                    <div class="imagem-principal">
+                        <span class="texto-imagem">
+                            Imagem principal do jogo
+                        </span>
+
+                        <span class="selo-desconto">-30%</span>
+                    </div>
+                </div>
+
+                <div class="miniaturas-galeria">
+                    <div class="miniatura ativa">
+                        Imagem 1
+                    </div>
+
+                    <div class="miniatura">
+                        Imagem 2
+                    </div>
+
+                    <div class="miniatura">
+                        Imagem 3
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="conteudo-jogo" aria-labelledby="titulo-jogo">
+
+                <p class="categoria-jogo">
+                    Ação · Aventura · Lançamento 2025
+                </p>
+
+                <h1 id="titulo-jogo">
+                    Nome do jogo
+                </h1>
+
+                <p class="desenvolvedora">
+                    Desenvolvido por <strong>Nome da desenvolvedora
+                        <strong>
+                </p>
+
+                <div class="avaliacao-geral">
+
+                    <div class="estrelas" role="img" aria-label = "4 de 5 estrelas">
+
+                        <span>★★★★</span>
+                        <span class="estrela-vazia">★</span>
+
+                    </div>
+
+                    <strong>4</strong>
+
+                    <span class="quantidade-avaliacoes">
+                        250 avaliações
+                    </span>
+
+                </div>
+
+                <section class="descricao-jogo">
+                    <h2>Sobre o jogo</h2>
+
+                    <p>
+                        Aqui ficará a descrição do jogo, apresentando sua
+                        história, características principais, jogabilidade
+                        e demais informações relevantes para os usuários.
+                    </p>
+                </section>
+
+                <section class="informacoes-jogo">
+                    <h2>Informações do jogo</h2>
+
+                    <div class="lista-informacoes">
+                        <p>
+                            <span>Gênero</span>
+                            <strong>Ação e Aventura</strong>
+                        </p>
+
+                        <p>
+                            <span>Desenvolvedora</span>
+                            <strong>Nome da desenvolvedora</strong>
+                        </p>
+
+                        <p>
+                            <span>Ano de lançamento</span>
+                            <strong>2025</strong>
+                        </p>
+                    </div>
+                </section>
+
+                <section class="caixa-compra">
+
+                    <div class="area-preco">
+                        <span class="preco-antigo">R$ 199,90</span>
+                        <strong class="preco-atual">R$ 139,90</strong>
+                    </div>
+
+                    <span class="aviso-preco">
+                        Preço ilustrativo para o protótipo.
+                    </span>
+
+                    <button class="botao-compra" type="button" disabled>
+                        Adicionar ao carrinho
+                    </button>
+
+                </section>
+
+            </section>
+
+        </article>
+
+        <section class="secao-avaliacoes" aria-labelledby="titulo-avaliacoes">
+
+            <div class="cabecalho-secao">
+                <h2 id="titulo-avaliacoes">Avaliações dos jogadores</h2>
+                <span class="total-avaliacoes">250 avaliações</span>
+            </div>
+
+            <article class="cartao-avaliacao">
+                <strong class="nome-avaliador">Usuário exemplo</strong>
+
+                <div class="estrelas-avaliacao" role="img" aria-label="5 de 5 estrelas">
+                    ★★★★★
+                </div>
+            </article>
+
+            <article class="cartao-avaliacao">
+                <strong class="nome-avaliador">Outro usuário</strong>
+
+                <div class="estrelas-avaliacao" role="img" aria-label="4 de 5 estrelas">
+                    ★★★★☆
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer class="rodape">
+        Projeto Biblioteca de Jogos
+    </footer>
+
+</body>
+</html>
