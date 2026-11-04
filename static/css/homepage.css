@@ -1,3 +1,12 @@
+:root {
+    --laranja: #ff6a00;
+    --fundo: #000000;
+    --superficie: #141414;
+    --borda: #313131;
+    --texto: #ffffff;
+    --texto-secundario: #8d8d8d;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,8 +17,8 @@ html {
 }
 
 body {
-  background: black;
-  color: white;
+  background: var(--fundo);
+  color: var(--texto);
   font:
     15px/1.5 Barlow,
     "Segoe UI",
@@ -25,7 +34,7 @@ h3,
 }
 
 a {
-  color: white;
+  color: var(--texto);
   text-decoration: none;
 }
 
@@ -33,7 +42,7 @@ button {
   font: inherit;
   cursor: pointer;
   border: 0;
-  color: white;
+  color: var(--texto);
   background: none;
 }
 
@@ -43,7 +52,7 @@ button {
   align-items: center;
   gap: 26px;
   padding: 12px 20px;
-  background: #000d;
+  background: var(--fundo);
   border-bottom: 1px solid;
 }
 .logo {
@@ -52,7 +61,7 @@ button {
   letter-spacing: -0.5px;
 }
 .logo span {
-  color: #ff6a00;
+  color: var(--laranja);
   font-weight: 600;
 }
 
@@ -62,24 +71,25 @@ button {
   margin-left: auto;
   padding: 9px 16px;
   border-radius: 8px;
-  border: 1px solid rgb(54, 54, 54);
-  background: rgb(23, 23, 23);
+  border: 1px solid var(--borda);
+  background: var(--fundo);
   font: inherit;
-  color: white;
+  color: var(--texto);
 }
 .carrinho {
   padding: 9px 16px;
   border-radius: 8px;
-  background: black;
+  background:var(--fundo);
   border: 1px solid;
   font-weight: 600;
 }
 .carrinho:hover {
-  border-color: #ff6a00;
+  border-color: var(--laranja);
 }
-.carrinho b {
-  background: #ff6a00;
-  color: #000;
+
+b {
+  background: var(--laranja);
+  color: var(--fundo);
   border-radius: 6px;
   padding: 1px 8px;
   margin-left: 6px;
@@ -98,7 +108,7 @@ h2 small {
   font:
     500 16px Barlow,
     sans-serif;
-  color: #ff6a00;
+  color: var(--laranja);
   margin-left: 10px;
 }
 /* navbar */
@@ -115,7 +125,7 @@ h2 small {
   flex: none;
   position: sticky;
   overflow: auto;
-  background: #141414;
+  background: var(--superficie);
   border-right: 1px solid #313131;
   border-radius: 5px;
   padding: 4px 16px;
@@ -130,13 +140,13 @@ h2 small {
 .side nav a {
   padding: 9px 12px;
   border-radius: 8px;
-  color: #8d8d8d;
+  color: var(--texto-secundario);
   font-weight: 500;
 }
 
 .side nav a:hover {
-  background: #3b3b3b;
-  color: #ff6a00;
+  background: var(--fundo);
+  color: var(--laranja);
 }
 
 .side h3 {
@@ -147,7 +157,7 @@ h2 small {
   display: none;
   padding: 9px 14px;
   border-radius: 8px;
-  background: #141414;
+  background: var(--superficie);
   font-weight: 600;
 }
 
@@ -157,7 +167,7 @@ h2 small {
   height: 440px;
   border-radius: 14px;
   overflow: hidden;
-  background: #141414;
+  background: var(--superficie);
 }
 
 /* cards */
@@ -184,14 +194,14 @@ img {
   display: flex;
   align-items: center;
   gap: 18px;
-  background:;
+  background:var(--fundo);
   border: 1px solid;
   border-radius: 10px;
   padding: 10px 20px 10px 14px;
   cursor: pointer;
 }
 .ranking li:hover {
-  border-color:;
+  border-color:var(--texto-secundario);
 }
 
 .ranking li::before {
@@ -199,7 +209,7 @@ img {
   font:
     800 38px "Barlow Condensed",
     sans-serif;
-  color:;
+  color:var(--superficie);
   width: 30px;
   text-align: center;
 }
@@ -240,14 +250,14 @@ img {
 .chip {
   padding: 6px 14px;
   border-radius: 99px;
-  border: 1px solid #23232a;
-  background: #141414;
-  color: #767676;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  color: var(--texto-secundario);
 }
 
 .chip:hover {
-  border-color: #ff6a00;
-  color: white;
+  border-color: var(--laranja);
+  color: var(--texto);
   cursor: pointer;
   transform: scale(1.01);
 }
@@ -255,9 +265,9 @@ img {
 select {
   padding: 8px 12px;
   border-radius: 8px;
-  border: 1px solid #232323;
-  background: #141414;
-  color: white;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  color: var(--texto);
   font: inherit;
 }
 
@@ -290,7 +300,7 @@ select:hover {
 
 footer {
   text-align: center;
-  color: #696868;
+  color: var(--texto-secundario);
   font-size: 13px;
   padding: 30px;
 }
@@ -313,7 +323,7 @@ footer {
     flex-basis: 100%;
     max-width: none;
     margin: 0;
-    color: white;
+    color: var(--texto);
   }
   .carrinho {
     margin-left: auto;
