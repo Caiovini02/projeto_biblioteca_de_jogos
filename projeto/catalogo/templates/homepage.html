@@ -1,20 +1,12 @@
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <title>Catálogo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="homepage.css" />
-  </head>
-  <body>
+{% extends "base.html" %}
+
+{% block title %}Catálogo{% endblock %}
+{% block css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}" />
+{% endblock %}
+
+{% block content %}
     <header class="navbar">
       <button class="menu-lateral" data-menu aria-label="Abrir menu">
         Menu
@@ -86,5 +78,4 @@
         <footer>Projeto biblioteca de jogos</footer>
       </div>
     </div>
-  </body>
-</html>
+{% endblock %}
