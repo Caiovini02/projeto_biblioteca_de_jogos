@@ -1,6 +1,6 @@
 from flask import redirect, render_template, url_for
 
-from catalogo import app
+from projeto import app
 
 
 

@@ -3,4 +3,4 @@ from flask import Flask
 app = Flask(__name__)
 
 
-from catalogo import routes
+from projeto import routes
