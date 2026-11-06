@@ -1,0 +1,165 @@
+:root {
+  --laranja: #ff6a00;
+  --fundo: #000000;
+  --superficie: #141414;
+  --borda: #313131;
+  --texto: #ffffff;
+  --texto-secundario: #8d8d8d;
+  --erro: #ff4d4d;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--fundo);
+  color: var(--texto);
+  font:
+    15px/1.5 Barlow,
+    "Segoe UI",
+    system-ui,
+    sans-serif;
+}
+
+h1,
+.logo {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+a {
+  color: var(--texto);
+  text-decoration: none;
+}
+
+/* navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--laranja);
+  font-weight: 600;
+}
+
+/* formulário */
+.login {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 40px 16px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px 28px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+}
+
+.login-card h1 {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.login-subtitulo {
+  margin-bottom: 22px;
+  color: var(--texto-secundario);
+}
+
+.login-form {
+  display: grid;
+  gap: 6px;
+}
+
+.login-form label {
+  font-weight: 600;
+}
+
+.login-form input {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--fundo);
+  color: var(--texto);
+  font: inherit;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--laranja);
+}
+
+.botao-entrar {
+  margin-top: 6px;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-entrar:hover {
+  filter: brightness(1.1);
+}
+
+.botao-entrar:focus-visible {
+  outline: 2px solid var(--texto);
+  outline-offset: 2px;
+}
+
+/* mensagens */
+.mensagens {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.mensagem {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+}
+
+.mensagem-erro {
+  border-color: var(--erro);
+  color: var(--erro);
+}
+
+/* footer */
+footer {
+  text-align: center;
+  color: var(--texto-secundario);
+  font-size: 13px;
+  padding: 30px;
+}
+
+/* responsividade */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 18px;
+  }
+
+  .login-card h1 {
+    font-size: 30px;
+  }
+}
