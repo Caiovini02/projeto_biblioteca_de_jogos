@@ -5,7 +5,6 @@
   --borda: #313131;
   --texto: #ffffff;
   --texto-secundario: #8d8d8d;
-  --erro: #ff4d4d;
 }
 
 * {
@@ -125,24 +124,6 @@ a {
 .botao-entrar:focus-visible {
   outline: 2px solid var(--texto);
   outline-offset: 2px;
-}
-
-/* mensagens */
-.mensagens {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 16px;
-}
-
-.mensagem {
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--borda);
-}
-
-.mensagem-erro {
-  border-color: var(--erro);
-  color: var(--erro);
 }
 
 /* footer */

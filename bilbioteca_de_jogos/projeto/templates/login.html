@@ -15,15 +15,7 @@
         <h1 id="login-titulo">Entrar</h1>
         <p class="login-subtitulo">Acesse sua conta para ver sua biblioteca.</p>
 
-        {% with mensagens = get_flashed_messages(with_categories=true) %}
-          {% if mensagens %}
-            <ul class="mensagens" role="alert">
-              {% for categoria, mensagem in mensagens %}
-                <li class="mensagem mensagem-{{ categoria }}">{{ mensagem }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
+        {% include "_mensagens.html" %}
 
         <form class="login-form" method="post" action="{{ url_for('login') }}">
           <label for="email">E-mail</label>

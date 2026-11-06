@@ -87,6 +87,21 @@ button {
   border-color: var(--laranja);
 }
 
+.entrar {
+  padding: 9px 16px;
+  border-radius: 8px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-weight: 700;
+}
+.entrar:hover {
+  filter: brightness(1.1);
+}
+
+main > .mensagens {
+  margin-top: 16px;
+}
+
 b {
   background: var(--laranja);
   color: var(--fundo);

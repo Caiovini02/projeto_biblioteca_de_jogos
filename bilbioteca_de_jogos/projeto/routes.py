@@ -27,9 +27,9 @@ def login():
             usuario = verificar_credenciais(email, senha)
             if usuario is not None:
                 iniciar_sessao(usuario)
+                flash(f"Bem-vindo(a), {usuario['nome']}!", "sucesso")
                 return redirect(url_for("homepage"))
-            # Mesma mensagem para e-mail inexistente e senha errada, para não
-            # revelar quais e-mails estão cadastrados.
+            # Mesma mensagem para e-mail inexistente e senha errada
             flash("E-mail ou senha incorretos.", "erro")
 
     return render_template("login.html", email=email)
@@ -39,4 +39,5 @@ def login():
 @app.route("/logout", methods=["POST"])
 def logout():
     encerrar_sessao()
+    flash("Você saiu da sua conta.", "sucesso")
     return redirect(url_for("homepage"))

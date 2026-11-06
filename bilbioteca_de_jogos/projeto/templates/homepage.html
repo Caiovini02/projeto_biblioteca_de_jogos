@@ -21,6 +21,9 @@
       <button id="carrinho" class="carrinho">
         Carrinho <b id="carrinho-b">0</b>
       </button>
+      {% if not usuario_logado %}
+        <a class="entrar" href="{{ url_for('login') }}">Entrar</a>
+      {% endif %}
     </header>
 
     <div class="menu">
@@ -35,6 +38,7 @@
 
       <div class="content">
         <main>
+          {% include "_mensagens.html" %}
           <section class="hero" id="hero" aria-label="Destaques"></section>
 
           <section id="promos">
