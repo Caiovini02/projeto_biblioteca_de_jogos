@@ -11,3 +11,7 @@ def homepage():
 @app.route("/cadastro")
 def cadastro():
     return render_template("cadastro.html")
+
+@app.route("/detalhes")
+def detalhes():
+    return render_template("detalhes.html")
