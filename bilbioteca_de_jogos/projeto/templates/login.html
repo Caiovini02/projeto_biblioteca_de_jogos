@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Entrar{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+{% endblock %}
+
+{% block content %}
+    <header class="navbar">
+      <a class="logo" href="{{ url_for('homepage') }}">Nome<span>DO site</span></a>
+    </header>
+
+    <main class="login">
+      <section class="login-card" aria-labelledby="login-titulo">
+        <h1 id="login-titulo">Entrar</h1>
+        <p class="login-subtitulo">Acesse sua conta para ver sua biblioteca.</p>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+          {% if mensagens %}
+            <ul class="mensagens" role="alert">
+              {% for categoria, mensagem in mensagens %}
+                <li class="mensagem mensagem-{{ categoria }}">{{ mensagem }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form class="login-form" method="post" action="{{ url_for('login') }}">
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value="{{ email }}"
+            autocomplete="email"
+            required
+            autofocus
+          />
+
+          <label for="senha">Senha</label>
+          <input
+            id="senha"
+            name="senha"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+
+          <button class="botao-entrar" type="submit">Entrar</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>Projeto biblioteca de jogos</footer>
+{% endblock %}
