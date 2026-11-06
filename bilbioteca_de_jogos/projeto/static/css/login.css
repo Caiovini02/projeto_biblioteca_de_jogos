@@ -126,6 +126,22 @@ a {
   outline-offset: 2px;
 }
 
+/* link entre login e cadastro */
+.login-alternativa {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--texto-secundario);
+}
+
+.login-alternativa a {
+  color: var(--laranja);
+  font-weight: 600;
+}
+
+.login-alternativa a:hover {
+  text-decoration: underline;
+}
+
 /* footer */
 footer {
   text-align: center;

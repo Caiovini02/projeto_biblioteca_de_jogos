@@ -2,6 +2,8 @@ from flask import flash, g, redirect, render_template, request, url_for
 
 from projeto import app
 from projeto.autenticacao import encerrar_sessao, iniciar_sessao, verificar_credenciais
+from projeto.forms import validar_cadastro
+from projeto.models import EmailJaCadastrado, cadastrar_usuario
 
 
 
@@ -33,6 +35,36 @@ def login():
             flash("E-mail ou senha incorretos.", "erro")
 
     return render_template("login.html", email=email)
+
+
+# Formulário de cadastro integrado com o back-end (#60)
+@app.route("/cadastro", methods=["GET", "POST"])
+def cadastro():
+    if g.usuario is not None:
+        return redirect(url_for("homepage"))
+
+    nome = email = ""
+    if request.method == "POST":
+        nome = request.form.get("nome", "").strip()
+        email = request.form.get("email", "").strip()
+        senha = request.form.get("senha", "")
+        confirmacao = request.form.get("confirmacao", "")
+
+        erros = validar_cadastro(nome, email, senha, confirmacao)
+        if not erros:
+            try:
+                # O perfil nunca vem do formulário: todo cadastro é de usuário comum.
+                cadastrar_usuario(nome, email, senha)
+            except EmailJaCadastrado:
+                erros.append("Este e-mail já está cadastrado.")
+            else:
+                flash("Cadastro realizado! Entre com seu e-mail e senha.", "sucesso")
+                return redirect(url_for("login"))
+
+        for erro in erros:
+            flash(erro, "erro")
+
+    return render_template("cadastro.html", nome=nome, email=email)
 
 
 # Rota de encerramento de sessão (#73) com redirecionamento (#72)

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Criar conta{% endblock %}
+{% block css %}
+{# Versão mínima para a integração (#60): usa o visual do login até o HTML/CSS
+   definitivos do cadastro (#54/#55) ficarem prontos. #}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+{% endblock %}
+
+{% block content %}
+    <header class="navbar">
+      <a class="logo" href="{{ url_for('homepage') }}">Nome<span>DO site</span></a>
+    </header>
+
+    <main class="login">
+      <section class="login-card" aria-labelledby="cadastro-titulo">
+        <h1 id="cadastro-titulo">Criar conta</h1>
+        <p class="login-subtitulo">Cadastre-se para montar sua biblioteca de jogos.</p>
+
+        {% include "_mensagens.html" %}
+
+        <form class="login-form" method="post" action="{{ url_for('cadastro') }}">
+          <label for="nome">Nome</label>
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            value="{{ nome }}"
+            autocomplete="name"
+            required
+            autofocus
+          />
+
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value="{{ email }}"
+            autocomplete="email"
+            required
+          />
+
+          <label for="senha">Senha</label>
+          <input
+            id="senha"
+            name="senha"
+            type="password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          />
+
+          <label for="confirmacao">Confirme a senha</label>
+          <input
+            id="confirmacao"
+            name="confirmacao"
+            type="password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          />
+
+          <button class="botao-entrar" type="submit">Criar conta</button>
+        </form>
+
+        <p class="login-alternativa">
+          Já tem conta? <a href="{{ url_for('login') }}">Entrar</a>
+        </p>
+      </section>
+    </main>
+
+    <footer>Projeto biblioteca de jogos</footer>
+{% endblock %}
