@@ -7,3 +7,7 @@ from projeto import app
 @app.route("/")
 def homepage():
     return render_template("homepage.html")
+
+@app.route("/cadastro")
+def cadastro():
+    return render_template("cadastro.html")
