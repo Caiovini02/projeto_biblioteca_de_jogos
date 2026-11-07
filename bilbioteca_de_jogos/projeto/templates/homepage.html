@@ -27,11 +27,54 @@
       <aside id="side" class="side" aria-label="Menu lateral">
         <div id="div-side"></div>
         <nav>
+          <p class="side-texto">Entre para avaliar jogos, comprar e ver seus amigos.</p>
+          <a class="btn-entrar" href="#modal-entrar">Entrar</a>
+          <a class="btn-criar" href="#modal-criar">Criar conta</a>
           <a href="#promos">Promoções</a>
           <a href="#trending">Em alta</a>
           <a href="#catalog">Catálogo</a>
         </nav>
       </aside>
+
+    <!-- ========== MODAL: ENTRAR ========== -->
+  <div class="modal-overlay" id="modal-entrar">
+    <a href="#" class="modal-fundo" aria-label="Fechar"></a>
+    <div class="modal-container">
+      <h2>Entrar</h2>
+      <p>Acesse sua conta para avaliar jogos e comprar.</p>
+
+      <form>
+        <input type="text" name="usuario" placeholder="Usuário" minlength="3" required />
+        <input type="password" name="senha" placeholder="Senha" minlength="4" required />
+
+        <div class="modal-actions">
+          <a class="btn-secundario" href="#modal-criar">Criar conta</a>
+          <button type="submit" class="btn-principal">Entrar</button>
+        </div>
+      </form>
+      </div>
+  </div>
+<!-- ========== FIM MODAL: ENTRAR ========== -->
+
+<!-- ========== MODAL: CRIAR CONTA ========== -->
+  <div class="modal-overlay" id="modal-criar">
+    <a href="#" class="modal-fundo" aria-label="Fechar"></a>
+    <div class="modal-container">
+      <h2>Criar conta</h2>
+      <p>Crie sua conta para avaliar jogos e comprar.</p>
+
+      <form>
+        <input type="text" name="usuario" placeholder="Usuário" minlength="3" required />
+        <input type="password" name="senha" placeholder="Senha (mínimo 4 caracteres)" minlength="4" required />
+
+        <div class="modal-actions">
+          <a class="btn-secundario" href="#modal-entrar">Já tenho conta</a>
+          <button type="submit" class="btn-principal">Criar conta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+<!-- ========== FIM MODAL: CRIAR CONTA ========== -->
 
       <div class="content">
         <main>
