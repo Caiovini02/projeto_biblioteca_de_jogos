@@ -5,6 +5,7 @@
     --borda: #313131;
     --texto: #ffffff;
     --texto-secundario: #8d8d8d;
+    --laranja-hover: #ff862f;
 }
 
 * {
@@ -53,7 +54,7 @@ button {
   gap: 26px;
   padding: 12px 20px;
   background: var(--fundo);
-  border-bottom: 1px solid;
+  border-bottom: 1px solid var(--borda);
 }
 .logo {
   font-size: 28px;
@@ -387,4 +388,152 @@ footer {
       grid-template-columns: 1fr;
     }
   }
+}
+
+/* FUNDO ESCURO */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0 ,0.55);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* MODAL VISÍVEL */
+.modal-overlay:target {
+    display: flex;
+}
+
+/* CONTAINER */
+.modal-container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 710px;
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 28px;
+    color: var(--texto);
+}
+
+/* TÍTULO */
+.modal-container h2 {
+    font-size: 28px;
+    margin: 0 0 14px;
+    font-weight: bold;
+}
+
+/* DESCRIÇÃO */
+.modal-container p {
+    color: var(--texto-secundario);
+    font-size: 15px;
+    margin-bottom: 16px;
+}
+
+/* FORMULÁRIO */
+.modal-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+/* CAMPOS */
+.modal-container input {
+    width: 100%;
+    padding: 16px;
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    color: var(--texto);
+    font-size: 16px;
+    outline: none;
+}
+
+.modal-container input:focus {
+    border-color: var(--laranja);
+}
+
+/* BOTÕES */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 50px;
+}
+
+.modal-actions button, 
+.modal-actions a {
+    padding: 10px 23px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* BOTÃO SECUNDÁRIO */
+.btn-secundario {
+    background: var(--fundo);
+    color: var(--texto);
+    border: 1px solid var(--borda);
+}
+
+.btn-secundario:hover {
+    background: var(--borda);
+}
+
+/* BOTÃO PRINCIPAL */
+.btn-principal {
+    background: var(--laranja);
+    color: var(--fundo);
+    border: none;
+}
+
+.btn-principal:hover {
+    background: var(--laranja-hover);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 600px) {
+    .modal-container {
+        padding: 22px;
+    }
+
+    .modal-actions {
+        margin-top: 30px;
+    }
+
+    .modal-actions button,
+    .modal-actions a {
+        padding: 12px 15px;
+    }
+}
+
+.side nav a.btn-entrar,
+.side nav a.btn-criar {
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+.side nav a.btn-entrar { background: var(--laranja); color: var(--fundo); }
+.side nav a.btn-entrar:hover { background: var(--laranja-hover); color: var(--fundo); }
+.side nav a.btn-criar { background: var(--borda); color: var(--texto); border: 1px solid var(--borda); }
+.side nav a.btn-criar:hover { border-color: var(--laranja); color: var(--texto); }
+
+/* clique fora do modal para fechar */
+.modal-fundo {
+    position: absolute;
+    inset: 0;
+    cursor: default;
+}
+
+.side nav .side-texto {
+    color: var(--texto-secundario);
+    font-size: 14px;
+    margin-bottom: 20px;
 }
