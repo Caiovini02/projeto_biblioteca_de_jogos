@@ -8,9 +8,7 @@
 
 {% block content %}
     <header class="navbar">
-      <button class="menu-lateral" data-menu aria-label="Abrir menu">
-        Menu
-      </button>
+      <a class="menu-lateral" href="#side" aria-label="Abrir menu">Menu</a>
       <a class="logo" href="#">Nome<span>DO site</span></a>
       <input
         id="search"
@@ -25,6 +23,10 @@
 
     <div class="menu">
       <aside id="side" class="side" aria-label="Menu lateral">
+        <div class="side-top">
+          <a class="logo" href="#menu-closed">Nome<span>Do site</span></a>
+          <a class="fechar-menu" href="#menu-closed" aria-label="Fechar menu">X</a>
+        </div>
         <div id="div-side"></div>
         <nav>
           <p class="side-texto">Entre para avaliar jogos, comprar e ver sua biblioteca</p>
@@ -35,6 +37,8 @@
           <a href="#catalog">Catálogo</a>
         </nav>
       </aside>
+      <a class="side-bottom" href="#menu-closed" aria-label="Fechar menu"></a>
+      <span id="menu-closed" class="target-close"></span>
 
     <!-- ========== MODAL: ENTRAR ========== -->
   <div class="modal-overlay" id="modal-entrar">

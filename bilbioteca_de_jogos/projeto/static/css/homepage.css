@@ -61,6 +61,9 @@ button {
   font-weight: 800;
   letter-spacing: -0.5px;
 }
+.logo:hover {
+  cursor: default;
+}
 .logo span {
   color: var(--laranja);
   font-weight: 600;
@@ -140,14 +143,17 @@ h2 small {
 
 .side nav a {
   padding: 9px 12px;
-  border-radius: 8px;
+
   color: var(--texto-secundario);
   font-weight: 500;
+ 
+  border-bottom: var(--borda) 1px solid;
 }
 
 .side nav a:hover {
   background: var(--fundo);
   color: var(--laranja);
+  border-radius: 8px;
 }
 
 .side h3 {
@@ -162,6 +168,18 @@ h2 small {
   font-weight: 600;
 }
 
+.menu-lateral:hover{
+  border: #ff6a00 1px solid;
+}
+
+.side-top,
+.side-bottom {
+  display: none;
+}
+
+.target-close {
+  display: none;
+}
 /* destaque */
 .hero {
   position: relative;
@@ -333,17 +351,59 @@ footer {
   .side {
     position: fixed;
     left: 0;
-    bottom: 0;
+    top: 0;
+    bottom: auto;
+    left: 0;
     height: auto;
+    max-height: 100vh;
+    max-height: 100dvh;
     z-index: 50;
-    width: min(310px, 86vw);
+    width: min(230px, 75vw);
+    padding: 4px 16px 14px;
+    border-bottom: 1px solid var(--borda);
+    border-radius: 0 0 14px 0;
     transform: translateX(-100%);
-    transition: transform 0.3s;
+    visibility: hidden;
+    transition: transform 0.3s, visibility 0.3s;
   }
 
-  .side.on {
-    transform: none;
+  .side:target + .side-bottom {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0, 0, 0, 0.55);
   }
+
+  .side:target {
+    transform: none;
+    visibility: visible;
+  }
+   .side-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0 14px;
+    border-bottom: 1px solid var(--borda);
+  }
+
+  .side-top .logo{
+    font-size: 24px;
+  }
+
+  .fechar-menu {
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: var(--texto-secundario);
+    font-size: 18px;
+  }
+
+  .fechar-menu:hover {
+    color: var(--laranja);
+  }
+
+
 
   main {
     padding: 0 14px 30px;
@@ -395,7 +455,7 @@ footer {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0 ,0.55);
+    background: rgba(0, 0, 0, 0.55);
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -520,12 +580,29 @@ footer {
     border-radius: 8px;
     font-weight: 700;
 }
-.side nav a.btn-entrar { background: var(--laranja); color: var(--fundo); }
-.side nav a.btn-entrar:hover { background: var(--laranja-hover); color: var(--fundo); }
-.side nav a.btn-criar { background: var(--borda); color: var(--texto); border: 1px solid var(--borda); }
-.side nav a.btn-criar:hover { border-color: var(--laranja); color: var(--texto); }
 
-/* clique fora do modal para fechar */
+.side nav a.btn-entrar { 
+  background: var(--laranja);
+  color: var(--fundo);
+ }
+
+.side nav a.btn-entrar:hover { 
+  background: var(--laranja-hover);
+  color: var(--fundo);
+ }
+
+.side nav a.btn-criar {
+  background: var(--borda);
+  color: var(--texto);
+  border: 1px solid var(--borda);
+ }
+
+.side nav a.btn-criar:hover { 
+  border-color: var(--laranja);
+  color: var(--texto);
+ }
+
+/* fechar modal */
 .modal-fundo {
     position: absolute;
     inset: 0;
