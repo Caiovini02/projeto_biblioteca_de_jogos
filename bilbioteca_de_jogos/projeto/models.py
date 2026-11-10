@@ -55,7 +55,8 @@ def buscar_usuario_por_id(usuario_id):
             return usuario
     return None
 
-*/Perfil é apenas para teste unitário /*
+"""Perfil é apenas para teste unitário"""
+ 
 def cadastrar_usuario(nome, email, senha, perfil="usuario"):
     """Salva um novo usuário com a senha protegida por hash e o retorna.
 
