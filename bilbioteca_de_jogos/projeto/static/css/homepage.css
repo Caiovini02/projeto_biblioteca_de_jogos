@@ -615,6 +615,88 @@ footer {
     margin-bottom: 20px;
 }
 
+/* catálogo: cards dos jogos (#28) */
+.card-jogo {
+  display: flex;
+  flex-direction: column;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-jogo:hover {
+  border-color: var(--laranja);
+}
+
+.card-jogo .capa {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.card-jogo .capa-vazia {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--borda), var(--superficie));
+  color: var(--texto-secundario);
+  font: 800 48px "Barlow Condensed", sans-serif;
+}
+
+.card-jogo .info {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px 14px;
+}
+
+.card-jogo h3 {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.card-jogo .genero {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.card-jogo .avaliacao {
+  color: var(--laranja);
+  font-weight: 600;
+}
+
+.card-jogo .avaliacao small {
+  color: var(--texto-secundario);
+  font-weight: 400;
+}
+
+.card-jogo .preco {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.card-jogo .desconto {
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-jogo .preco-antigo {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.card-jogo .preco strong {
+  font-size: 18px;
+}
+
+.catalogo-vazio {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--texto-secundario);
 /* mensagens de sucesso/erro (estilo base em mensagens.css) */
 main > .mensagens {
     margin-top: 16px;

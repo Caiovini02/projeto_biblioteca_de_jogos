@@ -1,15 +1,17 @@
 from flask import flash, g, redirect, render_template, request, url_for
 
 from projeto import app
+from projeto.catalogo import carregar_jogos
 from projeto.autenticacao import encerrar_sessao, iniciar_sessao, verificar_credenciais
 from projeto.forms import validar_cadastro
 from projeto.models import EmailJaCadastrado, cadastrar_usuario
 
 
 
+# Rota do catálogo (#26) com os jogos carregados da fonte de dados (#27)
 @app.route("/")
 def homepage():
-    return render_template("homepage.html")
+    return render_template("homepage.html", jogos=carregar_jogos())
 
 
 @app.route("/detalhes")
