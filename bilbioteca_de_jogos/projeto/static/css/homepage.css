@@ -614,3 +614,8 @@ footer {
     font-size: 14px;
     margin-bottom: 20px;
 }
+
+/* mensagens de sucesso/erro (estilo base em mensagens.css) */
+main > .mensagens {
+    margin-top: 16px;
+}
