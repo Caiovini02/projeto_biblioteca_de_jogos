@@ -120,6 +120,37 @@
                 </select>
               </div>
             </div>
+
+            {# Listagem do catálogo (#28). "jogos" vem da rota "/" (ver catalogo.py). #}
+            {% if jogos %}
+              <div class="grid">
+                {% for jogo in jogos %}
+                  <article class="card-jogo">
+                    {% if jogo.capa %}
+                      <img class="capa" src="{{ jogo.capa }}" alt="Capa de {{ jogo.titulo }}" />
+                    {% else %}
+                      <div class="capa capa-vazia" aria-hidden="true">{{ jogo.titulo|iniciais }}</div>
+                    {% endif %}
+                    <div class="info">
+                      <h3>{{ jogo.titulo }}</h3>
+                      <p class="genero">{{ jogo.genero }}</p>
+                      <p class="avaliacao" aria-label="Nota {{ jogo.avaliacao }} de 5, {{ jogo.avaliacoes }} avaliações">
+                        ★ {{ "%.1f"|format(jogo.avaliacao) }} <small>({{ jogo.avaliacoes }})</small>
+                      </p>
+                      <p class="preco">
+                        {% if jogo.em_promocao %}
+                          <span class="desconto">-{{ jogo.desconto }}%</span>
+                          <s class="preco-antigo">{{ jogo.preco|moeda }}</s>
+                        {% endif %}
+                        <strong>{{ jogo.preco_final|moeda }}</strong>
+                      </p>
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="catalogo-vazio">Nenhum jogo cadastrado no catálogo ainda.</p>
+            {% endif %}
           </section>
         </main>
         <footer>Projeto biblioteca de jogos</footer>
