@@ -29,9 +29,13 @@
         </div>
         <div id="div-side"></div>
         <nav>
-          <p class="side-texto">Entre para avaliar jogos, comprar e ver sua biblioteca</p>
-          <a class="btn-entrar" href="#modal-entrar">Entrar</a>
-          <a class="btn-criar" href="#modal-criar">Criar conta</a>
+          {% if usuario_logado %}
+            <p class="side-texto">Olá, {{ usuario_logado.nome }}</p>
+          {% else %}
+            <p class="side-texto">Entre para avaliar jogos, comprar e ver sua biblioteca</p>
+            <a class="btn-entrar" href="#modal-entrar">Entrar</a>
+            <a class="btn-criar" href="#modal-criar">Criar conta</a>
+          {% endif %}
           <a href="#promos">Promoções</a>
           <a href="#trending">Em alta</a>
           <a href="#catalog">Catálogo</a>
@@ -40,6 +44,9 @@
       <a class="side-bottom" href="#menu-closed" aria-label="Fechar menu"></a>
       <span id="menu-closed" class="target-close"></span>
 
+    {# Os modais enviam para as rotas /login e /cadastro. Em caso de erro, a rota
+       mostra a página própria (login.html / cadastro.html) com a mensagem. #}
+    {% if not usuario_logado %}
     <!-- ========== MODAL: ENTRAR ========== -->
   <div class="modal-overlay" id="modal-entrar">
     <a href="#" class="modal-fundo" aria-label="Fechar"></a>
@@ -47,9 +54,9 @@
       <h2>Entrar</h2>
       <p>Acesse sua conta para avaliar jogos e comprar</p>
 
-      <form>
-        <input type="text" name="usuario" placeholder="Usuário" minlength="3" required />
-        <input type="password" name="senha" placeholder="Senha" minlength="4" required />
+      <form method="post" action="{{ url_for('login') }}">
+        <input type="email" name="email" placeholder="E-mail" autocomplete="email" required />
+        <input type="password" name="senha" placeholder="Senha" autocomplete="current-password" required />
 
         <div class="modal-actions">
           <a class="btn-secundario" href="#modal-criar">Criar conta</a>
@@ -67,9 +74,11 @@
       <h2>Criar conta</h2>
       <p>Crie sua conta para avaliar jogos e comprar.</p>
 
-      <form>
-        <input type="text" name="usuario" placeholder="Usuário" minlength="3" required />
-        <input type="password" name="senha" placeholder="Senha (mínimo 6 caracteres)" minlength="6" required />
+      <form method="post" action="{{ url_for('cadastro') }}">
+        <input type="text" name="nome" placeholder="Nome" autocomplete="name" required />
+        <input type="email" name="email" placeholder="E-mail" autocomplete="email" required />
+        <input type="password" name="senha" placeholder="Senha (mínimo 8 caracteres)" minlength="8" autocomplete="new-password" required />
+        <input type="password" name="confirmacao" placeholder="Confirme a senha" minlength="8" autocomplete="new-password" required />
 
         <div class="modal-actions">
           <a class="btn-secundario" href="#modal-entrar">Já tenho conta</a>
@@ -79,9 +88,11 @@
     </div>
   </div>
 <!-- ========== FIM MODAL: CRIAR CONTA ========== -->
+    {% endif %}
 
       <div class="content">
         <main>
+          {% include "_mensagens.html" %}
           <section class="hero" id="hero" aria-label="Destaques"></section>
 
           <section id="promos">

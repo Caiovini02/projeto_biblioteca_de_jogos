@@ -697,4 +697,7 @@ footer {
   padding: 40px 0;
   text-align: center;
   color: var(--texto-secundario);
+/* mensagens de sucesso/erro (estilo base em mensagens.css) */
+main > .mensagens {
+    margin-top: 16px;
 }
