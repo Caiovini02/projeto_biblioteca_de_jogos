@@ -49,12 +49,9 @@ class TesteRotaCadastro(TesteComUsuarios):
         self.assertEqual(resposta.status_code, 200)
         self.assertIn('action="/cadastro"', resposta.text)
 
-    def test_modal_de_cadastro_da_homepage_envia_para_a_rota(self):
+    def test_homepage_deslogada_tem_link_para_a_pagina_de_cadastro(self):
         resposta = self.cliente.get("/")
-        self.assertIn('method="post" action="/cadastro"', resposta.text)
-        for campo in ("nome", "email", "senha", "confirmacao"):
-            self.assertIn(f'name="{campo}"', resposta.text)
-        self.assertIn('href="#modal-criar"', resposta.text)
+        self.assertIn('href="/cadastro"', resposta.text)
 
     def test_login_e_cadastro_tem_links_entre_si(self):
         self.assertIn('href="/cadastro"', self.cliente.get("/login").text)

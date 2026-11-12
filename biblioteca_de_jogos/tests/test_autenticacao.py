@@ -29,11 +29,9 @@ class TesteLogin(TesteComUsuarios):
         super().setUp()
         self.cadastrar_ana()
 
-    def test_modal_de_login_da_homepage_envia_para_a_rota(self):
+    def test_homepage_deslogada_tem_link_para_a_pagina_de_login(self):
         resposta = self.cliente.get("/")
-        self.assertIn('method="post" action="/login"', resposta.text)
-        self.assertIn('name="email"', resposta.text)
-        self.assertIn('href="#modal-entrar"', resposta.text)
+        self.assertIn('href="/login"', resposta.text)
 
     def test_pagina_de_login(self):
         resposta = self.cliente.get("/login")
@@ -63,9 +61,9 @@ class TesteLogin(TesteComUsuarios):
         homepage = self.cliente.get("/")
         self.assertIn("Bem-vindo(a), Ana!", homepage.text)
         self.assertIn("Olá, Ana", homepage.text)
-        # Logado, a homepage não oferece mais Entrar/Criar conta nem os modais.
-        self.assertNotIn('href="#modal-entrar"', homepage.text)
-        self.assertNotIn('action="/login"', homepage.text)
+        # Logado, a homepage não oferece mais Entrar/Criar conta.
+        self.assertNotIn('href="/login"', homepage.text)
+        self.assertNotIn('href="/cadastro"', homepage.text)
 
     def test_login_inicia_sessao_com_token(self):
         self.entrar()
