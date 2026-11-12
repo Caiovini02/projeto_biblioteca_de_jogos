@@ -1,7 +1,13 @@
 from flask import flash, g, redirect, render_template, request, url_for
 
 from projeto import app
-from projeto.catalogo import carregar_jogos, filtrar_por_genero, listar_generos, localizar_genero
+from projeto.catalogo import (
+    buscar_por_titulo,
+    carregar_jogos,
+    filtrar_por_genero,
+    listar_generos,
+    localizar_genero,
+)
 from projeto.autenticacao import encerrar_sessao, iniciar_sessao, verificar_credenciais
 from projeto.forms import validar_cadastro
 from projeto.models import EmailJaCadastrado, cadastrar_usuario
@@ -11,16 +17,21 @@ from projeto.models import EmailJaCadastrado, cadastrar_usuario
 # Rota do catálogo (#26) com os jogos carregados da fonte de dados (#27)
 # Disponibiliza os gêneros para o filtro (#50) e filtra os jogos pelo gênero
 # escolhido na URL, ex.: /?genero=RPG (#51)
+# Também busca pelo título (#45), ex.: /?busca=dark, e combina com o gênero:
+# /?busca=dark&genero=RPG
 @app.route("/")
 def homepage():
     todos = carregar_jogos()
     generos = listar_generos(todos)
     genero = request.args.get("genero", "").strip()
+    busca = request.args.get("busca", "").strip()
+    jogos = buscar_por_titulo(filtrar_por_genero(todos, genero), busca)
     return render_template(
         "homepage.html",
-        jogos=filtrar_por_genero(todos, genero),
+        jogos=jogos,
         generos=generos,
         genero_selecionado=localizar_genero(generos, genero),
+        busca=busca,
     )
 
 

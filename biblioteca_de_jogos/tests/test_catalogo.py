@@ -216,3 +216,66 @@ class TesteFiltroPorGenero(TesteComCatalogo):
         self.assertIn("Nenhum jogo encontrado no gênero", html)
         self.assertIn("Terror", html)
         self.assertNotIn("Nenhum jogo cadastrado", html)
+
+
+class TesteBuscaPorTitulo(TesteComCatalogo):
+    """#45: pesquisar os jogos e retornar os cujo título corresponde ao termo."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,10,0,4,1,,",
+            "2,Dark Souls,RPG,10,0,4,1,,",
+            "3,Darkest Dungeon,RPG,10,0,4,1,,",
+            "4,Ação Total,Ação,10,0,4,1,,",
+        )
+
+    def titulos(self, jogos):
+        return [jogo["titulo"] for jogo in jogos]
+
+    def test_retorna_jogos_cujo_titulo_contem_o_termo_na_ordem_do_arquivo(self):
+        jogos = catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "dark")
+        self.assertEqual(self.titulos(jogos), ["Dark Souls", "Darkest Dungeon"])
+
+    def test_encontra_termo_no_meio_do_titulo(self):
+        jogos = catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "knight")
+        self.assertEqual(self.titulos(jogos), ["Hollow Knight"])
+
+    def test_ignora_maiusculas_acentos_e_espacos_nas_pontas(self):
+        todos = catalogo.carregar_jogos()
+        self.assertEqual(self.titulos(catalogo.buscar_por_titulo(todos, "  HOLLOW  ")), ["Hollow Knight"])
+        self.assertEqual(self.titulos(catalogo.buscar_por_titulo(todos, "acao")), ["Ação Total"])
+
+    def test_termo_vazio_retorna_todos(self):
+        todos = catalogo.carregar_jogos()
+        self.assertEqual(catalogo.buscar_por_titulo(todos, ""), todos)
+        self.assertEqual(catalogo.buscar_por_titulo(todos, "   "), todos)
+        self.assertEqual(catalogo.buscar_por_titulo(todos, None), todos)
+
+    def test_sem_correspondencia_retorna_lista_vazia(self):
+        self.assertEqual(catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "zelda"), [])
+
+    def test_busca_so_no_titulo_e_nao_no_genero(self):
+        # "RPG" é gênero de dois jogos, mas não aparece em nenhum título
+        self.assertEqual(catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "rpg"), [])
+
+    # Rota "/" com ?busca=...
+
+    def test_homepage_busca_pelo_titulo_da_url(self):
+        html = self.cliente.get("/?busca=dark").text
+        self.assertEqual(html.count('class="card-jogo"'), 2)
+        self.assertIn("Dark Souls", html)
+        self.assertIn("Darkest Dungeon", html)
+        self.assertNotIn("Hollow Knight", html)
+
+    def test_homepage_combina_busca_e_genero(self):
+        html = self.cliente.get("/?busca=dark&genero=Aventura").text
+        self.assertNotIn('class="card-jogo"', html)
+
+        html = self.cliente.get("/?busca=souls&genero=RPG").text
+        self.assertEqual(html.count('class="card-jogo"'), 1)
+        self.assertIn("Dark Souls", html)
+
+    def test_homepage_sem_busca_mostra_todos(self):
+        html = self.cliente.get("/").text
+        self.assertEqual(html.count('class="card-jogo"'), 4)
