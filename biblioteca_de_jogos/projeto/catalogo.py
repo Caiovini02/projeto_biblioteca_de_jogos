@@ -20,6 +20,7 @@ buscar_jogo_por_id() é o ponto de entrada para a página de detalhes (#39).
 """
 
 import csv
+import unicodedata
 from pathlib import Path
 
 from projeto import app
@@ -52,6 +53,45 @@ def buscar_jogo_por_id(jogo_id):
         if jogo["id"] == jogo_id:
             return jogo
     return None
+
+
+# Filtro por gênero (#51)
+
+
+def _normalizar(texto):
+    """Minúsculas, sem acentos e sem espaços nas pontas ('  Ação ' -> 'acao')."""
+    sem_acento = unicodedata.normalize("NFD", texto or "")
+    sem_acento = "".join(c for c in sem_acento if not unicodedata.combining(c))
+    return sem_acento.strip().casefold()
+
+
+def listar_generos(jogos):
+    """Gêneros presentes nos jogos, sem repetição e em ordem alfabética."""
+    generos = {jogo["genero"] for jogo in jogos if jogo["genero"].strip()}
+    return sorted(generos, key=_normalizar)
+
+
+def localizar_genero(generos, texto):
+    """Devolve o gênero da lista que corresponde a 'texto' (ex.: 'rpg' -> 'RPG').
+
+    Se nenhum corresponder, devolve o próprio texto.
+    """
+    for genero in generos:
+        if _normalizar(genero) == _normalizar(texto):
+            return genero
+    return texto
+
+
+def filtrar_por_genero(jogos, genero):
+    """Retorna só os jogos do gênero escolhido, mantendo a ordem original.
+
+    Sem gênero (vazio ou None) não há filtro e todos os jogos voltam. A
+    comparação ignora maiúsculas, acentos e espaços nas pontas.
+    """
+    if not _normalizar(genero):
+        return jogos
+    procurado = _normalizar(genero)
+    return [jogo for jogo in jogos if _normalizar(jogo["genero"]) == procurado]
 
 
 # Filtros usados pelos templates
