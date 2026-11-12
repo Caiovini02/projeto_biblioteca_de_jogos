@@ -1,7 +1,8 @@
-from flask import flash, g, redirect, render_template, request, url_for
+from flask import abort, flash, g, redirect, render_template, request, url_for
 
 from projeto import app
 from projeto.catalogo import (
+    buscar_jogo_por_id,
     buscar_por_titulo,
     carregar_jogos,
     filtrar_por_genero,
@@ -35,9 +36,16 @@ def homepage():
     )
 
 
-@app.route("/detalhes")
-def detalhes():
-    return render_template("detalhes.html")
+# Rota de acesso à página individual do jogo (#32): recebe o id pela URL,
+# ex.: /jogo/3. Pública (não exige login). Id que não existe responde 404.
+# O template detalhes.html e o conteúdo da página são da #39: a rota só
+# entrega a ele a variável "jogo" (dicionário de catalogo.carregar_jogos()).
+@app.route("/jogo/<int:jogo_id>")
+def detalhes(jogo_id):
+    jogo = buscar_jogo_por_id(jogo_id)
+    if jogo is None:
+        abort(404)
+    return render_template("detalhes.html", jogo=jogo)
 
 
 # Rota de autenticação (#63)

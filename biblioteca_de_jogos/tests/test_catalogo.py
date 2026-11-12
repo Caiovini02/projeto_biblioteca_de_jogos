@@ -346,3 +346,88 @@ class TesteBuscaNaHomepage(TesteComCatalogo):
 
     def test_busca_nao_usa_javascript(self):
         self.assertNotIn("<script", self.cliente.get("/?busca=dark").text)
+
+
+class TesteRotaDeDetalhesDoJogo(TesteComCatalogo):
+    """#32: rota que recebe a identificação do jogo e entrega o jogo à página.
+
+    O template detalhes.html é da #39 e ainda não existe, então aqui o
+    render_template é trocado por um falso: o que se testa é a rota (status e o
+    que ela entrega ao template), não a página.
+    """
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,46.99,50,4.9,4800,,Um jogo",
+            "3,Bloodborne,RPG,199.90,30,4.8,2100,,Outro jogo",
+        )
+        falso = mock.patch("projeto.routes.render_template", return_value="página de detalhes")
+        self.render = falso.start()
+        self.addCleanup(falso.stop)
+
+    def test_id_existente_responde_200(self):
+        self.assertEqual(self.cliente.get("/jogo/3").status_code, 200)
+
+    def test_entrega_ao_template_o_jogo_do_id_pedido(self):
+        self.cliente.get("/jogo/3")
+        self.render.assert_called_once()
+        args, kwargs = self.render.call_args
+        self.assertEqual(args, ("detalhes.html",))
+        self.assertEqual(kwargs["jogo"]["id"], 3)
+        self.assertEqual(kwargs["jogo"]["titulo"], "Bloodborne")
+
+    def test_o_id_e_o_do_jogo_e_nao_a_posicao_na_lista(self):
+        # O jogo de id 3 é o 2º do arquivo: a busca é pelo id, não pelo índice
+        self.cliente.get("/jogo/1")
+        self.assertEqual(self.render.call_args.kwargs["jogo"]["titulo"], "Hollow Knight")
+
+    def test_id_inexistente_responde_404_sem_renderizar(self):
+        self.assertEqual(self.cliente.get("/jogo/99").status_code, 404)
+        self.render.assert_not_called()
+
+    def test_id_que_nao_e_numero_responde_404(self):
+        self.assertEqual(self.cliente.get("/jogo/abc").status_code, 404)
+        self.render.assert_not_called()
+
+    def test_catalogo_vazio_responde_404(self):
+        self.escrever_csv()
+        self.assertEqual(self.cliente.get("/jogo/1").status_code, 404)
+
+    def test_rota_e_publica_sem_login(self):
+        # self.cliente nunca fez login e mesmo assim a página abre
+        self.assertEqual(self.cliente.get("/jogo/1").status_code, 200)
+
+    def test_rota_antiga_sem_id_deixou_de_existir(self):
+        self.assertEqual(self.cliente.get("/detalhes").status_code, 404)
+
+
+class TesteLinkDosCardsParaOJogo(TesteComCatalogo):
+    """#32: cada card da homepage leva à página individual do jogo."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,10,0,4,1,,",
+            "3,Bloodborne,RPG,10,0,4,1,,",
+        )
+
+    def test_cada_card_tem_link_para_o_id_do_seu_jogo(self):
+        html = self.cliente.get("/").text
+        self.assertIn('href="/jogo/1"', html)
+        self.assertIn('href="/jogo/3"', html)
+        self.assertEqual(html.count('class="card-link"'), 2)
+
+    def test_so_os_jogos_listados_ganham_link(self):
+        html = self.cliente.get("/?genero=RPG").text
+        self.assertIn('href="/jogo/3"', html)
+        self.assertNotIn('href="/jogo/1"', html)
+
+    def test_link_envolve_o_titulo_do_card(self):
+        html = self.cliente.get("/").text
+        inicio = html.index('href="/jogo/1"')
+        fim = html.index("</a>", inicio)
+        self.assertIn("Hollow Knight", html[inicio:fim])
+
+    def test_card_continua_sem_javascript(self):
+        self.assertNotIn("<script", self.cliente.get("/").text)
