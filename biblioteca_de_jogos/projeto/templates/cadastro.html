@@ -2,9 +2,7 @@
 
 {% block title %}Criar conta{% endblock %}
 {% block css %}
-{# Versão mínima para a integração (#60): usa o visual do login até o HTML/CSS
-   definitivos do cadastro (#54/#55) ficarem prontos. #}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}" />
 {% endblock %}
 
 {% block content %}
@@ -12,14 +10,14 @@
       <a class="logo" href="{{ url_for('homepage') }}">Nome<span>DO site</span></a>
     </header>
 
-    <main class="login">
-      <section class="login-card" aria-labelledby="cadastro-titulo">
+    <main class="cadastro">
+      <section class="cadastro-card" aria-labelledby="cadastro-titulo">
         <h1 id="cadastro-titulo">Criar conta</h1>
-        <p class="login-subtitulo">Cadastre-se para montar sua biblioteca de jogos.</p>
+        <p class="cadastro-subtitulo">Cadastre-se para montar sua biblioteca de jogos.</p>
 
         {% include "_mensagens.html" %}
 
-        <form class="login-form" method="post" action="{{ url_for('cadastro') }}">
+        <form class="cadastro-form" method="post" action="{{ url_for('cadastro') }}">
           <label for="nome">Nome</label>
           <input
             id="nome"
@@ -61,10 +59,10 @@
             required
           />
 
-          <button class="botao-entrar" type="submit">Criar conta</button>
+          <button class="botao-cadastrar" type="submit">Criar conta</button>
         </form>
 
-        <p class="login-alternativa">
+        <p class="cadastro-alternativa">
           Já tem conta? <a href="{{ url_for('login') }}">Entrar</a>
         </p>
       </section>
