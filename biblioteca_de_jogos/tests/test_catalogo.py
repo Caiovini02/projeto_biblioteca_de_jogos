@@ -279,3 +279,70 @@ class TesteBuscaPorTitulo(TesteComCatalogo):
     def test_homepage_sem_busca_mostra_todos(self):
         html = self.cliente.get("/").text
         self.assertEqual(html.count('class="card-jogo"'), 4)
+
+
+class TesteBuscaNaHomepage(TesteComCatalogo):
+    """#46: o campo de pesquisa da homepage conectado à busca do back-end."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,10,0,4,1,,",
+            "2,Dark Souls,RPG,10,0,4,1,,",
+            "3,Darkest Dungeon,RPG,10,0,4,1,,",
+        )
+
+    def partes(self, html):
+        """Separa a página no formulário de gênero: (navbar e antes, filtro e depois)."""
+        antes, depois = html.split('<form class="filtro-genero"', 1)
+        return antes, depois
+
+    def test_campo_de_busca_e_um_formulario_get_que_volta_ao_catalogo(self):
+        navbar, _ = self.partes(self.cliente.get("/").text)
+        self.assertIn('<form class="busca-jogos" method="get" action="/#catalog">', navbar)
+        self.assertIn('name="busca"', navbar)
+        self.assertIn('type="search"', navbar)
+        self.assertIn(">Buscar</button>", navbar)
+
+    def test_campo_mantem_o_termo_buscado(self):
+        navbar, _ = self.partes(self.cliente.get("/?busca=dark").text)
+        self.assertIn('value="dark"', navbar)
+
+    def test_termo_com_html_e_escapado_no_campo(self):
+        html = self.cliente.get('/?busca="><script>alert(1)</script>').text
+        self.assertNotIn("<script", html)
+
+    def test_busca_repassa_o_genero_escolhido_em_campo_oculto(self):
+        navbar, _ = self.partes(self.cliente.get("/?genero=RPG").text)
+        self.assertIn('<input type="hidden" name="genero" value="RPG" />', navbar)
+
+    def test_filtro_de_genero_repassa_a_busca_em_campo_oculto(self):
+        _, filtro = self.partes(self.cliente.get("/?busca=dark").text)
+        self.assertIn('<input type="hidden" name="busca" value="dark" />', filtro)
+
+    def test_sem_busca_nem_genero_os_campos_ocultos_vao_vazios(self):
+        navbar, filtro = self.partes(self.cliente.get("/").text)
+        self.assertIn('<input type="hidden" name="genero" value="" />', navbar)
+        self.assertIn('<input type="hidden" name="busca" value="" />', filtro)
+
+    def test_busca_sem_resultado_mostra_mensagem_com_o_termo(self):
+        html = self.cliente.get("/?busca=zelda").text
+        self.assertNotIn('class="card-jogo"', html)
+        self.assertIn('Nenhum jogo encontrado para "zelda".', html)
+        self.assertNotIn("Nenhum jogo cadastrado", html)
+
+    def test_busca_com_genero_sem_resultado_cita_os_dois(self):
+        html = self.cliente.get("/?busca=knight&genero=RPG").text
+        self.assertNotIn('class="card-jogo"', html)
+        self.assertIn('Nenhum jogo encontrado para "knight" no gênero "RPG".', html)
+
+    def test_genero_sem_busca_mantem_a_mensagem_do_genero(self):
+        html = self.cliente.get("/?genero=Terror").text
+        self.assertIn('Nenhum jogo encontrado no gênero "Terror".', html)
+
+    def test_titulo_da_secao_continua_catalogo(self):
+        html = self.cliente.get("/?busca=dark").text
+        self.assertIn('<h2 id="ctitle">Catálogo</h2>', html)
+
+    def test_busca_nao_usa_javascript(self):
+        self.assertNotIn("<script", self.cliente.get("/?busca=dark").text)
