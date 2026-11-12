@@ -8,16 +8,44 @@ from tests.base import TesteComUsuarios
 
 
 class TesteValidacaoCadastro(unittest.TestCase):
-    """Validação mínima usada na integração do cadastro (#60)."""
+    """Validação do cadastro: integração (#60) e campos obrigatórios (#56)."""
 
     def test_dados_validos(self):
         self.assertEqual(validar_cadastro("Ana", "ana@exemplo.com", "segredo123", "segredo123"), [])
 
-    def test_campo_vazio(self):
+    def test_nome_vazio(self):
         self.assertEqual(
             validar_cadastro("", "ana@exemplo.com", "segredo123", "segredo123"),
-            ["Preencha todos os campos."],
+            ["Informe o nome."],
         )
+
+    def test_email_vazio(self):
+        self.assertEqual(
+            validar_cadastro("Ana", "", "segredo123", "segredo123"),
+            ["Informe o e-mail."],
+        )
+
+    def test_senha_vazia(self):
+        self.assertEqual(
+            validar_cadastro("Ana", "ana@exemplo.com", "", ""),
+            ["Informe a senha.", "Confirme a senha."],
+        )
+
+    def test_confirmacao_vazia(self):
+        self.assertEqual(
+            validar_cadastro("Ana", "ana@exemplo.com", "segredo123", ""),
+            ["Confirme a senha."],
+        )
+
+    def test_todos_os_campos_vazios_listam_um_erro_por_campo(self):
+        self.assertEqual(
+            validar_cadastro("", "", "", ""),
+            ["Informe o nome.", "Informe o e-mail.", "Informe a senha.", "Confirme a senha."],
+        )
+
+    def test_nome_e_email_so_com_espacos_contam_como_vazios(self):
+        erros = validar_cadastro("   ", "   ", "segredo123", "segredo123")
+        self.assertEqual(erros, ["Informe o nome.", "Informe o e-mail."])
 
     def test_email_invalido(self):
         self.assertIn("Informe um e-mail válido.", validar_cadastro("Ana", "ana", "segredo123", "segredo123"))
@@ -90,6 +118,13 @@ class TesteRotaCadastro(TesteComUsuarios):
         self.assertIn('value="Ana"', resposta.text)
         self.assertIn('value="ana@exemplo.com"', resposta.text)
         self.assertNotIn("curta", resposta.text)
+        self.assertEqual(models.carregar_usuarios(), [])
+
+    def test_campos_vazios_mostram_uma_mensagem_por_campo(self):
+        resposta = self.cadastrar(nome="", email="", senha="", confirmacao="")
+        self.assertEqual(resposta.status_code, 200)
+        for mensagem in ("Informe o nome.", "Informe o e-mail.", "Informe a senha.", "Confirme a senha."):
+            self.assertIn(mensagem, resposta.text)
         self.assertEqual(models.carregar_usuarios(), [])
 
     def test_usuario_logado_em_cadastro_vai_para_homepage(self):
