@@ -1,4 +1,4 @@
-from flask import flash, g, jsonify, redirect, render_template, request, url_for
+from flask import flash, g, redirect, render_template, request, url_for
 
 from projeto import app
 from projeto.catalogo import carregar_jogos, filtrar_por_genero, listar_generos, localizar_genero
@@ -9,7 +9,8 @@ from projeto.models import EmailJaCadastrado, cadastrar_usuario
 
 
 # Rota do catálogo (#26) com os jogos carregados da fonte de dados (#27)
-# e filtro por gênero pela URL, ex.: /?genero=RPG (#51)
+# Disponibiliza os gêneros para o filtro (#50) e filtra os jogos pelo gênero
+# escolhido na URL, ex.: /?genero=RPG (#51)
 @app.route("/")
 def homepage():
     todos = carregar_jogos()
@@ -21,13 +22,6 @@ def homepage():
         generos=generos,
         genero_selecionado=localizar_genero(generos, genero),
     )
-
-
-# Rota que disponibiliza os gêneros disponíveis para filtragem (#50).
-# Cada gênero listado aqui pode ser usado em /?genero=<gênero> (#51).
-@app.route("/generos")
-def generos():
-    return jsonify(generos=listar_generos(carregar_jogos()))
 
 
 @app.route("/detalhes")
