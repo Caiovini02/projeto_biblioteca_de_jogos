@@ -134,3 +134,126 @@ class TesteArquivoDoRepositorio(unittest.TestCase):
             self.assertGreaterEqual(jogo["preco"], 0)
             self.assertTrue(0 <= jogo["desconto"] <= 100)
             self.assertTrue(0 <= jogo["avaliacao"] <= 5)
+
+
+class TesteFiltroPorGenero(TesteComCatalogo):
+    """#51: buscar os jogos e retornar os do gênero selecionado."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Jogo Zeta,Ação,10,0,4,1,,",
+            "2,Jogo Alfa,RPG,10,0,4,1,,",
+            "3,Jogo Beta,Aventura,10,0,4,1,,",
+            "4,Jogo Gama,RPG,10,0,4,1,,",
+        )
+
+    def titulos(self, jogos):
+        return [jogo["titulo"] for jogo in jogos]
+
+    def test_retorna_so_os_jogos_do_genero_na_ordem_do_arquivo(self):
+        jogos = catalogo.filtrar_por_genero(catalogo.carregar_jogos(), "RPG")
+        self.assertEqual(self.titulos(jogos), ["Jogo Alfa", "Jogo Gama"])
+
+    def test_sem_genero_retorna_todos(self):
+        todos = catalogo.carregar_jogos()
+        self.assertEqual(catalogo.filtrar_por_genero(todos, ""), todos)
+        self.assertEqual(catalogo.filtrar_por_genero(todos, None), todos)
+
+    def test_genero_inexistente_retorna_lista_vazia(self):
+        self.assertEqual(catalogo.filtrar_por_genero(catalogo.carregar_jogos(), "Terror"), [])
+
+    def test_ignora_maiusculas_e_acentos(self):
+        todos = catalogo.carregar_jogos()
+        self.assertEqual(self.titulos(catalogo.filtrar_por_genero(todos, "acao")), ["Jogo Zeta"])
+        self.assertEqual(self.titulos(catalogo.filtrar_por_genero(todos, "  rpg ")), ["Jogo Alfa", "Jogo Gama"])
+
+    def test_lista_generos_sem_repeticao_e_em_ordem_alfabetica(self):
+        generos = catalogo.listar_generos(catalogo.carregar_jogos())
+        self.assertEqual(generos, ["Ação", "Aventura", "RPG"])
+
+    def test_localizar_genero_devolve_o_nome_cadastrado(self):
+        generos = ["Ação", "Aventura", "RPG"]
+        self.assertEqual(catalogo.localizar_genero(generos, "rpg"), "RPG")
+        self.assertEqual(catalogo.localizar_genero(generos, "acao"), "Ação")
+        self.assertEqual(catalogo.localizar_genero(generos, "Terror"), "Terror")
+
+    # Rota "/" com ?genero=...
+
+    def test_homepage_sem_filtro_mostra_todos(self):
+        html = self.cliente.get("/").text
+        self.assertEqual(html.count('class="card-jogo"'), 4)
+
+    def test_homepage_filtra_pelo_genero_da_url(self):
+        html = self.cliente.get("/?genero=RPG").text
+        self.assertEqual(html.count('class="card-jogo"'), 2)
+        self.assertIn("Jogo Alfa", html)
+        self.assertIn("Jogo Gama", html)
+        self.assertNotIn("Jogo Zeta", html)
+        self.assertNotIn("Jogo Beta", html)
+
+    def test_select_lista_os_generos_do_catalogo_e_marca_o_escolhido(self):
+        html = self.cliente.get("/?genero=Aventura").text
+        self.assertIn('<option value="">Qualquer gênero</option>', html)
+        self.assertIn('<option value="Ação">Ação</option>', html)
+        self.assertIn('<option value="Aventura" selected>Aventura</option>', html)
+        self.assertIn('<option value="RPG">RPG</option>', html)
+
+    def test_genero_digitado_em_minusculo_marca_a_opcao_correta(self):
+        html = self.cliente.get("/?genero=rpg").text
+        self.assertEqual(html.count('class="card-jogo"'), 2)
+        self.assertIn('<option value="RPG" selected>RPG</option>', html)
+
+    def test_filtro_envia_por_get_sem_javascript(self):
+        html = self.cliente.get("/").text
+        self.assertIn('method="get"', html)
+        self.assertIn('name="genero"', html)
+        self.assertNotIn("<script", html)
+
+    def test_genero_sem_jogos_mostra_mensagem_propria(self):
+        html = self.cliente.get("/?genero=Terror").text
+        self.assertNotIn('class="card-jogo"', html)
+        self.assertIn("Nenhum jogo encontrado no gênero", html)
+        self.assertIn("Terror", html)
+        self.assertNotIn("Nenhum jogo cadastrado", html)
+
+
+class TesteRotaDeGeneros(TesteComCatalogo):
+    """#50: rota que disponibiliza os gêneros disponíveis para filtragem."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Jogo Zeta,Ação,10,0,4,1,,",
+            "2,Jogo Alfa,RPG,10,0,4,1,,",
+            "3,Jogo Beta,Aventura,10,0,4,1,,",
+            "4,Jogo Gama,RPG,10,0,4,1,,",
+        )
+
+    def test_responde_json_com_os_generos(self):
+        resposta = self.cliente.get("/generos")
+        self.assertEqual(resposta.status_code, 200)
+        self.assertEqual(resposta.mimetype, "application/json")
+        self.assertEqual(resposta.get_json(), {"generos": ["Ação", "Aventura", "RPG"]})
+
+    def test_generos_sem_repeticao_e_em_ordem_alfabetica(self):
+        generos = self.cliente.get("/generos").get_json()["generos"]
+        self.assertEqual(len(generos), len(set(generos)))
+        self.assertEqual(generos, sorted(generos, key=catalogo._normalizar))
+
+    def test_acentos_aparecem_legiveis_na_resposta(self):
+        self.assertIn("Ação", self.cliente.get("/generos").text)
+
+    def test_catalogo_vazio_devolve_lista_vazia(self):
+        self.escrever_csv()
+        self.assertEqual(self.cliente.get("/generos").get_json(), {"generos": []})
+
+    def test_sem_arquivo_devolve_lista_vazia(self):
+        self.caminho_csv.unlink()
+        self.assertEqual(self.cliente.get("/generos").get_json(), {"generos": []})
+
+    def test_cada_genero_da_rota_pode_ser_usado_no_filtro_da_homepage(self):
+        for genero in self.cliente.get("/generos").get_json()["generos"]:
+            html = self.cliente.get("/", query_string={"genero": genero}).text
+            self.assertGreaterEqual(html.count('class="card-jogo"'), 1, genero)
+            self.assertIn(f'<option value="{genero}" selected>', html)

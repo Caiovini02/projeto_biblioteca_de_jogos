@@ -306,6 +306,25 @@ select:hover {
   align-items: center;
 }
 
+/* filtro por gênero (#51) */
+.filtro-genero {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-filtrar {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-weight: 700;
+}
+
+.btn-filtrar:hover {
+  background: var(--laranja-hover);
+}
+
 .sr .hero,
 .sr #promos,
 .sr #trending {
@@ -441,6 +460,10 @@ footer {
 
   .sel select {
     flex: 1;
+  }
+
+  .filtro-genero {
+    width: 100%;
   }
 
   @media (max-width: 380px) {

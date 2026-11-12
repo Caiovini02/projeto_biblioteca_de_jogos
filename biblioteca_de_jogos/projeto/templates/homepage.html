@@ -63,12 +63,17 @@
             <div class="bar">
               <h2 id="ctitle">Catálogo</h2>
               <div class="sel">
-                <select id="genero" aria-label="Gênero">
-                  <option value="any">Qualquer gênero</option>
-                  <option value="act">Ação</option>
-                  <option value="adv">Aventura</option>
-                  <option value="rpg">RPG</option>
-                </select>
+                {# Filtro por gênero (#51): formulário GET, sem JavaScript. O envio
+                   vai para /?genero=... e o "#catalog" volta a página para o catálogo. #}
+                <form class="filtro-genero" method="get" action="{{ url_for('homepage') }}#catalog">
+                  <select id="genero" name="genero" aria-label="Gênero">
+                    <option value="">Qualquer gênero</option>
+                    {% for genero in generos %}
+                      <option value="{{ genero }}"{% if genero == genero_selecionado %} selected{% endif %}>{{ genero }}</option>
+                    {% endfor %}
+                  </select>
+                  <button class="btn-filtrar" type="submit">Filtrar</button>
+                </form>
                 <select id="price" aria-label="Faixa de preço">
                   <option value="0">Qualquer preço</option>
                   <option value="60">Até R$ 60</option>
@@ -113,6 +118,8 @@
                   </article>
                 {% endfor %}
               </div>
+            {% elif genero_selecionado %}
+              <p class="catalogo-vazio">Nenhum jogo encontrado no gênero "{{ genero_selecionado }}".</p>
             {% else %}
               <p class="catalogo-vazio">Nenhum jogo cadastrado no catálogo ainda.</p>
             {% endif %}
