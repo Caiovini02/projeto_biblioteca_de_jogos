@@ -125,3 +125,45 @@ def iniciais(titulo):
     """Duas iniciais do título, para o placeholder de capa (ex.: 'Hollow Knight' -> 'HK')."""
     palavras = [p for p in titulo.replace(":", " ").split() if p[0].isalnum()]
     return "".join(p[0] for p in palavras[:2]).upper()
+
+
+# Filtro por preço e ordenação
+
+def verificar_preco_maximo(texto):
+    """'120' -> 120. Vazio, inválido ou menor que 1 -> 0 (sem filtro)."""
+    try:
+        valor = int(texto)
+    except (TypeError, ValueError):
+        return 0
+    return max(valor, 0)
+
+
+def filtrar_por_preco(jogos, preco_maximo):
+    """Retorna só os jogos cujo preço final é no máximo preco_maximo.
+
+    Usa o preco_final (já com desconto), que é o que o usuário paga. Com
+    preco_maximo 0 não há filtro e todos os jogos voltam.
+    """
+    if preco_maximo <= 0:
+        return jogos
+    return [jogo for jogo in jogos if jogo["preco_final"] <= preco_maximo]
+
+
+# Cada critério é (função que gera a chave, ordem decrescente?)
+ORDENACOES = {
+    "rate": (lambda jogo: (jogo["avaliacao"], jogo["avaliacoes"]), True),
+    "low": (lambda jogo: jogo["preco_final"], False),
+    "high": (lambda jogo: jogo["preco_final"], True),
+}
+ORDENACAO_PADRAO = "rate"
+
+
+def normalizar_ordenacao(criterio):
+    """Devolve o critério se for válido; senão, o padrão (melhor avaliados)."""
+    return criterio if criterio in ORDENACOES else ORDENACAO_PADRAO
+
+
+def ordenar_jogos(jogos, criterio):
+    """Retorna uma nova lista ordenada, sem alterar a original."""
+    chave, decrescente = ORDENACOES[normalizar_ordenacao(criterio)]
+    return sorted(jogos, key=chave, reverse=decrescente)

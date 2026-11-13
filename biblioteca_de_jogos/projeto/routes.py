@@ -6,9 +6,14 @@ from projeto.catalogo import (
     buscar_por_titulo,
     carregar_jogos,
     filtrar_por_genero,
+    filtrar_por_preco,
+    verificar_preco_maximo,
     listar_generos,
     localizar_genero,
+    normalizar_ordenacao,
+    ordenar_jogos,
 )
+
 from projeto.autenticacao import encerrar_sessao, iniciar_sessao, verificar_credenciais
 from projeto.forms import validar_cadastro
 from projeto.models import EmailJaCadastrado, cadastrar_usuario
@@ -26,13 +31,22 @@ def homepage():
     generos = listar_generos(todos)
     genero = request.args.get("genero", "").strip()
     busca = request.args.get("busca", "").strip()
-    jogos = buscar_por_titulo(filtrar_por_genero(todos, genero), busca)
+    preco = verificar_preco_maximo(request.args.get("preco"))
+    ordem = normalizar_ordenacao(request.args.get("ordem"))
+    
+    jogos = filtrar_por_genero(todos, genero)
+    jogos = buscar_por_titulo(jogos, busca)
+    jogos = filtrar_por_preco(jogos, preco)
+    jogos = ordenar_jogos(jogos, ordem) 
+    
     return render_template(
         "homepage.html",
         jogos=jogos,
         generos=generos,
         genero_selecionado=localizar_genero(generos, genero),
         busca=busca,
+        preco_selecionado=preco,
+        ordem_selecionada=ordem,
     )
 
 

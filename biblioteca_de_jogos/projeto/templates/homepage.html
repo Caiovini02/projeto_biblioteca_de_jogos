@@ -22,6 +22,8 @@
           aria-label="Buscar jogos"
         />
         <input type="hidden" name="genero" value="{{ genero_selecionado }}" />
+        <input type="hidden" name="preco" value="{{ preco_selecionado }}" />
+        <input type="hidden" name="ordem" value="{{ ordem_selecionada }}" />
         <button class="btn-buscar" type="submit">Buscar</button>
       </form>
       <button id="carrinho" class="carrinho">
@@ -82,22 +84,22 @@
                       <option value="{{ genero }}"{% if genero == genero_selecionado %} selected{% endif %}>{{ genero }}</option>
                     {% endfor %}
                   </select>
+                   <select id="price" name="preco" aria-label="Faixa de preço">
+                  <option value="0"{% if preco_selecionado == 0 %} selected{% endif %}>Qualquer preço</option>
+                  <option value="60"{% if preco_selecionado == 60 %} selected{% endif %}>Até R$ 60</option>
+                  <option value="120"{% if preco_selecionado == 120 %} selected{% endif %}>Até R$ 120</option>
+                  <option value="200"{% if preco_selecionado == 200 %} selected{% endif %}>Até R$ 200</option>
+                  </select>
+
+                  <select id="sort" name="ordem" aria-label="Ordenar">
+                   <option value="rate"{% if ordem_selecionada == "rate" %} selected{% endif %}>Melhor avaliados</option>
+                   <option value="low"{% if ordem_selecionada == "low" %} selected{% endif %}>Menor preço</option>
+                   <option value="high"{% if ordem_selecionada == "high" %} selected{% endif %}>Maior preço</option>
+                  </select>
                   <button class="btn-filtrar" type="submit">Filtrar</button>
                 </form>
-                <select id="price" aria-label="Faixa de preço">
-                  <option value="0">Qualquer preço</option>
-                  <option value="60">Até R$ 60</option>
-                  <option value="120">Até R$ 120</option>
-                  <option value="200">Até R$ 200</option>
-                </select>
                 <label class="chip tg"
                   ><input type="checkbox" id="promoOnly" /> Só promoções</label>
-                <select id="sort" aria-label="Ordenar">
-                  <option value="popular">Mais populares</option>
-                  <option value="rate">Melhor avaliados</option>
-                  <option value="low">Menor preço</option>
-                  <option value="high">Maior preço</option>
-                </select>
               </div>
             </div>
 
@@ -137,6 +139,8 @@
               <p class="catalogo-vazio">Nenhum jogo encontrado para "{{ busca }}".</p>
             {% elif genero_selecionado %}
               <p class="catalogo-vazio">Nenhum jogo encontrado no gênero "{{ genero_selecionado }}".</p>
+            {% elif preco_selecionado %}
+              <p class="catalogo-vazio">Nenhum jogo encontrado até {{ preco_selecionado|moeda }}.</p>
             {% else %}
               <p class="catalogo-vazio">Nenhum jogo cadastrado no catálogo ainda.</p>
             {% endif %}
