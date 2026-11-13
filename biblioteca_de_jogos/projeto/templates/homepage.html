@@ -12,20 +12,19 @@
       <a class="logo" href="#">Nome<span>DO site</span></a>
       {# Busca por título (#46): formulário GET, sem JavaScript. O "genero" oculto
          mantém o filtro de gênero já aplicado, e o "#catalog" leva ao resultado. #}
-      <form class="busca-jogos" method="get" action="{{ url_for('homepage') }}#catalog">
+      <div class="busca-jogos">
         <input
           id="search"
           type="search"
           name="busca"
+          form="filtros"
           value="{{ busca }}"
           placeholder="Buscar jogos"
           aria-label="Buscar jogos"
         />
-        <input type="hidden" name="genero" value="{{ genero_selecionado }}" />
-        <input type="hidden" name="preco" value="{{ preco_selecionado }}" />
-        <input type="hidden" name="ordem" value="{{ ordem_selecionada }}" />
-        <button class="btn-buscar" type="submit">Buscar</button>
-      </form>
+       
+        <button class="btn-buscar" type="submit" form="filtros">Buscar</button>
+      </div>
       <button id="carrinho" class="carrinho">
         Carrinho <b id="carrinho-b">0</b>
       </button>
@@ -73,11 +72,9 @@
             <div class="bar">
               <h2 id="ctitle">Catálogo</h2>
               <div class="sel">
-                {# Filtro por gênero (#51): formulário GET, sem JavaScript. O envio
-                   vai para /?genero=... e o "#catalog" volta a página para o catálogo. #}
-                <form class="filtro-genero" method="get" action="{{ url_for('homepage') }}#catalog">
-                  {# "busca" oculto: filtrar por gênero não apaga a busca (#46) #}
-                  <input type="hidden" name="busca" value="{{ busca }}" />
+             
+                <form id="filtros" class="filtro-genero" method="get" action="{{ url_for('homepage') }}#catalog">
+              
                   <select id="genero" name="genero" aria-label="Gênero">
                     <option value="">Qualquer gênero</option>
                     {% for genero in generos %}
@@ -96,19 +93,19 @@
                    <option value="low"{% if ordem_selecionada == "low" %} selected{% endif %}>Menor preço</option>
                    <option value="high"{% if ordem_selecionada == "high" %} selected{% endif %}>Maior preço</option>
                   </select>
+                  <label class="chip tg">
+                  <input type="checkbox" id="promoOnly" name="promo" value="1"{% if promocoes_on %} checked{% endif %} /> Só promoções</label>
                   <button class="btn-filtrar" type="submit">Filtrar</button>
                 </form>
-                <label class="chip tg"
-                  ><input type="checkbox" id="promoOnly" /> Só promoções</label>
               </div>
             </div>
 
-            {# Listagem do catálogo (#28). "jogos" vem da rota "/" (ver catalogo.py). #}
+      
             {% if jogos %}
               <div class="grid">
                 {% for jogo in jogos %}
                   <article class="card-jogo">
-                    {# Link para a página individual do jogo (#32): o card todo é clicável. #}
+                
                     <a class="card-link" href="{{ url_for('detalhes', jogo_id=jogo.id) }}">
                     {% if jogo.capa %}
                       <img class="capa" src="{{ jogo.capa }}" alt="Capa de {{ jogo.titulo }}" />
@@ -141,6 +138,8 @@
               <p class="catalogo-vazio">Nenhum jogo encontrado no gênero "{{ genero_selecionado }}".</p>
             {% elif preco_selecionado %}
               <p class="catalogo-vazio">Nenhum jogo encontrado até {{ preco_selecionado|moeda }}.</p>
+            {% elif promocoes_on %}
+            <p class="catalogo-vazio">Nenhum jogo em promoção no momento.</p>              
             {% else %}
               <p class="catalogo-vazio">Nenhum jogo cadastrado no catálogo ainda.</p>
             {% endif %}

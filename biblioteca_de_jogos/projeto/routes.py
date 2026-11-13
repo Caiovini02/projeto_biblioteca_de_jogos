@@ -7,6 +7,7 @@ from projeto.catalogo import (
     carregar_jogos,
     filtrar_por_genero,
     filtrar_por_preco,
+    filtrar_promocao,
     verificar_preco_maximo,
     listar_generos,
     localizar_genero,
@@ -20,11 +21,6 @@ from projeto.models import EmailJaCadastrado, cadastrar_usuario
 
 
 
-# Rota do catálogo (#26) com os jogos carregados da fonte de dados (#27)
-# Disponibiliza os gêneros para o filtro (#50) e filtra os jogos pelo gênero
-# escolhido na URL, ex.: /?genero=RPG (#51)
-# Também busca pelo título (#45), ex.: /?busca=dark, e combina com o gênero:
-# /?busca=dark&genero=RPG
 @app.route("/")
 def homepage():
     todos = carregar_jogos()
@@ -33,10 +29,12 @@ def homepage():
     busca = request.args.get("busca", "").strip()
     preco = verificar_preco_maximo(request.args.get("preco"))
     ordem = normalizar_ordenacao(request.args.get("ordem"))
+    promocoes_on = request.args.get("promo") == "1"
     
     jogos = filtrar_por_genero(todos, genero)
     jogos = buscar_por_titulo(jogos, busca)
     jogos = filtrar_por_preco(jogos, preco)
+    jogos = filtrar_promocao(jogos, promocoes_on)
     jogos = ordenar_jogos(jogos, ordem) 
     
     return render_template(
@@ -47,13 +45,9 @@ def homepage():
         busca=busca,
         preco_selecionado=preco,
         ordem_selecionada=ordem,
+        promocoes_on=promocoes_on,
     )
 
-
-# Rota de acesso à página individual do jogo (#32): recebe o id pela URL,
-# ex.: /jogo/3. Pública (não exige login). Id que não existe responde 404.
-# O template detalhes.html e o conteúdo da página são da #39: a rota só
-# entrega a ele a variável "jogo" (dicionário de catalogo.carregar_jogos()).
 @app.route("/jogo/<int:jogo_id>")
 def detalhes(jogo_id):
     jogo = buscar_jogo_por_id(jogo_id)

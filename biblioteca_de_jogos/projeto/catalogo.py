@@ -1,4 +1,4 @@
-"""Catálogo de jogos (#27).
+"""Catálogo de jogos.
 
 Os jogos ficam em bilbioteca_de_jogos/data/jogos.csv. Diferente do
 usuarios.csv, esse arquivo É versionado no git (regra "!data/jogos.csv" no
@@ -16,7 +16,7 @@ Colunas do CSV:
 Ao carregar, cada jogo ganha duas chaves calculadas: preco_final (já com o
 desconto aplicado) e em_promocao (desconto > 0).
 
-buscar_jogo_por_id() é o ponto de entrada para a página de detalhes (#39).
+buscar_jogo_por_id() é o ponto de entrada para a página de detalhes.
 """
 
 import csv
@@ -29,7 +29,6 @@ CAMINHO_JOGOS = Path(__file__).resolve().parent.parent / "data" / "jogos.csv"
 
 
 def _converter(jogo):
-    """Converte os textos do CSV para números e calcula os campos derivados."""
     jogo["id"] = int(jogo["id"])
     jogo["preco"] = float(jogo["preco"])
     jogo["desconto"] = int(jogo.get("desconto") or 0)
@@ -116,7 +115,7 @@ def buscar_por_titulo(jogos, termo):
 @app.template_filter("moeda")
 def moeda(valor):
     """Formata 1234.5 como 'R$ 1.234,50'."""
-    texto = f"{valor:,.2f}"  # 1,234.50 (padrão americano)
+    texto = f"{valor:,.2f}" 
     return "R$ " + texto.replace(",", "X").replace(".", ",").replace("X", ".")
 
 
@@ -130,7 +129,6 @@ def iniciais(titulo):
 # Filtro por preço e ordenação
 
 def verificar_preco_maximo(texto):
-    """'120' -> 120. Vazio, inválido ou menor que 1 -> 0 (sem filtro)."""
     try:
         valor = int(texto)
     except (TypeError, ValueError):
@@ -139,14 +137,14 @@ def verificar_preco_maximo(texto):
 
 
 def filtrar_por_preco(jogos, preco_maximo):
-    """Retorna só os jogos cujo preço final é no máximo preco_maximo.
-
-    Usa o preco_final (já com desconto), que é o que o usuário paga. Com
-    preco_maximo 0 não há filtro e todos os jogos voltam.
-    """
     if preco_maximo <= 0:
         return jogos
     return [jogo for jogo in jogos if jogo["preco_final"] <= preco_maximo]
+
+def filtrar_promocao(jogos, promocoes_on):
+    if not promocoes_on:
+        return jogos
+    return [jogo for jogo in jogos if jogo["em_promocao"]]
 
 
 # Cada critério é (função que gera a chave, ordem decrescente?)
