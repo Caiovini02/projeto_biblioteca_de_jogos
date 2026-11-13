@@ -1,7 +1,14 @@
-from flask import flash, g, redirect, render_template, request, url_for
+from flask import abort, flash, g, redirect, render_template, request, url_for
 
 from projeto import app
-from projeto.catalogo import carregar_jogos, filtrar_por_genero, listar_generos, localizar_genero
+from projeto.catalogo import (
+    buscar_jogo_por_id,
+    buscar_por_titulo,
+    carregar_jogos,
+    filtrar_por_genero,
+    listar_generos,
+    localizar_genero,
+)
 from projeto.autenticacao import encerrar_sessao, iniciar_sessao, verificar_credenciais
 from projeto.forms import validar_cadastro
 from projeto.models import EmailJaCadastrado, cadastrar_usuario
@@ -11,22 +18,34 @@ from projeto.models import EmailJaCadastrado, cadastrar_usuario
 # Rota do catálogo (#26) com os jogos carregados da fonte de dados (#27)
 # Disponibiliza os gêneros para o filtro (#50) e filtra os jogos pelo gênero
 # escolhido na URL, ex.: /?genero=RPG (#51)
+# Também busca pelo título (#45), ex.: /?busca=dark, e combina com o gênero:
+# /?busca=dark&genero=RPG
 @app.route("/")
 def homepage():
     todos = carregar_jogos()
     generos = listar_generos(todos)
     genero = request.args.get("genero", "").strip()
+    busca = request.args.get("busca", "").strip()
+    jogos = buscar_por_titulo(filtrar_por_genero(todos, genero), busca)
     return render_template(
         "homepage.html",
-        jogos=filtrar_por_genero(todos, genero),
+        jogos=jogos,
         generos=generos,
         genero_selecionado=localizar_genero(generos, genero),
+        busca=busca,
     )
 
 
-@app.route("/detalhes")
-def detalhes():
-    return render_template("detalhes.html")
+# Rota de acesso à página individual do jogo (#32): recebe o id pela URL,
+# ex.: /jogo/3. Pública (não exige login). Id que não existe responde 404.
+# O template detalhes.html e o conteúdo da página são da #39: a rota só
+# entrega a ele a variável "jogo" (dicionário de catalogo.carregar_jogos()).
+@app.route("/jogo/<int:jogo_id>")
+def detalhes(jogo_id):
+    jogo = buscar_jogo_por_id(jogo_id)
+    if jogo is None:
+        abort(404)
+    return render_template("detalhes.html", jogo=jogo)
 
 
 # Rota de autenticação (#63)

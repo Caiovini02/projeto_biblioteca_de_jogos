@@ -94,6 +94,22 @@ def filtrar_por_genero(jogos, genero):
     return [jogo for jogo in jogos if _normalizar(jogo["genero"]) == procurado]
 
 
+# Busca por título (#45)
+
+
+def buscar_por_titulo(jogos, termo):
+    """Retorna os jogos cujo título contém o termo, mantendo a ordem original.
+
+    Sem termo (vazio, só espaços ou None) não há busca e todos os jogos
+    voltam. A comparação ignora maiúsculas, acentos e espaços nas pontas, e
+    só o título é pesquisado (não o gênero nem a descrição).
+    """
+    procurado = _normalizar(termo)
+    if not procurado:
+        return jogos
+    return [jogo for jogo in jogos if procurado in _normalizar(jogo["titulo"])]
+
+
 # Filtros usados pelos templates
 
 

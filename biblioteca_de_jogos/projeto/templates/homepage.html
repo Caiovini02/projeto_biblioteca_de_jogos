@@ -10,12 +10,20 @@
     <header class="navbar">
       <a class="menu-lateral" href="#side" aria-label="Abrir menu">Menu</a>
       <a class="logo" href="#">Nome<span>DO site</span></a>
-      <input
-        id="search"
-        type="search"
-        placeholder="Buscar jogos"
-        aria-label="Buscar jogos"
-      />
+      {# Busca por título (#46): formulário GET, sem JavaScript. O "genero" oculto
+         mantém o filtro de gênero já aplicado, e o "#catalog" leva ao resultado. #}
+      <form class="busca-jogos" method="get" action="{{ url_for('homepage') }}#catalog">
+        <input
+          id="search"
+          type="search"
+          name="busca"
+          value="{{ busca }}"
+          placeholder="Buscar jogos"
+          aria-label="Buscar jogos"
+        />
+        <input type="hidden" name="genero" value="{{ genero_selecionado }}" />
+        <button class="btn-buscar" type="submit">Buscar</button>
+      </form>
       <button id="carrinho" class="carrinho">
         Carrinho <b id="carrinho-b">0</b>
       </button>
@@ -66,6 +74,8 @@
                 {# Filtro por gênero (#51): formulário GET, sem JavaScript. O envio
                    vai para /?genero=... e o "#catalog" volta a página para o catálogo. #}
                 <form class="filtro-genero" method="get" action="{{ url_for('homepage') }}#catalog">
+                  {# "busca" oculto: filtrar por gênero não apaga a busca (#46) #}
+                  <input type="hidden" name="busca" value="{{ busca }}" />
                   <select id="genero" name="genero" aria-label="Gênero">
                     <option value="">Qualquer gênero</option>
                     {% for genero in generos %}
@@ -96,6 +106,8 @@
               <div class="grid">
                 {% for jogo in jogos %}
                   <article class="card-jogo">
+                    {# Link para a página individual do jogo (#32): o card todo é clicável. #}
+                    <a class="card-link" href="{{ url_for('detalhes', jogo_id=jogo.id) }}">
                     {% if jogo.capa %}
                       <img class="capa" src="{{ jogo.capa }}" alt="Capa de {{ jogo.titulo }}" />
                     {% else %}
@@ -115,9 +127,14 @@
                         <strong>{{ jogo.preco_final|moeda }}</strong>
                       </p>
                     </div>
+                    </a>
                   </article>
                 {% endfor %}
               </div>
+            {% elif busca and genero_selecionado %}
+              <p class="catalogo-vazio">Nenhum jogo encontrado para "{{ busca }}" no gênero "{{ genero_selecionado }}".</p>
+            {% elif busca %}
+              <p class="catalogo-vazio">Nenhum jogo encontrado para "{{ busca }}".</p>
             {% elif genero_selecionado %}
               <p class="catalogo-vazio">Nenhum jogo encontrado no gênero "{{ genero_selecionado }}".</p>
             {% else %}

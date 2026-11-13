@@ -216,3 +216,218 @@ class TesteFiltroPorGenero(TesteComCatalogo):
         self.assertIn("Nenhum jogo encontrado no gênero", html)
         self.assertIn("Terror", html)
         self.assertNotIn("Nenhum jogo cadastrado", html)
+
+
+class TesteBuscaPorTitulo(TesteComCatalogo):
+    """#45: pesquisar os jogos e retornar os cujo título corresponde ao termo."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,10,0,4,1,,",
+            "2,Dark Souls,RPG,10,0,4,1,,",
+            "3,Darkest Dungeon,RPG,10,0,4,1,,",
+            "4,Ação Total,Ação,10,0,4,1,,",
+        )
+
+    def titulos(self, jogos):
+        return [jogo["titulo"] for jogo in jogos]
+
+    def test_retorna_jogos_cujo_titulo_contem_o_termo_na_ordem_do_arquivo(self):
+        jogos = catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "dark")
+        self.assertEqual(self.titulos(jogos), ["Dark Souls", "Darkest Dungeon"])
+
+    def test_encontra_termo_no_meio_do_titulo(self):
+        jogos = catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "knight")
+        self.assertEqual(self.titulos(jogos), ["Hollow Knight"])
+
+    def test_ignora_maiusculas_acentos_e_espacos_nas_pontas(self):
+        todos = catalogo.carregar_jogos()
+        self.assertEqual(self.titulos(catalogo.buscar_por_titulo(todos, "  HOLLOW  ")), ["Hollow Knight"])
+        self.assertEqual(self.titulos(catalogo.buscar_por_titulo(todos, "acao")), ["Ação Total"])
+
+    def test_termo_vazio_retorna_todos(self):
+        todos = catalogo.carregar_jogos()
+        self.assertEqual(catalogo.buscar_por_titulo(todos, ""), todos)
+        self.assertEqual(catalogo.buscar_por_titulo(todos, "   "), todos)
+        self.assertEqual(catalogo.buscar_por_titulo(todos, None), todos)
+
+    def test_sem_correspondencia_retorna_lista_vazia(self):
+        self.assertEqual(catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "zelda"), [])
+
+    def test_busca_so_no_titulo_e_nao_no_genero(self):
+        # "RPG" é gênero de dois jogos, mas não aparece em nenhum título
+        self.assertEqual(catalogo.buscar_por_titulo(catalogo.carregar_jogos(), "rpg"), [])
+
+    # Rota "/" com ?busca=...
+
+    def test_homepage_busca_pelo_titulo_da_url(self):
+        html = self.cliente.get("/?busca=dark").text
+        self.assertEqual(html.count('class="card-jogo"'), 2)
+        self.assertIn("Dark Souls", html)
+        self.assertIn("Darkest Dungeon", html)
+        self.assertNotIn("Hollow Knight", html)
+
+    def test_homepage_combina_busca_e_genero(self):
+        html = self.cliente.get("/?busca=dark&genero=Aventura").text
+        self.assertNotIn('class="card-jogo"', html)
+
+        html = self.cliente.get("/?busca=souls&genero=RPG").text
+        self.assertEqual(html.count('class="card-jogo"'), 1)
+        self.assertIn("Dark Souls", html)
+
+    def test_homepage_sem_busca_mostra_todos(self):
+        html = self.cliente.get("/").text
+        self.assertEqual(html.count('class="card-jogo"'), 4)
+
+
+class TesteBuscaNaHomepage(TesteComCatalogo):
+    """#46: o campo de pesquisa da homepage conectado à busca do back-end."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,10,0,4,1,,",
+            "2,Dark Souls,RPG,10,0,4,1,,",
+            "3,Darkest Dungeon,RPG,10,0,4,1,,",
+        )
+
+    def partes(self, html):
+        """Separa a página no formulário de gênero: (navbar e antes, filtro e depois)."""
+        antes, depois = html.split('<form class="filtro-genero"', 1)
+        return antes, depois
+
+    def test_campo_de_busca_e_um_formulario_get_que_volta_ao_catalogo(self):
+        navbar, _ = self.partes(self.cliente.get("/").text)
+        self.assertIn('<form class="busca-jogos" method="get" action="/#catalog">', navbar)
+        self.assertIn('name="busca"', navbar)
+        self.assertIn('type="search"', navbar)
+        self.assertIn(">Buscar</button>", navbar)
+
+    def test_campo_mantem_o_termo_buscado(self):
+        navbar, _ = self.partes(self.cliente.get("/?busca=dark").text)
+        self.assertIn('value="dark"', navbar)
+
+    def test_termo_com_html_e_escapado_no_campo(self):
+        html = self.cliente.get('/?busca="><script>alert(1)</script>').text
+        self.assertNotIn("<script", html)
+
+    def test_busca_repassa_o_genero_escolhido_em_campo_oculto(self):
+        navbar, _ = self.partes(self.cliente.get("/?genero=RPG").text)
+        self.assertIn('<input type="hidden" name="genero" value="RPG" />', navbar)
+
+    def test_filtro_de_genero_repassa_a_busca_em_campo_oculto(self):
+        _, filtro = self.partes(self.cliente.get("/?busca=dark").text)
+        self.assertIn('<input type="hidden" name="busca" value="dark" />', filtro)
+
+    def test_sem_busca_nem_genero_os_campos_ocultos_vao_vazios(self):
+        navbar, filtro = self.partes(self.cliente.get("/").text)
+        self.assertIn('<input type="hidden" name="genero" value="" />', navbar)
+        self.assertIn('<input type="hidden" name="busca" value="" />', filtro)
+
+    def test_busca_sem_resultado_mostra_mensagem_com_o_termo(self):
+        html = self.cliente.get("/?busca=zelda").text
+        self.assertNotIn('class="card-jogo"', html)
+        self.assertIn('Nenhum jogo encontrado para "zelda".', html)
+        self.assertNotIn("Nenhum jogo cadastrado", html)
+
+    def test_busca_com_genero_sem_resultado_cita_os_dois(self):
+        html = self.cliente.get("/?busca=knight&genero=RPG").text
+        self.assertNotIn('class="card-jogo"', html)
+        self.assertIn('Nenhum jogo encontrado para "knight" no gênero "RPG".', html)
+
+    def test_genero_sem_busca_mantem_a_mensagem_do_genero(self):
+        html = self.cliente.get("/?genero=Terror").text
+        self.assertIn('Nenhum jogo encontrado no gênero "Terror".', html)
+
+    def test_titulo_da_secao_continua_catalogo(self):
+        html = self.cliente.get("/?busca=dark").text
+        self.assertIn('<h2 id="ctitle">Catálogo</h2>', html)
+
+    def test_busca_nao_usa_javascript(self):
+        self.assertNotIn("<script", self.cliente.get("/?busca=dark").text)
+
+
+class TesteRotaDeDetalhesDoJogo(TesteComCatalogo):
+    """#32: rota que recebe a identificação do jogo e entrega o jogo à página.
+
+    O template detalhes.html é da #39 e ainda não existe, então aqui o
+    render_template é trocado por um falso: o que se testa é a rota (status e o
+    que ela entrega ao template), não a página.
+    """
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,46.99,50,4.9,4800,,Um jogo",
+            "3,Bloodborne,RPG,199.90,30,4.8,2100,,Outro jogo",
+        )
+        falso = mock.patch("projeto.routes.render_template", return_value="página de detalhes")
+        self.render = falso.start()
+        self.addCleanup(falso.stop)
+
+    def test_id_existente_responde_200(self):
+        self.assertEqual(self.cliente.get("/jogo/3").status_code, 200)
+
+    def test_entrega_ao_template_o_jogo_do_id_pedido(self):
+        self.cliente.get("/jogo/3")
+        self.render.assert_called_once()
+        args, kwargs = self.render.call_args
+        self.assertEqual(args, ("detalhes.html",))
+        self.assertEqual(kwargs["jogo"]["id"], 3)
+        self.assertEqual(kwargs["jogo"]["titulo"], "Bloodborne")
+
+    def test_o_id_e_o_do_jogo_e_nao_a_posicao_na_lista(self):
+        # O jogo de id 3 é o 2º do arquivo: a busca é pelo id, não pelo índice
+        self.cliente.get("/jogo/1")
+        self.assertEqual(self.render.call_args.kwargs["jogo"]["titulo"], "Hollow Knight")
+
+    def test_id_inexistente_responde_404_sem_renderizar(self):
+        self.assertEqual(self.cliente.get("/jogo/99").status_code, 404)
+        self.render.assert_not_called()
+
+    def test_id_que_nao_e_numero_responde_404(self):
+        self.assertEqual(self.cliente.get("/jogo/abc").status_code, 404)
+        self.render.assert_not_called()
+
+    def test_catalogo_vazio_responde_404(self):
+        self.escrever_csv()
+        self.assertEqual(self.cliente.get("/jogo/1").status_code, 404)
+
+    def test_rota_e_publica_sem_login(self):
+        # self.cliente nunca fez login e mesmo assim a página abre
+        self.assertEqual(self.cliente.get("/jogo/1").status_code, 200)
+
+    def test_rota_antiga_sem_id_deixou_de_existir(self):
+        self.assertEqual(self.cliente.get("/detalhes").status_code, 404)
+
+
+class TesteLinkDosCardsParaOJogo(TesteComCatalogo):
+    """#32: cada card da homepage leva à página individual do jogo."""
+
+    def setUp(self):
+        super().setUp()
+        self.escrever_csv(
+            "1,Hollow Knight,Aventura,10,0,4,1,,",
+            "3,Bloodborne,RPG,10,0,4,1,,",
+        )
+
+    def test_cada_card_tem_link_para_o_id_do_seu_jogo(self):
+        html = self.cliente.get("/").text
+        self.assertIn('href="/jogo/1"', html)
+        self.assertIn('href="/jogo/3"', html)
+        self.assertEqual(html.count('class="card-link"'), 2)
+
+    def test_so_os_jogos_listados_ganham_link(self):
+        html = self.cliente.get("/?genero=RPG").text
+        self.assertIn('href="/jogo/3"', html)
+        self.assertNotIn('href="/jogo/1"', html)
+
+    def test_link_envolve_o_titulo_do_card(self):
+        html = self.cliente.get("/").text
+        inicio = html.index('href="/jogo/1"')
+        fim = html.index("</a>", inicio)
+        self.assertIn("Hollow Knight", html[inicio:fim])
+
+    def test_card_continua_sem_javascript(self):
+        self.assertNotIn("<script", self.cliente.get("/").text)
