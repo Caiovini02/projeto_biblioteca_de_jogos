@@ -56,7 +56,7 @@ def detalhes(jogo_id):
     return render_template("detalhes.html", jogo=jogo)
 
 
-# Rota de autenticação (#63)
+# Rota de autenticação
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if g.usuario is not None:
@@ -75,13 +75,12 @@ def login():
                 iniciar_sessao(usuario)
                 flash(f"Bem-vindo(a), {usuario['nome']}!", "sucesso")
                 return redirect(url_for("homepage"))
-            # Mesma mensagem para e-mail inexistente e senha errada
             flash("E-mail ou senha incorretos.", "erro")
 
     return render_template("login.html", email=email)
 
 
-# Formulário de cadastro integrado com o back-end (#60)
+# Formulário de cadastro integrado com o back-end
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     if g.usuario is not None:
@@ -97,7 +96,6 @@ def cadastro():
         erros = validar_cadastro(nome, email, senha, confirmacao)
         if not erros:
             try:
-                # O perfil nunca vem do formulário: todo cadastro é de usuário comum.
                 cadastrar_usuario(nome, email, senha)
             except EmailJaCadastrado:
                 erros.append("Este e-mail já está cadastrado.")
@@ -111,7 +109,7 @@ def cadastro():
     return render_template("cadastro.html", nome=nome, email=email)
 
 
-# Rota de encerramento de sessão (#73) com redirecionamento (#72)
+# Rota de encerramento de sessão com redirecionamento
 @app.route("/logout", methods=["POST"])
 def logout():
     encerrar_sessao()
