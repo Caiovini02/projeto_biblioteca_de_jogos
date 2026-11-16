@@ -1,10 +1,4 @@
-"""Validação dos formulários.
-
-validar_cadastro foi criada para integrar o formulário de cadastro (#60) e
-hoje também verifica os campos obrigatórios (#56). A validação completa é a
-task #58 e pode estender esta função, desde que continue retornando a lista
-de mensagens de erro.
-"""
+"""Validação dos formulários"""
 
 import re
 
@@ -18,11 +12,7 @@ def _vazio(valor):
 
 
 def validar_cadastro(nome, email, senha, confirmacao):
-    """Retorna a lista de erros do formulário de cadastro (vazia se estiver ok).
-
-    Cada campo obrigatório vazio gera a sua própria mensagem. As demais regras
-    só são checadas nos campos preenchidos, para não repetir erros do mesmo campo.
-    """
+    """Retorna a lista de erros do formulário de cadastro (vazia se estiver ok)"""
     erros = []
 
     if _vazio(nome):
