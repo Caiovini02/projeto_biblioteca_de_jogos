@@ -40,7 +40,6 @@ def _converter(jogo):
 
 
 def carregar_jogos():
-    """Retorna todos os jogos do catálogo, na ordem do arquivo."""
     if not CAMINHO_JOGOS.exists():
         return []
     with CAMINHO_JOGOS.open(encoding="utf-8", newline="") as arquivo:
@@ -54,27 +53,19 @@ def buscar_jogo_por_id(jogo_id):
     return None
 
 
-# Filtro por gênero (#51)
-
 
 def _normalizar(texto):
-    """Minúsculas, sem acentos e sem espaços nas pontas ('  Ação ' -> 'acao')."""
     sem_acento = unicodedata.normalize("NFD", texto or "")
     sem_acento = "".join(c for c in sem_acento if not unicodedata.combining(c))
     return sem_acento.strip().casefold()
 
 
 def listar_generos(jogos):
-    """Gêneros presentes nos jogos, sem repetição e em ordem alfabética."""
     generos = {jogo["genero"] for jogo in jogos if jogo["genero"].strip()}
     return sorted(generos, key=_normalizar)
 
 
 def localizar_genero(generos, texto):
-    """Devolve o gênero da lista que corresponde a 'texto' (ex.: 'rpg' -> 'RPG').
-
-    Se nenhum corresponder, devolve o próprio texto.
-    """
     for genero in generos:
         if _normalizar(genero) == _normalizar(texto):
             return genero
@@ -82,27 +73,16 @@ def localizar_genero(generos, texto):
 
 
 def filtrar_por_genero(jogos, genero):
-    """Retorna só os jogos do gênero escolhido, mantendo a ordem original.
-
-    Sem gênero (vazio ou None) não há filtro e todos os jogos voltam. A
-    comparação ignora maiúsculas, acentos e espaços nas pontas.
-    """
     if not _normalizar(genero):
         return jogos
     procurado = _normalizar(genero)
     return [jogo for jogo in jogos if _normalizar(jogo["genero"]) == procurado]
 
 
-# Busca por título (#45)
+# Busca por título
 
 
 def buscar_por_titulo(jogos, termo):
-    """Retorna os jogos cujo título contém o termo, mantendo a ordem original.
-
-    Sem termo (vazio, só espaços ou None) não há busca e todos os jogos
-    voltam. A comparação ignora maiúsculas, acentos e espaços nas pontas, e
-    só o título é pesquisado (não o gênero nem a descrição).
-    """
     procurado = _normalizar(termo)
     if not procurado:
         return jogos
@@ -114,7 +94,6 @@ def buscar_por_titulo(jogos, termo):
 
 @app.template_filter("moeda")
 def moeda(valor):
-    """Formata 1234.5 como 'R$ 1.234,50'."""
     texto = f"{valor:,.2f}" 
     return "R$ " + texto.replace(",", "X").replace(".", ",").replace("X", ".")
 
@@ -147,7 +126,8 @@ def filtrar_promocao(jogos, promocoes_on):
     return [jogo for jogo in jogos if jogo["em_promocao"]]
 
 
-# Cada critério é (função que gera a chave, ordem decrescente?)
+
+
 ORDENACOES = {
     "rate": (lambda jogo: (jogo["avaliacao"], jogo["avaliacoes"]), True),
     "low": (lambda jogo: jogo["preco_final"], False),
@@ -157,11 +137,9 @@ ORDENACAO_PADRAO = "rate"
 
 
 def normalizar_ordenacao(criterio):
-    """Devolve o critério se for válido; senão, o padrão (melhor avaliados)."""
     return criterio if criterio in ORDENACOES else ORDENACAO_PADRAO
 
 
 def ordenar_jogos(jogos, criterio):
-    """Retorna uma nova lista ordenada, sem alterar a original."""
     chave, decrescente = ORDENACOES[normalizar_ordenacao(criterio)]
     return sorted(jogos, key=chave, reverse=decrescente)
