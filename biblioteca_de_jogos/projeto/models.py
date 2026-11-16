@@ -1,4 +1,4 @@
-"""Armazenamento dos usuários em CSV (#59).
+"""Armazenamento dos usuários em CSV
 
 Os usuários ficam em bilbioteca_de_jogos/data/usuarios.csv (a pasta data/
 está no .gitignore). O arquivo é criado no primeiro cadastro. A senha nunca
@@ -58,11 +58,7 @@ def buscar_usuario_por_id(usuario_id):
 """Perfil é apenas para teste unitário"""
  
 def cadastrar_usuario(nome, email, senha, perfil="usuario"):
-    """Salva um novo usuário com a senha protegida por hash e o retorna.
-
-    A validação dos dados do formulário é feita na rota de cadastro (#58);
-    aqui só se garante que o e-mail não se repita.
-    """
+    """Salva um novo usuário com a senha protegida por hash e o retorna"""
     email = _normalizar_email(email)
     usuarios = carregar_usuarios()
     if any(usuario["email"] == email for usuario in usuarios):
