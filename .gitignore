@@ -1,2 +1,7 @@
 venv/
-data/
+.venv/
+# biblioteca_de_jogos/data/ guarda os CSVs. usuarios.csv (dados pessoais)
+# fica fora do git; jogos.csv (catálogo compartilhado) é versionado.
+biblioteca_de_jogos/data/*
+!biblioteca_de_jogos/data/jogos.csv
+__pycache__

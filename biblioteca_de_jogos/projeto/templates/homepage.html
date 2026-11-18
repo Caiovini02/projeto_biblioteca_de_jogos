@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}" />
+{% endblock %}
+
+{% block navbar_inicio %}
+      <button class="menu-lateral" data-menu aria-label="Abrir menu">
+        Menu
+      </button>
+{% endblock %}
+
+{# Na homepage o link "Catálogo" não faz sentido #}
+{% block navbar_links %}{% endblock %}
+
+{% block content %}
+    <div class="menu">
+      <aside id="side" class="side" aria-label="Menu lateral">
+        <div id="div-side"></div>
+        <nav>
+          <a href="#promos">Promoções</a>
+          <a href="#trending">Em alta</a>
+          <a href="#catalog">Catálogo</a>
+        </nav>
+      </aside>
+
+      <div class="content">
+        <main class="{{ 'sr' if busca or genero_selecionado or preco_selecionado or promocoes_on }}">
+          <section class="hero" id="hero" aria-label="Destaques"></section>
+
+          <section id="promos">
+            <h2>Promoções <small>por tempo limitado</small></h2>
+            <div class="grid"></div>
+          </section>
+
+          <section id="trending">
+            <h2>Jogos em alta</h2>
+            <ol class="ranking"></ol>
+          </section>
+
+          <section id="catalog">
+            <div class="bar">
+              <h2 id="ctitle">Catálogo</h2>
+              <form class="sel" method="get" action="{{ url_for('homepage') }}#catalog">
+                <input type="hidden" name="busca" value="{{ busca }}" />
+
+                <select id="genero" name="genero" aria-label="Gênero">
+                  <option value="">Qualquer gênero</option>
+                  {% for genero in generos %}
+                    <option value="{{ genero }}" {{ 'selected' if genero == genero_selecionado }}>{{ genero }}</option>
+                  {% endfor %}
+                </select>
+
+                <select id="price" name="preco" aria-label="Faixa de preço">
+                  <option value="0">Qualquer preço</option>
+                  {% for limite in (60, 120, 200) %}
+                    <option value="{{ limite }}" {{ 'selected' if limite == preco_selecionado }}>Até R$ {{ limite }}</option>
+                  {% endfor %}
+                </select>
+
+                <label class="chip tg"
+                  ><input type="checkbox" id="promoOnly" name="promo" value="1" {{ 'checked' if promocoes_on }} /> Só promoções</label>
+
+                <select id="sort" name="ordem" aria-label="Ordenar">
+                  <option value="rate" {{ 'selected' if ordem_selecionada == 'rate' }}>Melhor avaliados</option>
+                  <option value="low" {{ 'selected' if ordem_selecionada == 'low' }}>Menor preço</option>
+                  <option value="high" {{ 'selected' if ordem_selecionada == 'high' }}>Maior preço</option>
+                </select>
+
+                <button class="chip" type="submit">Filtrar</button>
+              </form>
+            </div>
+
+            {% if jogos %}
+              <div class="grid">
+                {% for jogo in jogos %}
+                  {% include "partials/card_jogo.html" %}
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="sem-resultados" role="status">
+                {% if busca and genero_selecionado %}
+                  Nenhum jogo encontrado para “{{ busca }}” no gênero {{ genero_selecionado }}.
+                {% elif busca %}
+                  Nenhum jogo encontrado para “{{ busca }}”.
+                {% elif genero_selecionado %}
+                  Nenhum jogo encontrado no gênero {{ genero_selecionado }}.
+                {% else %}
+                  Nenhum jogo encontrado com os filtros selecionados.
+                {% endif %}
+                <a href="{{ url_for('homepage') }}#catalog">Limpar filtros</a>
+              </p>
+            {% endif %}
+          </section>
+        </main>
+      </div>
+    </div>
+{% endblock %}

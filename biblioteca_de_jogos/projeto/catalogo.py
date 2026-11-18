@@ -14,7 +14,6 @@ Colunas do CSV:
 - avaliacao: nota média de 0 a 5; avaliacoes: quantidade de avaliações
 - capa: caminho da imagem relativo a static/ (ex.: img/capas/bloodborne.jpg);
   vazio mostra um placeholder com as iniciais
-- capa: URL ou caminho da imagem; vazio mostra um placeholder com as iniciais
 - descricao: texto livre
 
 Ao carregar, cada jogo ganha duas chaves calculadas: preco_final (já com o

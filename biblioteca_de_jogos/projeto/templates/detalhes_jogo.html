@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}{{ jogo.titulo }} | Nomedosite{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/detalhes_jogo.css') }}" />
+{% endblock %}
+
+{% block content %}
+{% set cheias = jogo.avaliacao | round(0, 'floor') | int %}
+<main class="pagina">
+
+    <nav class="caminho-navegacao" aria-label="Navegação">
+        <a href="{{ url_for('homepage') }}">Catálogo</a>
+        <span>/</span>
+        <span>{{ jogo.titulo }}</span>
+    </nav>
+
+    <article class="detalhes-jogo">
+
+        <section class="galeria-jogo" aria-label="Imagens do jogo">
+            <div class="area-capa">
+                <div class="imagem-principal">
+                    {% if jogo.capa %}
+                        <img src="{{ url_for('static', filename=jogo.capa) }}" alt="Capa de {{ jogo.titulo }}" />
+                    {% else %}
+                        <span class="texto-imagem">{{ jogo.titulo | iniciais }}</span>
+                    {% endif %}
+
+                    {% if jogo.em_promocao %}
+                        <span class="selo-desconto">-{{ jogo.desconto }}%</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="miniaturas-galeria">
+                <div class="miniatura ativa">Imagem 1</div>
+                <div class="miniatura">Imagem 2</div>
+                <div class="miniatura">Imagem 3</div>
+            </div>
+        </section>
+
+        <section class="conteudo-jogo" aria-labelledby="titulo-jogo">
+
+            <p class="categoria-jogo">
+                {{ jogo.genero }}{% if jogo.ano %} · Lançamento {{ jogo.ano }}{% endif %}
+            </p>
+
+            <h1 id="titulo-jogo">{{ jogo.titulo }}</h1>
+
+            {% if jogo.desenvolvedora %}
+            <p class="desenvolvedora">
+                Desenvolvido por <strong>{{ jogo.desenvolvedora }}</strong>
+            </p>
+            {% endif %}
+
+            <div class="avaliacao-geral">
+                <div class="estrelas" role="img" aria-label="{{ cheias }} de 5 estrelas">
+                    <span>{{ '★' * cheias }}</span>
+                    <span class="estrela-vazia">{{ '★' * (5 - cheias) }}</span>
+                </div>
+                <strong>{{ ('%.1f' | format(jogo.avaliacao)) | replace('.', ',') }}</strong>
+                <span class="quantidade-avaliacoes">{{ jogo.avaliacoes }} avaliações</span>
+            </div>
+
+            <section class="descricao-jogo">
+                <h2>Sobre o jogo</h2>
+                <p>{{ jogo.descricao }}</p>
+            </section>
+
+            <section class="informacoes-jogo">
+                <h2>Informações do jogo</h2>
+                <div class="lista-informacoes">
+                    <p><span>Gênero</span><strong>{{ jogo.genero }}</strong></p>
+                    {% if jogo.desenvolvedora %}
+                    <p><span>Desenvolvedora</span><strong>{{ jogo.desenvolvedora }}</strong></p>
+                    {% endif %}
+                    {% if jogo.ano %}
+                    <p><span>Ano de lançamento</span><strong>{{ jogo.ano }}</strong></p>
+                    {% endif %}
+                </div>
+            </section>
+
+            <section class="caixa-compra">
+                <div class="area-preco">
+                    {% if jogo.em_promocao %}
+                        <span class="preco-antigo">{{ jogo.preco | moeda }}</span>
+                    {% endif %}
+                    <strong class="preco-atual">{{ jogo.preco_final | moeda }}</strong>
+                </div>
+                <span class="aviso-preco">Preço ilustrativo para o protótipo.</span>
+                <button class="botao-compra" type="button" disabled>
+                    Adicionar ao carrinho
+                </button>
+            </section>
+
+        </section>
+    </article>
+
+    <section class="secao-avaliacoes" aria-labelledby="titulo-avaliacoes">
+        <div class="cabecalho-secao">
+            <h2 id="titulo-avaliacoes">Avaliações dos jogadores</h2>
+            <span class="total-avaliacoes">{{ jogo.avaliacoes }} avaliações</span>
+        </div>
+
+        {# Avaliações individuais ainda não existem na fonte de dados: cartões de exemplo do protótipo #}
+        <article class="cartao-avaliacao">
+            <strong class="nome-avaliador">Usuário exemplo</strong>
+            <div class="estrelas-avaliacao" role="img" aria-label="5 de 5 estrelas">★★★★★</div>
+        </article>
+
+        <article class="cartao-avaliacao">
+            <strong class="nome-avaliador">Outro usuário</strong>
+            <div class="estrelas-avaliacao" role="img" aria-label="4 de 5 estrelas">★★★★☆</div>
+        </article>
+    </section>
+
+</main>
+{% endblock %}

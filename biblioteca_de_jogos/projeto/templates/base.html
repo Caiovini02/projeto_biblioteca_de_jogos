@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{% block title %}Base{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    {% block css %}{% endblock %}
+  </head>
+  <body>
+    {% block header %}
+      <header class="navbar">
+        {% block navbar_inicio %}{% endblock %}
+
+        <a class="logo" href="{{ url_for('homepage') }}">
+          Nome<span>DO site</span>
+        </a>
+
+        <input id="search" type="search" placeholder="Buscar jogos" aria-label="Buscar jogos" />
+
+        {% block navbar_links %}
+          <a href="{{ url_for('homepage') }}" class="botao-voltar">Catálogo</a>
+        {% endblock %}
+
+        <button id="carrinho" class="carrinho">
+          Carrinho <b id="quantidade-carrinho">0</b>
+        </button>
+        {% include "partials/usuario.html" %}
+      </header>
+    {% endblock %}
+
+    {% block mensagens %}{% include "partials/_mensagens.html" %}
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+      <footer class="rodape">
+        Projeto Biblioteca de Jogos
+      </footer>
+    {% endblock %}
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

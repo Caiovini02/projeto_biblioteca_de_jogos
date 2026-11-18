@@ -1,0 +1,10 @@
+{% if usuario_logado %}
+  <div class="usuario">
+    <span class="nome-usuario">{{ usuario_logado.nome }}</span>
+    <form action="{{ url_for('logout') }}" method="post">
+      <button class="botao-sair" type="submit">Sair</button>
+    </form>
+  </div>
+{% else %}
+  <a href="{{ url_for('login') }}" class="botao-voltar">Entrar</a>
+{% endif %}

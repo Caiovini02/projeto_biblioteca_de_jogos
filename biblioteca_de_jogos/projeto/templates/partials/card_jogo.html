@@ -1,0 +1,27 @@
+<article class="card-jogo">
+  {% if eh_admin %}
+    {# Trocar o href por url_for('editar_jogo', jogo_id=jogo.id) quando a rota de edição existir #}
+    <a class="botao-editar" href="#" aria-label="Editar {{ jogo.titulo }}">Editar</a>
+  {% endif %}
+
+  <a class="card-link" href="{{ url_for('detalhes', jogo_id=jogo.id) }}">
+    <div class="card-capa">
+      {% if jogo.capa %}
+        <img src="{{ url_for('static', filename=jogo.capa) }}" alt="Capa de {{ jogo.titulo }}" />
+      {% else %}
+        <span>{{ jogo.titulo | iniciais }}</span>
+      {% endif %}
+    </div>
+
+    <div class="card-info">
+      <h3>{{ jogo.titulo }}</h3>
+      <p class="card-genero">{{ jogo.genero }}</p>
+      <p class="card-preco">
+        {% if jogo.em_promocao %}
+          <span class="preco-antigo">{{ jogo.preco | moeda }}</span>
+        {% endif %}
+        <strong>{{ jogo.preco_final | moeda }}</strong>
+      </p>
+    </div>
+  </a>
+</article>
