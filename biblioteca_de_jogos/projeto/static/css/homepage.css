@@ -628,3 +628,44 @@ footer {
 main > .mensagens {
     margin-top: 16px;
 }
+
+/* botão Sair no menu lateral */
+.side nav .form-sair {
+  margin-bottom: 20px;
+}
+
+.side nav .btn-sair {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--borda);
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.side nav .btn-sair:hover {
+  border-color: var(--laranja);
+}
+
+/* botão Editar nos cards (somente administradores) */
+.card-jogo {
+  position: relative;
+}
+
+.botao-editar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.botao-editar:hover {
+  background: var(--laranja-hover);
+}

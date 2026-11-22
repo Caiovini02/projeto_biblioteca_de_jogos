@@ -7,10 +7,12 @@ usuarios.csv, esse arquivo É versionado no git (regra "!data/jogos.csv" no
 Colunas do CSV:
 - id: inteiro único
 - titulo, genero: texto
+- desenvolvedora: texto (opcional; se vazio, não aparece na página de detalhes)
+- ano: ano de lançamento, ex.: 2026 (opcional; se vazio, não aparece)
 - preco: valor cheio em reais, com ponto decimal (ex.: 199.90)
 - desconto: percentual inteiro (0 = sem promoção)
 - avaliacao: nota média de 0 a 5; avaliacoes: quantidade de avaliações
-- capa: URL ou caminho da imagem; vazio mostra um placeholder com as iniciais
+- capa: URL ou caminho da imagem (ex.: /static/img/capas/bloodborne.jpg); vazio mostra um placeholder com as iniciais
 - descricao: texto livre
 
 Ao carregar, cada jogo ganha duas chaves calculadas: preco_final (já com o

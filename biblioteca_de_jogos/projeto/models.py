@@ -14,6 +14,9 @@ CAMINHO_USUARIOS = Path(__file__).resolve().parent.parent / "data" / "usuarios.c
 
 CAMPOS = ["id", "nome", "email", "senha_hash", "perfil", "token_sessao"]
 
+PERFIL_ADMIN = "admin"
+PERFIL_USUARIO = "usuario"
+PERFIS_VALIDOS = (PERFIL_ADMIN, PERFIL_USUARIO)
 
 class EmailJaCadastrado(ValueError):
     pass

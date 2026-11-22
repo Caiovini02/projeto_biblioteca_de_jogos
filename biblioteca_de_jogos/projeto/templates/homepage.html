@@ -40,7 +40,11 @@
         <nav>
           {% if usuario_logado %}
             <p class="side-texto">Olá, {{ usuario_logado.nome }}</p>
+            <form class="form-sair" action="{{ url_for('logout') }}" method="post">
+              <button class="btn-sair" type="submit">Sair</button>
+            </form>
           {% else %}
+
             <p class="side-texto">Entre para avaliar jogos, comprar e ver sua biblioteca</p>
             <a class="btn-entrar" href="{{ url_for('login') }}">Entrar</a>
             <a class="btn-criar" href="{{ url_for('cadastro') }}">Criar conta</a>
@@ -105,7 +109,9 @@
               <div class="grid">
                 {% for jogo in jogos %}
                   <article class="card-jogo">
-                
+                    {% if eh_admin %}
+                      <a class="botao-editar" href="#" aria-label="Editar {{ jogo.titulo }}">Editar</a>
+                    {% endif %}
                     <a class="card-link" href="{{ url_for('detalhes', jogo_id=jogo.id) }}">
                     {% if jogo.capa %}
                       <img class="capa" src="{{ jogo.capa }}" alt="Capa de {{ jogo.titulo }}" />
