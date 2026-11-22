@@ -1,0 +1,6 @@
+id,titulo,genero,desenvolvedora,ano,preco,desconto,avaliacao,avaliacoes,capa,descricao
+1,Call of Duty: Modern Warfare 4,Ação,Infinity Ward,2026,349.90,0,4.1,1280,/static/img/capas/call_of_duty.jpg,"Tiro em primeira pessoa com campanha e modos multijogador online."
+2,Stardew Valley,Simulação,ConcernedApe,2016,24.99,20,4.9,5300,/static/img/capas/stardew_valley.jpg,"Cuide de uma fazenda, explore as minas e faça amizade com os moradores da vila."
+3,Bloodborne,RPG,FromSoftware,2015,199.90,30,4.8,2100,/static/img/capas/bloodborne.jpg,"RPG de ação em uma cidade gótica tomada por uma praga, com combate rápido e exigente."
+4,Hollow Knight,Aventura,Team Cherry,2017,46.99,50,4.9,4800,/static/img/capas/hollow_knight.jpg,"Exploração de um reino subterrâneo de insetos, com arte desenhada à mão."
+5,Hollow Knight: Silksong,Aventura,Team Cherry,2025,69.99,0,4.7,900,/static/img/capas/silksong.jpg,"Continuação de Hollow Knight: Hornet percorre um novo reino em uma jornada vertical."

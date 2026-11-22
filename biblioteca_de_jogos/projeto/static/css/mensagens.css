@@ -1,0 +1,25 @@
+/* Mensagens de sucesso e erro (flash), usadas em todas as páginas */
+.mensagens {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+.mensagem {
+  padding: 10px 14px;
+  border: 1px solid #313131;
+  border-radius: 8px;
+  background: #141414;
+  color: #ffffff;
+}
+
+.mensagem-sucesso {
+  border-color: #ff6a00;
+}
+
+.mensagem-erro {
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+}

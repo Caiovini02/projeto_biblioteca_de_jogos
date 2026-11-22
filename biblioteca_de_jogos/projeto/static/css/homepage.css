@@ -1,0 +1,671 @@
+:root {
+    --laranja: #ff6a00;
+    --fundo: #000000;
+    --superficie: #141414;
+    --borda: #313131;
+    --texto: #ffffff;
+    --texto-secundario: #8d8d8d;
+    --laranja-hover: #ff862f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--fundo);
+  color: var(--texto);
+  font:
+    15px/1.5 Barlow,
+    "Segoe UI",
+    system-ui,
+    sans-serif;
+}
+
+h1,
+h2,
+h3,
+.logo {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+a {
+  color: var(--texto);
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  color: var(--texto);
+  background: none;
+}
+
+.navbar {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 12px 20px;
+  background: var(--fundo);
+  border-bottom: 1px solid var(--borda);
+}
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.logo:hover {
+  cursor: default;
+}
+.logo span {
+  color: var(--laranja);
+  font-weight: 600;
+}
+
+/* busca por título (#46): o formulário assume o lugar que o campo ocupava */
+.busca-jogos {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+  max-width: 420px;
+  margin-left: auto;
+}
+
+.btn-buscar {
+  padding: 9px 16px;
+  border-radius: 8px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-weight: 700;
+}
+
+.btn-buscar:hover {
+  background: var(--laranja-hover);
+}
+
+.navbar input[type="search"] {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  font: inherit;
+  color: var(--texto);
+}
+.carrinho {
+  padding: 9px 16px;
+  border-radius: 8px;
+  background:var(--fundo);
+  border: 1px solid;
+  font-weight: 600;
+}
+.carrinho:hover {
+  border-color: var(--laranja);
+}
+
+b {
+  background: var(--laranja);
+  color: var(--fundo);
+  border-radius: 6px;
+  padding: 1px 8px;
+  margin-left: 6px;
+}
+
+main {
+  padding: 0 28px 40px;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+h2 small {
+  font:
+    500 16px Barlow,
+    sans-serif;
+  color: var(--laranja);
+  margin-left: 10px;
+}
+/* navbar */
+.menu {
+  display: flex;
+  align-items: flex-start;
+}
+.content {
+  flex: 1;
+  min-width: 0;
+}
+.side {
+  width: 272px;
+  flex: none;
+  position: sticky;
+  overflow: auto;
+  background: var(--superficie);
+  border-right: 1px solid #313131;
+  border-radius: 5px;
+  padding: 4px 16px;
+}
+
+.side nav {
+  display: grid;
+  gap: 2px;
+  margin: 16px 0 4px;
+}
+
+.side nav a {
+  padding: 9px 12px;
+
+  color: var(--texto-secundario);
+  font-weight: 500;
+ 
+  border-bottom: var(--borda) 1px solid;
+}
+
+.side nav a:hover {
+  background: var(--fundo);
+  color: var(--laranja);
+  border-radius: 8px;
+}
+
+.side h3 {
+  font-size: 21px;
+}
+
+.menu-lateral {
+  display: none;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: var(--superficie);
+  font-weight: 600;
+}
+
+.menu-lateral:hover{
+  border: #ff6a00 1px solid;
+}
+
+.side-top,
+.side-bottom {
+  display: none;
+}
+
+.target-close {
+  display: none;
+}
+/* destaque */
+.hero {
+  position: relative;
+  height: 440px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--superficie);
+}
+
+/* cards */
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+/* em alta */
+.ranking {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  counter-reset: r;
+}
+.ranking li {
+  counter-increment: r;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background:var(--fundo);
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px 20px 10px 14px;
+  cursor: pointer;
+}
+.ranking li:hover {
+  border-color:var(--texto-secundario);
+}
+
+.ranking li::before {
+  content: counter(r);
+  font:
+    800 38px "Barlow Condensed",
+    sans-serif;
+  color:var(--superficie);
+  width: 30px;
+  text-align: center;
+}
+
+.ranking img {
+  width: 150px;
+  border-radius: 6px;
+}
+
+.ranking .m {
+  flex: 1;
+}
+
+.ranking h3 {
+  font-size: 22px;
+}
+
+/* catálogo */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-bottom: 6px;
+}
+
+.bar h2 {
+  margin: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  color: var(--texto-secundario);
+}
+
+.chip:hover {
+  border-color: var(--laranja);
+  color: var(--texto);
+  cursor: pointer;
+  transform: scale(1.01);
+}
+
+select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  color: var(--texto);
+  font: inherit;
+}
+
+
+select:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+}
+
+.bar {
+  justify-content: space-between;
+}
+.sel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* filtro por gênero (#51) */
+.filtro-genero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-filtrar {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-weight: 700;
+}
+
+.btn-filtrar:hover {
+  background: var(--laranja-hover);
+}
+
+.sr .hero,
+.sr #promos,
+.sr #trending {
+  display: none;
+}
+
+
+/* carrinho */
+
+/* footer */
+
+footer {
+  text-align: center;
+  color: var(--texto-secundario);
+  font-size: 13px;
+  padding: 30px;
+}
+
+
+
+/* responsividade */
+
+@media (max-width: 900px) {
+  .menu-lateral {
+    display: block;
+  }
+  .navbar {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+  .busca-jogos {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  .navbar input[type="search"] {
+    color: var(--texto);
+  }
+  .carrinho {
+    margin-left: auto;
+  }
+
+  .side {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    left: 0;
+    height: auto;
+    max-height: 100vh;
+    max-height: 100dvh;
+    z-index: 50;
+    width: min(230px, 75vw);
+    padding: 4px 16px 14px;
+    border-bottom: 1px solid var(--borda);
+    border-radius: 0 0 14px 0;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s, visibility 0.3s;
+  }
+
+  .side:target + .side-bottom {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .side:target {
+    transform: none;
+    visibility: visible;
+  }
+   .side-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0 14px;
+    border-bottom: 1px solid var(--borda);
+  }
+
+  .side-top .logo{
+    font-size: 24px;
+  }
+
+  .fechar-menu {
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: var(--texto-secundario);
+    font-size: 18px;
+  }
+
+  .fechar-menu:hover {
+    color: var(--laranja);
+  }
+
+
+
+  main {
+    padding: 0 14px 30px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .hero {
+    height: 360px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .ranking li {
+    padding: 8px 12px 8px 8px;
+    gap: 12px;
+  }
+
+  .ranking img {
+    width: 100px;
+  }
+
+  .ranking .price {
+    display: none;
+  }
+
+  .sel {
+    width: 100%;
+  }
+
+  .sel select {
+    flex: 1;
+  }
+
+  .filtro-genero {
+    width: 100%;
+  }
+
+  @media (max-width: 380px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.side nav a.btn-entrar,
+.side nav a.btn-criar {
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.side nav a.btn-entrar { 
+  background: var(--laranja);
+  color: var(--fundo);
+ }
+
+.side nav a.btn-entrar:hover { 
+  background: var(--laranja-hover);
+  color: var(--fundo);
+ }
+
+.side nav a.btn-criar {
+  background: var(--borda);
+  color: var(--texto);
+  border: 1px solid var(--borda);
+ }
+
+.side nav a.btn-criar:hover { 
+  border-color: var(--laranja);
+  color: var(--texto);
+ }
+
+.side nav .side-texto {
+    color: var(--texto);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* catálogo: cards dos jogos (#28) */
+.card-jogo {
+  display: flex;
+  flex-direction: column;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-jogo:hover {
+  border-color: var(--laranja);
+}
+
+/* link do card para a página do jogo (#32): mantém o card como era */
+.card-jogo .card-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-jogo .capa {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.card-jogo .capa-vazia {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--borda), var(--superficie));
+  color: var(--texto-secundario);
+  font: 800 48px "Barlow Condensed", sans-serif;
+}
+
+.card-jogo .info {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px 14px;
+}
+
+.card-jogo h3 {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.card-jogo .genero {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.card-jogo .avaliacao {
+  color: var(--laranja);
+  font-weight: 600;
+}
+
+.card-jogo .avaliacao small {
+  color: var(--texto-secundario);
+  font-weight: 400;
+}
+
+.card-jogo .preco {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.card-jogo .desconto {
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-jogo .preco-antigo {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.card-jogo .preco strong {
+  font-size: 18px;
+}
+
+.catalogo-vazio {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--texto-secundario);
+}
+/* mensagens de sucesso/erro (estilo base em mensagens.css) */
+main > .mensagens {
+    margin-top: 16px;
+}
+
+/* botão Sair no menu lateral */
+.side nav .form-sair {
+  margin-bottom: 20px;
+}
+
+.side nav .btn-sair {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--borda);
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.side nav .btn-sair:hover {
+  border-color: var(--laranja);
+}
+
+/* botão Editar nos cards (somente administradores) */
+.card-jogo {
+  position: relative;
+}
+
+.botao-editar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.botao-editar:hover {
+  background: var(--laranja-hover);
+}
