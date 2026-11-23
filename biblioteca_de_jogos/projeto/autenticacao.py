@@ -1,10 +1,10 @@
 import secrets
 from functools import wraps
-
 from flask import flash, g, make_response, redirect, session, url_for
 from werkzeug.security import check_password_hash
 
 from projeto import app
+
 from projeto.models import (
     PERFIL_ADMIN,
     PERFIL_USUARIO,
@@ -15,6 +15,17 @@ from projeto.models import (
 )
 
 
+# /-------------------------Sessões e validação-------------------------\ 
+
+def iniciar_sessao(usuario):
+    session.clear()
+    token = secrets.token_urlsafe(32)
+    definir_token_sessao(usuario["id"], token)
+    session["usuario_id"] = usuario["id"]
+    session["token_sessao"] = token
+    session.permanent = True
+    
+
 def verificar_credenciais(email, senha):
     usuario = buscar_usuario_por_email(email)
     if usuario is None:
@@ -24,13 +35,9 @@ def verificar_credenciais(email, senha):
     return usuario
 
 
-def iniciar_sessao(usuario):
-    session.clear()
-    token = secrets.token_urlsafe(32)
-    definir_token_sessao(usuario["id"], token)
-    session["usuario_id"] = usuario["id"]
-    session["token_sessao"] = token
-    session.permanent = True
+def _sessao_valida(usuario, token):
+    token_salvo = usuario.get("token_sessao") or ""
+    return bool(token) and bool(token_salvo) and secrets.compare_digest(token, token_salvo)
 
 
 def encerrar_sessao():
@@ -38,11 +45,6 @@ def encerrar_sessao():
     if usuario_id is not None:
         definir_token_sessao(usuario_id, "")
     session.clear()
-
-
-def _sessao_valida(usuario, token):
-    token_salvo = usuario.get("token_sessao") or ""
-    return bool(token) and bool(token_salvo) and secrets.compare_digest(token, token_salvo)
 
 
 @app.before_request
@@ -56,8 +58,10 @@ def carregar_usuario_logado():
         session.clear()
         return
     g.usuario = usuario
+    
 
-# Identificação do perfil (#68)
+# /-------------------------Identificação do perfil-------------------------\ 
+
 # O perfil vem do usuário carregado do CSV (g.usuario), nunca do cookie nem de
 # formulário. Valor ausente ou desconhecido vale como usuário comum.
 
@@ -67,8 +71,10 @@ def obter_perfil(usuario):
     perfil = (usuario.get("perfil") or "").strip().lower()
     return perfil if perfil in PERFIS_VALIDOS else PERFIL_USUARIO
 
+
 def eh_admin(usuario):
     return obter_perfil(usuario) == PERFIL_ADMIN
+
 
 def login_obrigatorio(view):
     @wraps(view)
@@ -81,7 +87,9 @@ def login_obrigatorio(view):
         return resposta
     return view_protegida
 
-# Permissões administrativas (#69)
+
+# /-------------------------Permissões administrativas-------------------------\ 
+
 # Sem login, chama a funcao (login_obrigatorio).
 # caso nao seja administrador, volta para a homepage com um aviso.
 
@@ -94,6 +102,7 @@ def admin_obrigatorio(view):
             return redirect(url_for("homepage"))
         return view(*args, **kwargs)
     return view_admin
+
 
 @app.context_processor
 def disponibilizar_usuario_nos_templates():

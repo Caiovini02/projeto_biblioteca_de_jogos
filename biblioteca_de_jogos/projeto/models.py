@@ -1,5 +1,6 @@
-"""Armazenamento dos usuários em CSV
+# /-------------------------Armazenamento dos usuários em CSV-------------------------\ 
 
+"""
 Os usuários ficam em bilbioteca_de_jogos/data/usuarios.csv (a pasta data/
 está no .gitignore). O arquivo é criado no primeiro cadastro. A senha nunca
 é salva em texto puro, só o hash gerado por werkzeug.security.
@@ -26,6 +27,14 @@ def _normalizar_email(email):
     return email.strip().lower()
 
 
+def _salvar_usuarios(usuarios):
+    CAMINHO_USUARIOS.parent.mkdir(parents=True, exist_ok=True)
+    with CAMINHO_USUARIOS.open("w", encoding="utf-8", newline="") as arquivo:
+        escritor = csv.DictWriter(arquivo, fieldnames=CAMPOS, extrasaction="ignore")
+        escritor.writeheader()
+        escritor.writerows(usuarios)
+        
+        
 def carregar_usuarios():
     if not CAMINHO_USUARIOS.exists():
         return []
@@ -36,12 +45,11 @@ def carregar_usuarios():
     return usuarios
 
 
-def _salvar_usuarios(usuarios):
-    CAMINHO_USUARIOS.parent.mkdir(parents=True, exist_ok=True)
-    with CAMINHO_USUARIOS.open("w", encoding="utf-8", newline="") as arquivo:
-        escritor = csv.DictWriter(arquivo, fieldnames=CAMPOS, extrasaction="ignore")
-        escritor.writeheader()
-        escritor.writerows(usuarios)
+def buscar_usuario_por_id(usuario_id):
+    for usuario in carregar_usuarios():
+        if usuario["id"] == usuario_id:
+            return usuario
+    return None
 
 
 def buscar_usuario_por_email(email):
@@ -52,11 +60,6 @@ def buscar_usuario_por_email(email):
     return None
 
 
-def buscar_usuario_por_id(usuario_id):
-    for usuario in carregar_usuarios():
-        if usuario["id"] == usuario_id:
-            return usuario
-    return None
 
 """Perfil é apenas para teste unitário"""
  

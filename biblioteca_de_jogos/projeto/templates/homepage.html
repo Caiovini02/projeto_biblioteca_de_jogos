@@ -7,11 +7,12 @@
 {% endblock %}
 
 {% block content %}
+
+    <!------------------------------Menu principal------------------------------>
+
     <header class="navbar">
       <a class="menu-lateral" href="#side" aria-label="Abrir menu">Menu</a>
-      <a class="logo" href="#">Nome<span>DO site</span></a>
-      {# Busca por título (#46): formulário GET, sem JavaScript. O "genero" oculto
-         mantém o filtro de gênero já aplicado, e o "#catalog" leva ao resultado. #}
+      <a class="logo" href="#">Nome<span>DO site</span></a>  
       <div class="busca-jogos">
         <input
           id="search"
@@ -29,6 +30,8 @@
         Carrinho <b id="carrinho-b">0</b>
       </button>
     </header>
+
+    <!------------------------------Menu lateral------------------------------>
 
     <div class="menu">
       <aside id="side" class="side" aria-label="Menu lateral">
@@ -49,6 +52,7 @@
             <a class="btn-entrar" href="{{ url_for('login') }}">Entrar</a>
             <a class="btn-criar" href="{{ url_for('cadastro') }}">Criar conta</a>
           {% endif %}
+
           <a href="#promos">Promoções</a>
           <a href="#trending">Em alta</a>
           <a href="#catalog">Catálogo</a>
@@ -56,6 +60,8 @@
       </aside>
       <a class="side-bottom" href="#menu-closed" aria-label="Fechar menu"></a>
       <span id="menu-closed" class="target-close"></span>
+
+      <!------------------------------Centro do catálogo------------------------------>
 
       <div class="content">
         <main>
@@ -76,8 +82,10 @@
             <div class="bar">
               <h2 id="ctitle">Catálogo</h2>
               <div class="sel">
-             
-                <form id="filtros" class="filtro-genero" method="get" action="{{ url_for('homepage') }}#catalog">
+
+                <!------------------------------Filtros do catálogo------------------------------>
+
+                <form id="filtros" class="filtros" method="get" action="{{ url_for('homepage') }}#catalog">
               
                   <select id="genero" name="genero" aria-label="Gênero">
                     <option value="">Qualquer gênero</option>
@@ -104,7 +112,8 @@
               </div>
             </div>
 
-      
+            <!------------------------------Jogos no catálogo------------------------------>
+
             {% if jogos %}
               <div class="grid">
                 {% for jogo in jogos %}
@@ -136,6 +145,9 @@
                   </article>
                 {% endfor %}
               </div>
+
+            <!------------------------------Mensagens de retorno vazio------------------------------>
+
             {% elif busca and genero_selecionado %}
               <p class="catalogo-vazio">Nenhum jogo encontrado para "{{ busca }}" no gênero "{{ genero_selecionado }}".</p>
             {% elif busca %}
@@ -151,6 +163,9 @@
             {% endif %}
           </section>
         </main>
+
+        <!------------------------------Footer------------------------------>
+      
         <footer>Projeto biblioteca de jogos</footer>
       </div>
     </div>

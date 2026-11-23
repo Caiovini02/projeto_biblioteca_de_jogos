@@ -35,7 +35,8 @@ a {
   text-decoration: none;
 }
 
-/* navbar */
+
+/*------------------------------navbar------------------------------*/
 .navbar {
   display: flex;
   align-items: center;
@@ -54,7 +55,8 @@ a {
   font-weight: 600;
 }
 
-/* formulário */
+
+/*------------------------------formulário------------------------------*/
 .login {
   flex: 1;
   display: grid;
@@ -126,7 +128,8 @@ a {
   outline-offset: 2px;
 }
 
-/* link entre login e cadastro */
+
+/*------------------------------link entre login e cadastro------------------------------*/
 .login-alternativa {
   margin-top: 18px;
   text-align: center;
@@ -142,7 +145,8 @@ a {
   text-decoration: underline;
 }
 
-/* footer */
+
+/*------------------------------footer------------------------------*/
 footer {
   text-align: center;
   color: var(--texto-secundario);
@@ -150,7 +154,8 @@ footer {
   padding: 30px;
 }
 
-/* responsividade */
+
+/*------------------------------responsividade------------------------------*/
 @media (max-width: 480px) {
   .login-card {
     padding: 24px 18px;

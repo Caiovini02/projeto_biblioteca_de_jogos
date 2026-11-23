@@ -5,7 +5,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-# SECRET_KEY DEVE  SER ALTERADA EM PRODUÇÃO
+# SECRET_KEY DEVE SER ALTERADA EM PRODUÇÃO
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-chave-insegura-troque-em-producao")
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=2)
 app.config["SESSION_COOKIE_HTTPONLY"] = True

@@ -45,8 +45,8 @@ button {
     background: none;
 }
 
-/* Navbar */
 
+/*------------------------------Navbar------------------------------*/
 .navbar {
     position: sticky;
     top: 0;
@@ -126,8 +126,8 @@ button {
     margin-left: 6px;
 }
 
-/* Usuário logado (logout) */
 
+/*------------------------------Usuário logado (logout)------------------------------*/
 .usuario {
     display: flex;
     align-items: center;
@@ -155,8 +155,8 @@ button {
     color: var(--texto);
 }
 
-/* Rodapé */
 
+/*------------------------------Rodapé------------------------------*/
 .rodape {
     text-align: center;
     color: #696868;
@@ -165,8 +165,8 @@ button {
     border-top: 1px solid var(--borda);
 }
 
-/* Responsividade */
 
+/*------------------------------Responsividade------------------------------*/
 @media (max-width: 900px) {
 
     .navbar {
@@ -217,8 +217,8 @@ button {
     }
 }
 
-/* Estrutura principal */
 
+/*------------------------------Estrutura principal------------------------------*/
 .pagina {
     width: min(1100px, 90%);
     margin: 30px auto 50px;
@@ -244,8 +244,8 @@ button {
     align-items: start;
 }
 
-/* Galeria de imagens */
 
+/*------------------------------Galeria de imagens------------------------------*/
 .imagem-principal {
     position: relative;
     display: flex;
@@ -317,8 +317,8 @@ button {
     border-color: var(--laranja);
 }
 
-/* Conteúdo do jogo */
 
+/*------------------------------Conteúdo do jogo------------------------------*/
 .conteudo-jogo {
     padding: 5px 0;
 }
@@ -414,8 +414,8 @@ button {
     font-weight: 500;
 }
 
-/* Caixa de compra */
 
+/*------------------------------Caixa de compra------------------------------*/
 .caixa-compra {
     display: flex;
     flex-direction: column;
@@ -464,8 +464,8 @@ button {
     opacity: 0.65;
 }
 
-/* Avaliações */
 
+/*------------------------------Avaliações------------------------------*/
 .secao-avaliacoes {
     margin-top: 55px;
 }
@@ -508,10 +508,10 @@ button {
     letter-spacing: 2px;
 }
 
-/* Fim da Estrutura principal */
+/*------------------------------Fim da Estrutura principal------------------------------*/
 
-/* Responsividade */
 
+/*------------------------------Responsividade------------------------------*/
 @media (max-width: 768px) {
 
     .pagina {

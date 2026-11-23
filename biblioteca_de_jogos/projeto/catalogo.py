@@ -30,6 +30,8 @@ from projeto import app
 CAMINHO_JOGOS = Path(__file__).resolve().parent.parent / "data" / "jogos.csv"
 
 
+# /-------------------------Catálogo na homepage-------------------------\ 
+
 def _converter(jogo):
     jogo["id"] = int(jogo["id"])
     jogo["preco"] = float(jogo["preco"])
@@ -41,11 +43,10 @@ def _converter(jogo):
     return jogo
 
 
-def carregar_jogos():
-    if not CAMINHO_JOGOS.exists():
-        return []
-    with CAMINHO_JOGOS.open(encoding="utf-8", newline="") as arquivo:
-        return [_converter(jogo) for jogo in csv.DictReader(arquivo)]
+def _normalizar(texto):
+    sem_acento = unicodedata.normalize("NFD", texto or "")
+    sem_acento = "".join(c for c in sem_acento if not unicodedata.combining(c))
+    return sem_acento.strip().casefold()
 
 
 def buscar_jogo_por_id(jogo_id):
@@ -55,12 +56,38 @@ def buscar_jogo_por_id(jogo_id):
     return None
 
 
+def carregar_jogos():
+    if not CAMINHO_JOGOS.exists():
+        return []
+    with CAMINHO_JOGOS.open(encoding="utf-8", newline="") as arquivo:
+        return [_converter(jogo) for jogo in csv.DictReader(arquivo)]
 
-def _normalizar(texto):
-    sem_acento = unicodedata.normalize("NFD", texto or "")
-    sem_acento = "".join(c for c in sem_acento if not unicodedata.combining(c))
-    return sem_acento.strip().casefold()
 
+# /-------------------------Busca por título-------------------------\ 
+
+def buscar_por_titulo(jogos, termo):
+    procurado = _normalizar(termo)
+    if not procurado:
+        return jogos
+    return [jogo for jogo in jogos if procurado in _normalizar(jogo["titulo"])]
+
+
+# /-------------------------Filtros usados pelos templates-------------------------\ 
+
+@app.template_filter("moeda")
+def moeda(valor):
+    texto = f"{valor:,.2f}" 
+    return "R$ " + texto.replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+@app.template_filter("iniciais")
+def iniciais(titulo):
+    """Duas iniciais do título, para o placeholder de capa (ex.: 'Hollow Knight' -> 'HK')."""
+    palavras = [p for p in titulo.replace(":", " ").split() if p[0].isalnum()]
+    return "".join(p[0] for p in palavras[:2]).upper()
+
+
+# /-------------------------Filtro por gênero-------------------------\ 
 
 def listar_generos(jogos):
     generos = {jogo["genero"] for jogo in jogos if jogo["genero"].strip()}
@@ -81,33 +108,13 @@ def filtrar_por_genero(jogos, genero):
     return [jogo for jogo in jogos if _normalizar(jogo["genero"]) == procurado]
 
 
-# Busca por título
+# /-------------------------Filtros por preço e ordenação-------------------------\ 
 
-
-def buscar_por_titulo(jogos, termo):
-    procurado = _normalizar(termo)
-    if not procurado:
+def filtrar_por_preco(jogos, preco_maximo):
+    if preco_maximo <= 0:
         return jogos
-    return [jogo for jogo in jogos if procurado in _normalizar(jogo["titulo"])]
+    return [jogo for jogo in jogos if jogo["preco_final"] <= preco_maximo]
 
-
-# Filtros usados pelos templates
-
-
-@app.template_filter("moeda")
-def moeda(valor):
-    texto = f"{valor:,.2f}" 
-    return "R$ " + texto.replace(",", "X").replace(".", ",").replace("X", ".")
-
-
-@app.template_filter("iniciais")
-def iniciais(titulo):
-    """Duas iniciais do título, para o placeholder de capa (ex.: 'Hollow Knight' -> 'HK')."""
-    palavras = [p for p in titulo.replace(":", " ").split() if p[0].isalnum()]
-    return "".join(p[0] for p in palavras[:2]).upper()
-
-
-# Filtro por preço e ordenação
 
 def verificar_preco_maximo(texto):
     try:
@@ -117,17 +124,10 @@ def verificar_preco_maximo(texto):
     return max(valor, 0)
 
 
-def filtrar_por_preco(jogos, preco_maximo):
-    if preco_maximo <= 0:
-        return jogos
-    return [jogo for jogo in jogos if jogo["preco_final"] <= preco_maximo]
-
 def filtrar_promocao(jogos, promocoes_on):
     if not promocoes_on:
         return jogos
     return [jogo for jogo in jogos if jogo["em_promocao"]]
-
-
 
 
 ORDENACOES = {

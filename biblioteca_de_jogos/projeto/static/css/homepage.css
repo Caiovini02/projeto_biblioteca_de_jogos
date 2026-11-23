@@ -25,15 +25,34 @@ body {
     "Segoe UI",
     system-ui,
     sans-serif;
-}
+  }
+  
+  h1,
+  h2,
+  h3,
+  .logo {
+    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  }
 
-h1,
-h2,
-h3,
-.logo {
-  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-}
+  main {
+    padding: 0 28px 40px;
+  }
+  
+  h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  h2 small {
+    font:
+      500 16px Barlow,
+      sans-serif;
+    color: var(--laranja);
+    margin-left: 10px;
+  }
 
+
+/*------------------------------Navbar------------------------------*/
 a {
   color: var(--texto);
   text-decoration: none;
@@ -69,7 +88,8 @@ button {
   font-weight: 600;
 }
 
-/* busca por título (#46): o formulário assume o lugar que o campo ocupava */
+
+/*------------------------------Busca por título------------------------------*/
 .busca-jogos {
   display: flex;
   flex: 1;
@@ -100,42 +120,9 @@ button {
   font: inherit;
   color: var(--texto);
 }
-.carrinho {
-  padding: 9px 16px;
-  border-radius: 8px;
-  background:var(--fundo);
-  border: 1px solid;
-  font-weight: 600;
-}
-.carrinho:hover {
-  border-color: var(--laranja);
-}
 
-b {
-  background: var(--laranja);
-  color: var(--fundo);
-  border-radius: 6px;
-  padding: 1px 8px;
-  margin-left: 6px;
-}
 
-main {
-  padding: 0 28px 40px;
-}
-
-h2 {
-  font-size: 30px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-h2 small {
-  font:
-    500 16px Barlow,
-    sans-serif;
-  color: var(--laranja);
-  margin-left: 10px;
-}
-/* navbar */
+/*------------------------------Navbar lateral------------------------------*/
 .menu {
   display: flex;
   align-items: flex-start;
@@ -200,7 +187,111 @@ h2 small {
 .target-close {
   display: none;
 }
-/* destaque */
+
+
+/*------------------------------Botões de login/cadastro------------------------------*/
+.side nav a.btn-entrar,
+.side nav a.btn-criar {
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.side nav a.btn-entrar { 
+  background: var(--laranja);
+  color: var(--fundo);
+ }
+
+.side nav a.btn-entrar:hover { 
+  background: var(--laranja-hover);
+  color: var(--fundo);
+ }
+
+.side nav a.btn-criar {
+  background: var(--borda);
+  color: var(--texto);
+  border: 1px solid var(--borda);
+ }
+
+.side nav a.btn-criar:hover { 
+  border-color: var(--laranja);
+  color: var(--texto);
+ }
+
+.side nav .side-texto {
+    color: var(--texto);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+
+/*------------------------------Botão Sair no menu lateral------------------------------*/
+.side nav .form-sair {
+  margin-bottom: 20px;
+}
+
+.side nav .btn-sair {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--borda);
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.side nav .btn-sair:hover {
+  border-color: var(--laranja);
+}
+
+
+/*------------------------------Botão Editar (somente administradores)------------------------------*/
+.card-jogo {
+  position: relative;
+}
+
+.botao-editar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.botao-editar:hover {
+  background: var(--laranja-hover);
+}
+
+
+/*------------------------------Carrinho------------------------------*/
+.carrinho {
+  padding: 9px 16px;
+  border-radius: 8px;
+  background:var(--fundo);
+  border: 1px solid;
+  font-weight: 600;
+}
+.carrinho:hover {
+  border-color: var(--laranja);
+}
+
+b {
+  background: var(--laranja);
+  color: var(--fundo);
+  border-radius: 6px;
+  padding: 1px 8px;
+  margin-left: 6px;
+}
+
+
+/*------------------------------Destaque------------------------------*/
 .hero {
   position: relative;
   height: 440px;
@@ -209,19 +300,8 @@ h2 small {
   background: var(--superficie);
 }
 
-/* cards */
-.grid {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-}
 
-img {
-  display: block;
-  width: 100%;
-}
-
-/* em alta */
+/*------------------------------Em alta(Ranking)------------------------------*/
 .ranking {
   list-style: none;
   display: grid;
@@ -266,7 +346,8 @@ img {
   font-size: 22px;
 }
 
-/* catálogo */
+
+/*------------------------------Catálogo------------------------------*/
 .bar {
   display: flex;
   flex-wrap: wrap;
@@ -326,8 +407,115 @@ select:hover {
   align-items: center;
 }
 
-/* filtro por gênero (#51) */
-.filtro-genero {
+
+/*-----------------------------------Cards dos jogos-----------------------------------*/
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.card-jogo {
+  display: flex;
+  flex-direction: column;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-jogo:hover {
+  border-color: var(--laranja);
+}
+
+
+/*--------Link do card para a página do jogo--------*/
+.card-jogo .card-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-jogo .capa {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.card-jogo .capa-vazia {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--borda), var(--superficie));
+  color: var(--texto-secundario);
+  font: 800 48px "Barlow Condensed", sans-serif;
+}
+
+.card-jogo .info {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px 14px;
+}
+
+.card-jogo h3 {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.card-jogo .genero {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.card-jogo .avaliacao {
+  color: var(--laranja);
+  font-weight: 600;
+}
+
+.card-jogo .avaliacao small {
+  color: var(--texto-secundario);
+  font-weight: 400;
+}
+
+.card-jogo .preco {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.card-jogo .desconto {
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: var(--laranja);
+  color: var(--fundo);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-jogo .preco-antigo {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.card-jogo .preco strong {
+  font-size: 18px;
+}
+
+.catalogo-vazio {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--texto-secundario);
+}
+
+
+/*------------------------------Filtros------------------------------*/
+.filtros{
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -353,10 +541,7 @@ select:hover {
 }
 
 
-/* carrinho */
-
-/* footer */
-
+/*------------------------------Footer------------------------------*/
 footer {
   text-align: center;
   color: var(--texto-secundario);
@@ -364,10 +549,13 @@ footer {
   padding: 30px;
 }
 
+/*--------------------Mensagens de sucesso/erro (estilo base em mensagens.css)--------------------*/
+main > .mensagens {
+    margin-top: 16px;
+}
 
 
-/* responsividade */
-
+/*------------------------------Responsividade------------------------------*/
 @media (max-width: 900px) {
   .menu-lateral {
     display: block;
@@ -494,178 +682,4 @@ footer {
       grid-template-columns: 1fr;
     }
   }
-}
-
-.side nav a.btn-entrar,
-.side nav a.btn-criar {
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 8px;
-    border-radius: 8px;
-    font-weight: 700;
-}
-
-.side nav a.btn-entrar { 
-  background: var(--laranja);
-  color: var(--fundo);
- }
-
-.side nav a.btn-entrar:hover { 
-  background: var(--laranja-hover);
-  color: var(--fundo);
- }
-
-.side nav a.btn-criar {
-  background: var(--borda);
-  color: var(--texto);
-  border: 1px solid var(--borda);
- }
-
-.side nav a.btn-criar:hover { 
-  border-color: var(--laranja);
-  color: var(--texto);
- }
-
-.side nav .side-texto {
-    color: var(--texto);
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-/* catálogo: cards dos jogos (#28) */
-.card-jogo {
-  display: flex;
-  flex-direction: column;
-  background: var(--superficie);
-  border: 1px solid var(--borda);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.card-jogo:hover {
-  border-color: var(--laranja);
-}
-
-/* link do card para a página do jogo (#32): mantém o card como era */
-.card-jogo .card-link {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  color: inherit;
-  text-decoration: none;
-}
-
-.card-jogo .capa {
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-}
-
-.card-jogo .capa-vazia {
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--borda), var(--superficie));
-  color: var(--texto-secundario);
-  font: 800 48px "Barlow Condensed", sans-serif;
-}
-
-.card-jogo .info {
-  display: grid;
-  gap: 4px;
-  padding: 12px 14px 14px;
-}
-
-.card-jogo h3 {
-  font-size: 20px;
-  line-height: 1.2;
-}
-
-.card-jogo .genero {
-  color: var(--texto-secundario);
-  font-size: 13px;
-}
-
-.card-jogo .avaliacao {
-  color: var(--laranja);
-  font-weight: 600;
-}
-
-.card-jogo .avaliacao small {
-  color: var(--texto-secundario);
-  font-weight: 400;
-}
-
-.card-jogo .preco {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.card-jogo .desconto {
-  padding: 1px 8px;
-  border-radius: 6px;
-  background: var(--laranja);
-  color: var(--fundo);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.card-jogo .preco-antigo {
-  color: var(--texto-secundario);
-  font-size: 13px;
-}
-
-.card-jogo .preco strong {
-  font-size: 18px;
-}
-
-.catalogo-vazio {
-  padding: 40px 0;
-  text-align: center;
-  color: var(--texto-secundario);
-}
-/* mensagens de sucesso/erro (estilo base em mensagens.css) */
-main > .mensagens {
-    margin-top: 16px;
-}
-
-/* botão Sair no menu lateral */
-.side nav .form-sair {
-  margin-bottom: 20px;
-}
-
-.side nav .btn-sair {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid var(--borda);
-  border-radius: 8px;
-  background: var(--borda);
-  color: var(--texto);
-  font-weight: 700;
-}
-
-.side nav .btn-sair:hover {
-  border-color: var(--laranja);
-}
-
-/* botão Editar nos cards (somente administradores) */
-.card-jogo {
-  position: relative;
-}
-
-.botao-editar {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  padding: 5px 12px;
-  border-radius: 6px;
-  background: var(--laranja);
-  color: var(--fundo);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.botao-editar:hover {
-  background: var(--laranja-hover);
 }

@@ -1,6 +1,7 @@
 from flask import abort, flash, g, redirect, render_template, request, url_for
 
 from projeto import app
+
 from projeto.catalogo import (
     buscar_jogo_por_id,
     buscar_por_titulo,
@@ -20,6 +21,7 @@ from projeto.forms import validar_cadastro
 from projeto.models import EmailJaCadastrado, cadastrar_usuario
 
 
+# /-------------------------Routes na homepage-------------------------\ 
 
 @app.route("/")
 def homepage():
@@ -47,6 +49,7 @@ def homepage():
         ordem_selecionada=ordem,
         promocoes_on=promocoes_on,
     )
+    
 
 @app.route("/jogo/<int:jogo_id>")
 def detalhes(jogo_id):
@@ -56,7 +59,8 @@ def detalhes(jogo_id):
     return render_template("detalhes.html", jogo=jogo)
 
 
-# Rota de autenticação
+# /-------------------------Route de autenticação-------------------------\ 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if g.usuario is not None:
@@ -80,7 +84,8 @@ def login():
     return render_template("login.html", email=email)
 
 
-# Formulário de cadastro integrado com o back-end
+# /-------------------------Formulário de cadastro-------------------------\ 
+
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     if g.usuario is not None:
@@ -109,7 +114,8 @@ def cadastro():
     return render_template("cadastro.html", nome=nome, email=email)
 
 
-# Rota de encerramento de sessão com redirecionamento
+# /-------------------------Route de encerramento de sessão com redirecionamento-------------------------\ 
+
 @app.route("/logout", methods=["POST"])
 def logout():
     encerrar_sessao()
