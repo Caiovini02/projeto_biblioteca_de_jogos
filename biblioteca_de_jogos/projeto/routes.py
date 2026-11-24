@@ -37,8 +37,9 @@ def homepage():
     jogos = buscar_por_titulo(jogos, busca)
     jogos = filtrar_por_preco(jogos, preco)
     jogos = filtrar_promocao(jogos, promocoes_on)
-    jogos = ordenar_jogos(jogos, ordem) 
-    
+    jogos = ordenar_jogos(jogos, ordem)
+    filtrando = bool(genero or busca or preco or promocoes_on)
+
     return render_template(
         "homepage.html",
         jogos=jogos,
@@ -48,8 +49,11 @@ def homepage():
         preco_selecionado=preco,
         ordem_selecionada=ordem,
         promocoes_on=promocoes_on,
+        destaques=[] if filtrando else ordenar_jogos(todos, "rate")[:4],
+        promocoes=[] if filtrando else sorted(filtrar_promocao(todos, True), key=lambda jogo: jogo["desconto"], reverse=True),
+        em_alta=[] if filtrando else sorted(todos, key=lambda jogo: jogo["avaliacoes"], reverse=True)[:5],
     )
-    
+
 
 @app.route("/jogo/<int:jogo_id>")
 def detalhes(jogo_id):

@@ -1,0 +1,58 @@
+<svg class="marca-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="nb-nuvem" x1="0" y1="12" x2="0" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" style="stop-color: var(--marca-nuvem-1)" />
+      <stop offset=".55" style="stop-color: var(--marca-nuvem-2)" />
+      <stop offset="1" style="stop-color: var(--marca-nuvem-3)" />
+    </linearGradient>
+    <linearGradient id="nb-letra" x1="0" y1="0" x2="420" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" style="stop-color: var(--marca-letra-1)" />
+      <stop offset=".42" style="stop-color: var(--marca-letra-2)" />
+      <stop offset=".66" style="stop-color: var(--marca-letra-3)" />
+      <stop offset=".86" style="stop-color: var(--marca-letra-4)" />
+    </linearGradient>
+    <g id="nb-controle-forma">
+      <rect x="70" y="63" width="44" height="22" rx="11" />
+      <circle cx="78.5" cy="82" r="8.5" />
+      <circle cx="105.5" cy="82" r="8.5" />
+    </g>
+    <mask id="nb-folga" maskUnits="userSpaceOnUse" x="0" y="0" width="124" height="100">
+      <rect width="124" height="100" fill="#fff" />
+      <use href="#nb-controle-forma" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round" />
+      <rect x="0" y="66" width="124" height="2.6" fill="#000" />
+      <rect x="0" y="72.4" width="124" height="3.4" fill="#000" />
+    </mask>
+    <mask id="nb-furos" maskUnits="userSpaceOnUse" x="0" y="0" width="124" height="100">
+      <rect width="124" height="100" fill="#fff" />
+      <g fill="#000">
+        <rect x="77.6" y="67.5" width="4.8" height="12" rx="1.2" />
+        <rect x="74" y="71.1" width="12" height="4.8" rx="1.2" />
+        <circle cx="102" cy="76.6" r="2.9" />
+        <circle cx="107.6" cy="70.6" r="2.9" />
+      </g>
+    </mask>
+  </defs>
+  <symbol id="nb-simbolo" viewBox="6 8 112 86">
+    <g mask="url(#nb-folga)" style="fill: url(#nb-nuvem)">
+      <rect x="10" y="46" width="86" height="34" rx="17" />
+      <circle cx="38" cy="48" r="20" />
+      <circle cx="63" cy="37" r="25" />
+      <circle cx="86" cy="53" r="15" />
+    </g>
+    <path d="M26.5 43 A13 13 0 0 1 37 33.5" style="fill: none; stroke: var(--marca-brilho); stroke-width: 3.2; stroke-linecap: round" />
+    <path d="M52 25 A17 17 0 0 1 64 19.5" style="fill: none; stroke: var(--marca-brilho); stroke-width: 3.2; stroke-linecap: round" />
+    <use href="#nb-controle-forma" mask="url(#nb-furos)" style="fill: var(--marca-controle)" />
+  </symbol>
+  <symbol id="nb-nome" viewBox="-3 -4 426 106">
+    <g style="fill: none; stroke: url(#nb-letra); stroke-width: 16; stroke-linecap: round; stroke-linejoin: round">
+      <path d="M8 92 V70 A22 22 0 0 1 52 70 V92" />
+      <path d="M80 48 V92" />
+      <path d="M108 92 V70 A22 22 0 0 1 152 70 V92 M152 70 A22 22 0 0 1 196 70 V92" />
+      <path d="M224 18 V92" />
+      <circle cx="246" cy="70" r="22" />
+      <circle cx="318" cy="70" r="22" />
+      <path d="M370 50 L410 90 M410 50 L370 90" />
+    </g>
+    <path d="M80 -2 C75 5 68 12 68 19.5 A12 12 0 0 0 92 19.5 C92 12 85 5 80 -2 Z" style="fill: var(--marca-gota)" />
+  </symbol>
+</svg>

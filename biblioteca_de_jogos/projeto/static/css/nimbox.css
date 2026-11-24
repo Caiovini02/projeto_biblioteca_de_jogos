@@ -1,0 +1,126 @@
+:root {
+  color-scheme: light;
+  --fundo: #FFEDE6;
+  --superficie: #FFF8F1;
+  --borda: #E8A4BE;
+  --texto: #3B146B;
+  --texto-secundario: #7B208F;
+  --destaque: #F36A78;
+  --destaque-hover: #FF9B55;
+  --sobre-destaque: #2A0D4F;
+  --destaque-texto: #A12379;
+  --perigo: #B42318;
+  --rotulo: #7B208F;
+  --script: #A12379;
+  --vidro: rgba(255, 248, 241, 0.66);
+  --vidro-borda: rgba(255, 255, 255, 0.6);
+  --card-hover-borda: #A12379;
+  --card-hover-sombra: 0 14px 28px -18px rgba(59, 20, 107, 0.5);
+  --capa-vazia-fundo: linear-gradient(135deg, #E8A4BE, #FFF8F1);
+  --capa-vazia-texto: #7B208F;
+  --marca-nuvem-1: #C9349B;
+  --marca-nuvem-2: #F36A78;
+  --marca-nuvem-3: #FFB458;
+  --marca-controle: #3B146B;
+  --marca-brilho: rgba(255, 255, 255, 0.6);
+  --marca-letra-1: #3B146B;
+  --marca-letra-2: #7B208F;
+  --marca-letra-3: #C9349B;
+  --marca-letra-4: #F36A78;
+  --marca-gota: #FF9B55;
+  --f-titulo: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-texto: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-script: "Yellowtail", "Brush Script MT", cursive;
+  --f-marca: "Righteous", "Trebuchet MS", sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    url("../img/vice-grao.svg") 0 0 / 220px 220px repeat,
+    url("../img/vice-aves.svg") 66% 58% / 110px auto no-repeat,
+    url("../img/vice-coqueiros-esquerda.svg") left -20px bottom / clamp(170px, 34vw, 440px) auto no-repeat,
+    url("../img/vice-coqueiros-direita.svg") right -30px top / clamp(160px, 30vw, 400px) auto no-repeat,
+    radial-gradient(46% 5% at 28% 38%, rgba(255, 255, 255, 0.24), transparent),
+    radial-gradient(40% 4% at 70% 47%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(120% 55% at 55% 100%, rgba(255, 180, 88, 0.55), transparent 70%),
+    linear-gradient(180deg, #C9B3E6 0%, #DDB2DE 28%, #F1B6D2 52%, #FAC0B4 76%, #FFDDB0 100%);
+}
+
+:focus-visible {
+  outline: 2px solid var(--destaque-texto);
+  outline-offset: 2px;
+}
+
+.marca-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.16em;
+  flex: none;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.logo svg {
+  display: block;
+  flex: none;
+}
+
+.logo .marca-simbolo {
+  width: 1.95em;
+  height: 1.5em;
+}
+
+.logo .marca-nome {
+  width: 3.94em;
+  height: 0.98em;
+  margin-top: 0.12em;
+}
+
+.capa-vazia {
+  display: grid;
+  place-items: center;
+  background: var(--capa-vazia-fundo);
+  color: var(--capa-vazia-texto);
+  font: 400 48px/1 var(--f-marca);
+}
+
+.rodape-marca {
+  font: 400 16px var(--f-marca);
+  color: var(--texto);
+}
+
+@media (max-width: 900px) {
+  .navbar .logo {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 374px) {
+  .navbar .logo .marca-simbolo {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}

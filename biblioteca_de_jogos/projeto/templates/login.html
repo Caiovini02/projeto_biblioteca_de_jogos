@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Entrar{% endblock %}
+{% block title %}Entrar | Nimbox{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
 {% endblock %}
 
 {% block content %}
     <header class="navbar">
-      <a class="logo" href="{{ url_for('homepage') }}">Nome<span>DO site</span></a>
+      <a class="logo" href="{{ url_for('homepage') }}" aria-label="Nimbox, voltar ao catálogo">{% include "partials/logo.html" %}</a>
     </header>
 
     <main class="login">
@@ -47,5 +47,5 @@
       </section>
     </main>
 
-    <footer>Projeto biblioteca de jogos</footer>
+    <footer><strong class="rodape-marca">Nimbox</strong> · chove jogo bom</footer>
 {% endblock %}

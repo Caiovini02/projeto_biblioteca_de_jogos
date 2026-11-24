@@ -1,15 +1,6 @@
 /* Estilos da página de detalhes do jogo.
    Autossuficiente, como o homepage.css */
 
-:root {
-    --laranja: #ff6a00;
-    --fundo: #000000;
-    --superficie: #141414;
-    --borda: #313131;
-    --texto: #ffffff;
-    --texto-secundario: #8d8d8d;
-}
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -22,14 +13,14 @@ html {
 body {
     background: var(--fundo);
     color: var(--texto);
-    font: 15px/1.5 Barlow, "Segoe UI", system-ui, sans-serif;
+    font: 15px/1.5 var(--f-texto);
 }
 
 h1,
 h2,
-h3,
-.logo {
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+h3 {
+    font-family: var(--f-titulo);
+    text-wrap: balance;
 }
 
 a {
@@ -45,6 +36,11 @@ button {
     background: none;
 }
 
+img {
+    display: block;
+    max-width: 100%;
+}
+
 
 /*------------------------------Navbar------------------------------*/
 .navbar {
@@ -53,21 +49,12 @@ button {
     z-index: 100;
     display: flex;
     align-items: center;
-    gap: 26px;
+    gap: 22px;
     padding: 12px 20px;
-    background: #000d;
+    background: var(--vidro);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--borda);
-}
-
-.logo {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-}
-
-.logo span {
-    color: var(--laranja);
-    font-weight: 600;
 }
 
 .busca {
@@ -80,50 +67,56 @@ button {
     width: 100%;
     padding: 9px 16px;
     border-radius: 8px;
-    border: 1px solid #363636;
-    background: #171717;
+    border: 1px solid var(--borda);
+    background: var(--fundo);
     font: inherit;
     color: var(--texto);
 }
 
+.busca input::placeholder {
+    color: var(--texto-secundario);
+    opacity: 0.8;
+}
+
 .busca input:focus {
-    outline: 1px solid var(--laranja);
+    outline: none;
+    border-color: var(--destaque-texto);
 }
 
 .botao-voltar {
     padding: 9px 14px;
     border-radius: 8px;
-    background: var(--superficie);
-    border: 1px solid var(--borda);
-    color: var(--texto-secundario);
+    border: 1px solid currentColor;
+    color: var(--texto);
     font-weight: 600;
     white-space: nowrap;
-    transition: 0.2s;
+    transition: border-color 0.15s, color 0.15s;
 }
 
 .botao-voltar:hover {
-    border-color: var(--laranja);
-    color: var(--texto);
+    border-color: var(--destaque-texto);
+    color: var(--destaque-texto);
 }
 
 .carrinho {
     padding: 9px 16px;
     border-radius: 8px;
-    background: var(--fundo);
-    border: 1px solid var(--borda);
+    border: 1px solid currentColor;
     font-weight: 600;
+    transition: border-color 0.15s, color 0.15s;
 }
 
 .carrinho:hover {
-    border-color: var(--laranja);
+    border-color: var(--destaque-texto);
+    color: var(--destaque-texto);
 }
 
 .carrinho b {
-    background: var(--laranja);
-    color: var(--fundo);
-    border-radius: 6px;
-    padding: 1px 8px;
     margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 6px;
+    background: var(--destaque);
+    color: var(--sobre-destaque);
 }
 
 
@@ -137,32 +130,35 @@ button {
 .nome-usuario {
     color: var(--texto-secundario);
     font-size: 14px;
+    font-weight: 600;
     white-space: nowrap;
 }
 
 .botao-sair {
     padding: 9px 14px;
     border-radius: 8px;
-    background: var(--superficie);
-    border: 1px solid var(--borda);
-    color: var(--texto-secundario);
+    border: 1px solid currentColor;
+    color: var(--texto);
     font-weight: 600;
-    transition: 0.2s;
+    transition: border-color 0.15s, color 0.15s;
 }
 
 .botao-sair:hover {
-    border-color: var(--laranja);
-    color: var(--texto);
+    border-color: var(--destaque-texto);
+    color: var(--destaque-texto);
 }
 
 
 /*------------------------------Rodapé------------------------------*/
 .rodape {
+    margin-top: 40px;
+    padding: 28px 20px;
     text-align: center;
-    color: #696868;
+    color: var(--texto-secundario);
     font-size: 13px;
-    padding: 30px;
-    border-top: 1px solid var(--borda);
+    background: var(--vidro);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 
@@ -172,7 +168,7 @@ button {
     .navbar {
         flex-wrap: wrap;
         gap: 10px;
-        padding: 10px 14px;
+        padding: 10px 16px;
     }
 
     .busca {
@@ -203,10 +199,6 @@ button {
         gap: 8px;
     }
 
-    .logo {
-        font-size: 25px;
-    }
-
     .botao-voltar {
         font-size: 13px;
         padding: 8px 10px;
@@ -221,27 +213,38 @@ button {
 /*------------------------------Estrutura principal------------------------------*/
 .pagina {
     width: min(1100px, 90%);
-    margin: 30px auto 50px;
+    margin: 24px auto 0;
 }
 
 .caminho-navegacao {
     display: flex;
     gap: 10px;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 16px;
     color: var(--texto-secundario);
-    font-size: 13px;
+    font-size: 14px;
+}
+
+.caminho-navegacao a {
+    color: var(--texto);
+    font-weight: 600;
 }
 
 .caminho-navegacao a:hover {
-    color: var(--laranja);
+    color: var(--destaque-texto);
 }
 
 .detalhes-jogo {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-    gap: 35px;
+    gap: 40px;
     align-items: start;
+    padding: 24px;
+    border: 1px solid var(--vidro-borda);
+    border-radius: 14px;
+    background: var(--vidro);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 
@@ -253,9 +256,10 @@ button {
     justify-content: center;
     aspect-ratio: 3 / 4;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 14px;
     border: 1px solid var(--borda);
-    background: radial-gradient(circle at center, #363636, #141414 70%);
+    background: var(--capa-vazia-fundo);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
 }
 
 .imagem-principal img {
@@ -265,12 +269,8 @@ button {
 }
 
 .texto-imagem {
-    color: var(--texto-secundario);
-    font:
-        800 72px "Barlow Condensed",
-        "Arial Narrow",
-        sans-serif;
-    letter-spacing: 1px;
+    color: var(--capa-vazia-texto);
+    font: 400 96px/1 var(--f-marca);
 }
 
 .selo-desconto {
@@ -278,11 +278,11 @@ button {
     top: 14px;
     left: 14px;
     z-index: 1;
-    background: var(--laranja);
-    color: var(--texto);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 8px;
+    background: var(--destaque);
+    color: var(--sobre-destaque);
+    font: 800 22px/1.2 var(--f-titulo);
 }
 
 .miniaturas-galeria {
@@ -296,14 +296,15 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--superficie);
     border: 1px solid var(--borda);
-    border-radius: 8px;
+    border-radius: 10px;
     color: var(--texto-secundario);
+    font-size: 13px;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: border-color 0.15s;
 }
 
 .miniatura img {
@@ -314,32 +315,43 @@ button {
 
 .miniatura:hover,
 .miniatura.ativa {
-    border-color: var(--laranja);
+    border-color: var(--destaque);
+}
+
+.miniatura.ativa {
+    box-shadow: inset 0 0 0 1px var(--destaque);
+    color: var(--texto);
 }
 
 
 /*------------------------------Conteúdo do jogo------------------------------*/
 .conteudo-jogo {
-    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
 }
 
 .categoria-jogo {
-    display: inline-block;
-    color: var(--laranja);
-    font-size: 14px;
-    margin-bottom: 10px;
+    color: var(--rotulo);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .conteudo-jogo h1 {
-    font-size: 40px;
+    margin-top: -8px;
+    font-size: clamp(40px, 5vw, 62px);
     font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 15px;
+    font-style: italic;
+    line-height: 0.95;
+    text-transform: uppercase;
 }
 
 .desenvolvedora {
+    margin-top: -6px;
     color: var(--texto-secundario);
-    margin-bottom: 18px;
 }
 
 .desenvolvedora strong {
@@ -350,22 +362,21 @@ button {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0;
+    gap: 12px;
 }
 
 .estrelas {
-    color: var(--laranja);
+    color: var(--destaque-texto);
     font-size: 20px;
     letter-spacing: 2px;
 }
 
 .estrela-vazia {
-    color: #555;
+    color: var(--borda);
 }
 
 .avaliacao-geral strong {
-    font-size: 18px;
+    font: 700 26px/1 var(--f-titulo);
 }
 
 .quantidade-avaliacoes {
@@ -373,36 +384,38 @@ button {
     font-size: 14px;
 }
 
-.descricao-jogo {
-    margin: 25px 0;
-    line-height: 1.8;
-}
-
 .descricao-jogo h2,
 .informacoes-jogo h2 {
-    font-size: 25px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
 }
 
 .descricao-jogo p {
-    color: #c5c5c5;
-}
-
-.informacoes-jogo {
-    margin: 25px 0;
+    max-width: 60ch;
+    color: var(--texto-secundario);
+    font-size: 16px;
 }
 
 .lista-informacoes {
     display: grid;
-    gap: 10px;
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    background: var(--superficie);
 }
 
 .lista-informacoes p {
     display: flex;
     justify-content: space-between;
     gap: 15px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--borda);
+    padding: 10px 14px;
+}
+
+.lista-informacoes p + p {
+    border-top: 1px solid var(--borda);
 }
 
 .lista-informacoes span {
@@ -411,7 +424,6 @@ button {
 
 .lista-informacoes strong {
     text-align: right;
-    font-weight: 500;
 }
 
 
@@ -421,15 +433,15 @@ button {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    padding: 20px;
-    background: var(--superficie);
+    padding: 20px 22px;
     border: 1px solid var(--borda);
-    border-radius: 12px;
+    border-radius: 14px;
+    background: var(--superficie);
 }
 
 .area-preco {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     flex-wrap: wrap;
     gap: 12px;
 }
@@ -441,8 +453,8 @@ button {
 }
 
 .preco-atual {
-    font-size: 30px;
-    font-weight: 700;
+    font: 800 42px/1 var(--f-titulo);
+    font-variant-numeric: tabular-nums;
 }
 
 .aviso-preco {
@@ -452,34 +464,53 @@ button {
 
 .botao-compra {
     width: 100%;
+    margin-top: 6px;
     padding: 12px;
-    margin-top: 8px;
-    border: none;
+    border: 1px dashed var(--borda);
     border-radius: 8px;
-    background: var(--laranja);
-    color: var(--texto);
+    background: transparent;
+    color: var(--texto-secundario);
     font: inherit;
+    font-size: 16px;
     font-weight: 700;
     cursor: not-allowed;
-    opacity: 0.65;
+}
+
+.botao-compra:not(:disabled) {
+    border-style: solid;
+    border-color: transparent;
+    background: var(--destaque);
+    color: var(--sobre-destaque);
+    cursor: pointer;
 }
 
 
 /*------------------------------Avaliações------------------------------*/
 .secao-avaliacoes {
-    margin-top: 55px;
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid var(--vidro-borda);
+    border-radius: 14px;
+    background: var(--vidro);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .cabecalho-secao {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 20px;
 }
 
 .cabecalho-secao h2 {
-    font-size: 30px;
+    font-size: 32px;
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
 }
 
 .total-avaliacoes {
@@ -492,8 +523,7 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 20px;
-    margin-bottom: 12px;
+    padding: 16px 20px;
     background: var(--superficie);
     border: 1px solid var(--borda);
     border-radius: 10px;
@@ -504,7 +534,7 @@ button {
 }
 
 .estrelas-avaliacao {
-    color: var(--laranja);
+    color: var(--destaque-texto);
     letter-spacing: 2px;
 }
 
@@ -515,34 +545,35 @@ button {
 @media (max-width: 768px) {
 
     .pagina {
-        width: 92%;
-        margin: 25px auto 35px;
+        width: auto;
+        margin: 20px 16px 0;
     }
 
     .detalhes-jogo {
         grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 24px;
+        padding: 16px 14px;
     }
 
     .galeria-jogo {
-        max-width: 500px;
+        max-width: 420px;
         width: 100%;
         margin: 0 auto;
     }
 
-    .conteudo-jogo h1 {
-        font-size: 32px;
+    .cabecalho-secao h2 {
+        font-size: 26px;
     }
 
-    .cabecalho-secao h2 {
-        font-size: 25px;
+    .secao-avaliacoes {
+        padding: 16px 14px;
     }
 }
 
 @media (max-width: 480px) {
 
     .texto-imagem {
-        font-size: 56px;
+        font-size: 72px;
     }
 
     .miniatura {
