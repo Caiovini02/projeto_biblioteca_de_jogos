@@ -9,17 +9,17 @@
 
 .mensagem {
   padding: 10px 14px;
-  border: 1px solid #313131;
+  border: 1px solid var(--borda);
   border-radius: 8px;
-  background: #141414;
-  color: #ffffff;
+  background: var(--superficie);
+  color: var(--texto);
 }
 
 .mensagem-sucesso {
-  border-color: #ff6a00;
+  border-color: var(--destaque);
 }
 
 .mensagem-erro {
-  border-color: #ff4d4d;
-  color: #ff4d4d;
+  border-color: var(--perigo);
+  color: var(--perigo);
 }

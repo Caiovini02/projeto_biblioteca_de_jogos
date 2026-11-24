@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ jogo.titulo }} | Nomedosite{% endblock %}
+{% block title %}{{ jogo.titulo }} | Nimbox{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/detalhes.css') }}" />
@@ -9,7 +9,7 @@
 {% block content %}
 {% set cheias = jogo.avaliacao | round(0, 'floor') | int %}
 <header class="navbar">
-    <a class="logo" href="{{ url_for('homepage') }}">Nome<span>DO site</span></a>
+    <a class="logo" href="{{ url_for('homepage') }}" aria-label="Nimbox, voltar ao catálogo">{% include "partials/logo.html" %}</a>
 
     <form class="busca" role="search" action="{{ url_for('homepage') }}#catalog" method="get">
         <input id="search" name="busca" type="search"
@@ -137,6 +137,6 @@
 </main>
 
 <footer class="rodape">
-    Projeto Biblioteca de Jogos
+    <strong class="rodape-marca">Nimbox</strong> · chove jogo bom
 </footer>
 {% endblock %}

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9B3E6" />
+      <stop offset=".55" stop-color="#F1B6D2" />
+      <stop offset="1" stop-color="#FFDDB0" />
+    </linearGradient>
+    <linearGradient id="nuvem" x1="0" y1="12" x2="0" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C9349B" />
+      <stop offset=".55" stop-color="#F36A78" />
+      <stop offset="1" stop-color="#FFB458" />
+    </linearGradient>
+    <g id="controle">
+      <rect x="70" y="63" width="44" height="22" rx="11" />
+      <circle cx="78.5" cy="82" r="8.5" />
+      <circle cx="105.5" cy="82" r="8.5" />
+    </g>
+    <mask id="folga" maskUnits="userSpaceOnUse" x="0" y="0" width="124" height="100">
+      <rect width="124" height="100" fill="#fff" />
+      <use href="#controle" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round" />
+      <rect x="0" y="66" width="124" height="2.6" fill="#000" />
+      <rect x="0" y="72.4" width="124" height="3.4" fill="#000" />
+    </mask>
+    <mask id="furos" maskUnits="userSpaceOnUse" x="0" y="0" width="124" height="100">
+      <rect width="124" height="100" fill="#fff" />
+      <g fill="#000">
+        <rect x="77.6" y="67.5" width="4.8" height="12" rx="1.2" />
+        <rect x="74" y="71.1" width="12" height="4.8" rx="1.2" />
+        <circle cx="102" cy="76.6" r="2.9" />
+        <circle cx="107.6" cy="70.6" r="2.9" />
+      </g>
+    </mask>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#fundo)" />
+  <g transform="translate(7 15) scale(0.91) translate(-6 -8)">
+    <g mask="url(#folga)" fill="url(#nuvem)">
+      <rect x="10" y="46" width="86" height="34" rx="17" />
+      <circle cx="38" cy="48" r="20" />
+      <circle cx="63" cy="37" r="25" />
+      <circle cx="86" cy="53" r="15" />
+    </g>
+    <path d="M26.5 43 A13 13 0 0 1 37 33.5" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3.2" stroke-linecap="round" />
+    <path d="M52 25 A17 17 0 0 1 64 19.5" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3.2" stroke-linecap="round" />
+    <use href="#controle" mask="url(#furos)" fill="#3B146B" />
+  </g>
+</svg>

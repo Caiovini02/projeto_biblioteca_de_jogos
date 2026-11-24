@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Catálogo{% endblock %}
+{% block title %}Catálogo | Nimbox{% endblock %}
 {% block css %}
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}" />
@@ -12,7 +12,7 @@
 
     <header class="navbar">
       <a class="menu-lateral" href="#side" aria-label="Abrir menu">Menu</a>
-      <a class="logo" href="#">Nome<span>DO site</span></a>  
+      <a class="logo" href="{{ url_for('homepage') }}" aria-label="Nimbox">{% include "partials/logo.html" %}</a>
       <div class="busca-jogos">
         <input
           id="search"
@@ -23,7 +23,7 @@
           placeholder="Buscar jogos"
           aria-label="Buscar jogos"
         />
-       
+
         <button class="btn-buscar" type="submit" form="filtros">Buscar</button>
       </div>
       <button id="carrinho" class="carrinho">
@@ -36,8 +36,8 @@
     <div class="menu">
       <aside id="side" class="side" aria-label="Menu lateral">
         <div class="side-top">
-          <a class="logo" href="#menu-closed">Nome<span>Do site</span></a>
-          <a class="fechar-menu" href="#menu-closed" aria-label="Fechar menu">X</a>
+          <a class="logo" href="#menu-closed" aria-label="Nimbox, fechar menu">{% include "partials/logo.html" %}</a>
+          <a class="fechar-menu" href="#menu-closed" aria-label="Fechar menu">✕</a>
         </div>
         <div id="div-side"></div>
         <nav>
@@ -66,17 +66,105 @@
       <div class="content">
         <main>
           {% include "_mensagens.html" %}
-          <section class="hero" id="hero" aria-label="Destaques"></section>
+          {% if destaques %}
+          <section class="hero" id="hero" aria-label="Destaques">
+            <div class="carrossel" aria-roledescription="carrossel">
+              <ul class="carrossel-trilho">
+                {% for jogo in destaques %}
+                  <li class="destaque" id="destaque-{{ loop.index }}" aria-roledescription="slide" aria-label="{{ loop.index }} de {{ loop.length }}">
+                    <a class="destaque-link" href="{{ url_for('detalhes', jogo_id=jogo.id) }}">
+                      {% if jogo.capa %}
+                        <img class="destaque-capa" src="{{ jogo.capa }}" alt="Capa de {{ jogo.titulo }}" />
+                      {% else %}
+                        <div class="destaque-capa capa-vazia" aria-hidden="true">{{ jogo.titulo|iniciais }}</div>
+                      {% endif %}
+                      <div class="destaque-info">
+                        <p class="destaque-rotulo">Em destaque</p>
+                        <h3 class="destaque-titulo">{{ jogo.titulo }}</h3>
+                        <p class="destaque-nota">{{ jogo.genero }} · ★ {{ "%.1f"|format(jogo.avaliacao) }}</p>
+                        <p class="destaque-descricao">{{ jogo.descricao }}</p>
+                        <p class="destaque-preco">
+                          {% if jogo.em_promocao %}
+                            <span class="desconto">-{{ jogo.desconto }}%</span>
+                            <s>{{ jogo.preco|moeda }}</s>
+                          {% endif %}
+                          <strong>{{ jogo.preco_final|moeda }}</strong>
+                        </p>
+                        <span class="destaque-botao">Ver jogo</span>
+                      </div>
+                    </a>
+                    {% if not loop.first %}
+                      <a class="carrossel-seta anterior" href="#destaque-{{ loop.index - 1 }}" aria-label="Destaque anterior">‹</a>
+                    {% endif %}
+                    {% if not loop.last %}
+                      <a class="carrossel-seta proxima" href="#destaque-{{ loop.index + 1 }}" aria-label="Próximo destaque">›</a>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+              <nav class="carrossel-pontos" aria-label="Escolher destaque">
+                {% for jogo in destaques %}
+                  <a href="#destaque-{{ loop.index }}" aria-label="Destaque {{ loop.index }}: {{ jogo.titulo }}"></a>
+                {% endfor %}
+              </nav>
+            </div>
+          </section>
+          {% endif %}
 
+          {% if promocoes %}
           <section id="promos">
             <h2>Promoções <small>por tempo limitado</small></h2>
-            <div class="grid"></div>
+            <div class="grid grid-promos">
+              {% for jogo in promocoes %}
+                <article class="card-jogo card-promo">
+                  <a class="card-link" href="{{ url_for('detalhes', jogo_id=jogo.id) }}">
+                    {% if jogo.capa %}
+                      <img class="capa" src="{{ jogo.capa }}" alt="Capa de {{ jogo.titulo }}" />
+                    {% else %}
+                      <div class="capa capa-vazia" aria-hidden="true">{{ jogo.titulo|iniciais }}</div>
+                    {% endif %}
+                    <div class="info">
+                      <h3>{{ jogo.titulo }}</h3>
+                      <p class="genero">{{ jogo.genero }}</p>
+                      <p class="avaliacao" aria-label="Nota {{ jogo.avaliacao }} de 5, {{ jogo.avaliacoes }} avaliações">
+                        ★ {{ "%.1f"|format(jogo.avaliacao) }} <small>({{ jogo.avaliacoes }})</small>
+                      </p>
+                      <p class="preco">
+                        <span class="desconto">-{{ jogo.desconto }}%</span>
+                        <s class="preco-antigo">{{ jogo.preco|moeda }}</s>
+                        <strong>{{ jogo.preco_final|moeda }}</strong>
+                      </p>
+                    </div>
+                  </a>
+                </article>
+              {% endfor %}
+            </div>
           </section>
+          {% endif %}
 
+          {% if em_alta %}
           <section id="trending">
             <h2>Jogos em alta</h2>
-            <ol class="ranking"></ol>
+            <ol class="ranking">
+              {% for jogo in em_alta %}
+                <li>
+                  <a class="ranking-link" href="{{ url_for('detalhes', jogo_id=jogo.id) }}">
+                    {% if jogo.capa %}
+                      <img class="capa-mini" src="{{ jogo.capa }}" alt="" />
+                    {% else %}
+                      <span class="capa-mini capa-vazia" aria-hidden="true">{{ jogo.titulo|iniciais }}</span>
+                    {% endif %}
+                    <div class="m">
+                      <h3>{{ jogo.titulo }}</h3>
+                      <p>{{ jogo.genero }} · ★ {{ "%.1f"|format(jogo.avaliacao) }} · {{ jogo.avaliacoes }} avaliações</p>
+                    </div>
+                    <span class="price">{{ jogo.preco_final|moeda }}</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ol>
           </section>
+          {% endif %}
 
           <section id="catalog">
             <div class="bar">
@@ -86,7 +174,7 @@
                 <!------------------------------Filtros do catálogo------------------------------>
 
                 <form id="filtros" class="filtros" method="get" action="{{ url_for('homepage') }}#catalog">
-              
+
                   <select id="genero" name="genero" aria-label="Gênero">
                     <option value="">Qualquer gênero</option>
                     {% for genero in generos %}
@@ -157,7 +245,7 @@
             {% elif preco_selecionado %}
               <p class="catalogo-vazio">Nenhum jogo encontrado até {{ preco_selecionado|moeda }}.</p>
             {% elif promocoes_on %}
-            <p class="catalogo-vazio">Nenhum jogo em promoção no momento.</p>              
+            <p class="catalogo-vazio">Nenhum jogo em promoção no momento.</p>
             {% else %}
               <p class="catalogo-vazio">Nenhum jogo cadastrado no catálogo ainda.</p>
             {% endif %}
@@ -165,8 +253,8 @@
         </main>
 
         <!------------------------------Footer------------------------------>
-      
-        <footer>Projeto biblioteca de jogos</footer>
+
+        <footer><strong class="rodape-marca">Nimbox</strong> · chove jogo bom</footer>
       </div>
     </div>
 {% endblock %}
